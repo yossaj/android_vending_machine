@@ -1,8 +1,7 @@
 package com.example.vendingmachine.network
 
-import android.content.Context
-import com.android.volley.toolbox.Volley
-import com.example.vendingmachine.R
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -18,14 +17,31 @@ private const val CATS = "https://api.thecatapi.com/v1/images/search?size=full"
 
 object APIService{
 
-    fun vend(key : String?) : String{
+    fun vend(key: String?) : String{
+        val jsonResult = selectAPI(key)
         when(key){
-            "Cats" -> return makeRequest(CATS)
+            "Mustache" -> {
+                val jsonMustache = JSONArray(jsonResult)
+                return jsonMustache[0].toString()
+            }
+            "Bull" -> {
+                val jsonBull = JSONObject(jsonResult)
+                return jsonBull.getString("phrase")
+
+            }
+            else -> return jsonResult
+        }
+
+    }
+
+    fun selectAPI(key : String?) : String{
+        when(key){
+            "Cat" -> return makeRequest(CATS)
             "Dogs" -> return makeRequest(DOGS)
             "Mustache" -> return makeRequest(RON_SWANSON)
             "Advice" -> return makeRequest(ADVICE)
             "Bull" -> return makeRequest(BULL)
-            else -> return "Request Failed"
+            else -> return "Request Failed: $key is out of stock"
         }
     }
 

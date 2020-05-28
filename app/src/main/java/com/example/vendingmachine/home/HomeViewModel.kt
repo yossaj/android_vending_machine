@@ -48,7 +48,9 @@ class HomeViewModel : ViewModel(){
     fun getVendedApi(context : Context){
 
         coroutineScope.launch {
+//            val response = APIService.prepareRequest(apiKey.value)
             val response = APIService.vend(apiKey.value)
+
             withContext(Dispatchers.Main) {
                 _responseString.value = response
             }
