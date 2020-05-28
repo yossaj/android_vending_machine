@@ -2,6 +2,7 @@ package com.example.vendingmachine.network
 
 import android.content.Context
 import com.android.volley.toolbox.Volley
+import com.example.vendingmachine.R
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -17,11 +18,23 @@ private const val CATS = "https://api.thecatapi.com/v1/images/search?size=full"
 
 object APIService{
 
-    fun vend(): String{
+    fun vend(key : String?) : String{
+        when(key){
+            "Cats" -> return makeRequest(CATS)
+            "Dogs" -> return makeRequest(DOGS)
+            "Mustache" -> return makeRequest(RON_SWANSON)
+            "Advice" -> return makeRequest(ADVICE)
+            "Bull" -> return makeRequest(BULL)
+            else -> return "Request Failed"
+        }
+    }
+
+
+    fun makeRequest(selelctedURL : String): String{
 
         @Throws(IOException::class)
         fun getResponseFromHttpUrl(): String {
-            val url = URL(ADVICE)
+            val url = URL(selelctedURL)
             val urlConnection =
                 url.openConnection() as HttpURLConnection
             return try {
@@ -40,5 +53,6 @@ object APIService{
         }
         return getResponseFromHttpUrl()
     }
+
 
 }

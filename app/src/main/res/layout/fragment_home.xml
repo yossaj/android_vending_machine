@@ -43,33 +43,51 @@
             app:layout_constraintVertical_bias="0.1">
 
             <ImageView
+                android:id="@+id/cat_button"
                 android:layout_margin="@dimen/medium_space"
-                android:contentDescription="Cat"
+                android:contentDescription="@string/cat"
+                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
+                android:clickable="true"
                 android:src="@drawable/cat" />
 
             <ImageView
+                android:id="@+id/boxer_button"
                 android:layout_margin="@dimen/medium_space"
-                android:contentDescription="Boxer"
+                android:contentDescription="@string/boxer"
+                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
+                android:clickable="true"
                 android:src="@drawable/boxer" />
 
             <ImageView
+                android:id="@+id/mustache_button"
                 android:layout_margin="@dimen/medium_space"
-                android:contentDescription="Mustache"
+                android:contentDescription="@string/mustache"
+                android:clickable="true"
+                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
                 android:src="@drawable/moustache" />
 
             <ImageView
+                android:id="@+id/button_button"
                 android:layout_margin="@dimen/medium_space"
-                android:contentDescription="Bull"
+                android:contentDescription="@string/bull"
+                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
+                android:clickable="true"
                 android:src="@drawable/coo" />
 
             <ImageView
+                android:id="@+id/fox_button"
                 android:layout_margin="@dimen/medium_space"
-                android:contentDescription="Fox"
+                android:contentDescription="@string/fox"
+                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
+                android:clickable="true"
                 android:src="@drawable/foxy" />
 
             <ImageView
+                android:id="@+id/pizza_button"
                 android:layout_margin="@dimen/medium_space"
-                android:contentDescription="Pizza"
+                android:contentDescription="@string/pizza"
+                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
+                android:clickable="true"
                 android:src="@drawable/pizza" />
 
 

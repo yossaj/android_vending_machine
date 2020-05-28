@@ -31,7 +31,12 @@ class HomeFragment : Fragment(){
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
 
-        viewModel.getVendedApi(requireContext())
+        viewModel.apiKey.observe(viewLifecycleOwner, Observer {
+            it.let {
+                viewModel.getVendedApi(requireContext())
+            }
+        })
+
 
         binding.coinDragDestination.setOnDragListener(dragListener)
         binding.coins.setOnLongClickListener(){
@@ -72,6 +77,7 @@ class HomeFragment : Fragment(){
             else -> true
         }
     }
+
 
 
 }
