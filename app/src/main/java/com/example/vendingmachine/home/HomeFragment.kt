@@ -27,12 +27,10 @@ class HomeFragment : Fragment(){
         val binding = FragmentHomeBinding.inflate(inflater)
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        binding.homeViewModel = viewModel
+        binding.setLifecycleOwner(this)
 
         binding.coinDragDestination.setOnDragListener(dragListener)
-        viewModel.balanceString.observe(viewLifecycleOwner, Observer {
-            binding.balanceText.text = it
-        })
-
 
         binding.coins.setOnLongClickListener(){
             val dragShadowBuilder = View.DragShadowBuilder(it)
