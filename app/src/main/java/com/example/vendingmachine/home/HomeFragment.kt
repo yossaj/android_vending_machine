@@ -7,13 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.vendingmachine.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(){
 
-    var balance = 0
-
+    lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +26,14 @@ class HomeFragment : Fragment(){
 
         val binding = FragmentHomeBinding.inflate(inflater)
 
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+
         binding.coinDragDestination.setOnDragListener(dragListener)
+        viewModel.balanceString.observe(viewLifecycleOwner, Observer {
+            binding.balanceText.text = it
+        })
+
+
         binding.coins.setOnLongClickListener(){
             val dragShadowBuilder = View.DragShadowBuilder(it)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -56,7 +65,7 @@ class HomeFragment : Fragment(){
             }
             DragEvent.ACTION_DRAG_STARTED -> true
             DragEvent.ACTION_DROP -> {
-                addToBalance()
+                viewModel.addToBalance()
                 coins.visibility = View.VISIBLE
                 true
             }
@@ -64,8 +73,5 @@ class HomeFragment : Fragment(){
         }
     }
 
-    fun addToBalance(){
-        balance += 100
-        balance_text.text = balance.toString()
-    }
+
 }
