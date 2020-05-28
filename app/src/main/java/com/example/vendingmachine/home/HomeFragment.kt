@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.vendingmachine.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.coroutineScope
 
 class HomeFragment : Fragment(){
 
@@ -30,8 +31,9 @@ class HomeFragment : Fragment(){
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
 
-        binding.coinDragDestination.setOnDragListener(dragListener)
+        viewModel.getVendedApi(requireContext())
 
+        binding.coinDragDestination.setOnDragListener(dragListener)
         binding.coins.setOnLongClickListener(){
             val dragShadowBuilder = View.DragShadowBuilder(it)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
