@@ -9,9 +9,6 @@ import com.example.vendingmachine.network.APIService
 import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel(){
-
-    val OUT_OF_STOCK = "Sorry, this product is not currently in stock"
-
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
@@ -33,10 +30,12 @@ class HomeViewModel : ViewModel(){
         get() = _apiKey
 
 
-
-
     fun addToBalance(){
         balance += 100
+    }
+
+    fun addToBalanceAndConvertToString(){
+        addToBalance()
         _balanceString.value = balance.toString()
     }
 
@@ -45,10 +44,8 @@ class HomeViewModel : ViewModel(){
     }
 
 
-    fun getVendedApi(context : Context){
-
+    fun getVendedApi(context : Context) {
         coroutineScope.launch {
-//            val response = APIService.prepareRequest(apiKey.value)
             val response = APIService.vend(apiKey.value)
 
             withContext(Dispatchers.Main) {
@@ -60,10 +57,6 @@ class HomeViewModel : ViewModel(){
     fun setApiKey(view : View){
         val key = view.contentDescription.toString()
         _apiKey.value = key
-    }
-
-    fun clearApiKey(){
-        _apiKey.value = OUT_OF_STOCK
     }
 
 }
