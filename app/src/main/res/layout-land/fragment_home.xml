@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -18,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/large_spacing"
+            android:layout_marginBottom="@dimen/medium_space"
             android:fontFamily="@font/vt323"
             android:text="Everything for just $1!!!"
             android:textColor="@color/colorAccent"
@@ -29,18 +31,18 @@
         <GridLayout
             android:id="@+id/grid_background"
             android:layout_width="wrap_content"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/large_spacing"
             android:layout_marginEnd="@dimen/large_spacing"
+            android:layout_marginTop="@dimen/medium_space"
             android:background="@drawable/grid_background"
             android:columnCount="3"
             android:padding="@dimen/medium_space"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.1">
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <ImageView
                 android:id="@+id/cat_button"
@@ -71,8 +73,8 @@
                 android:src="@drawable/coo" />
 
             <ImageView
-                style="@style/ImageView.Vending"
                 android:id="@+id/fox_button"
+                style="@style/ImageView.Vending"
                 android:contentDescription="@string/fox"
                 android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
                 android:src="@drawable/foxy" />
@@ -89,15 +91,13 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/large_spacing"
             android:layout_marginTop="@dimen/medium_space"
-            android:layout_marginEnd="@dimen/large_spacing"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/grid_background">
+            app:layout_constraintStart_toEndOf="@+id/grid_background"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <ImageView
                 android:id="@+id/coins"
@@ -109,36 +109,34 @@
 
         <LinearLayout
             android:id="@+id/coin_drag_destination"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/large_spacing"
-            android:layout_marginEnd="@dimen/large_spacing"
+            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/grid_background"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Insert Coin 》》"
-                android:layout_marginEnd="@dimen/medium_space"/>
+                android:layout_marginEnd="@dimen/medium_space"
+                android:text="Insert 》" />
+
 
             <TextView
                 android:id="@+id/balance_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{homeViewModel.balanceString}"
-                android:textSize="64dp"
-                />
+                android:textSize="64dp" />
 
             <TextView
-                android:layout_marginStart="@dimen/medium_space"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="《《 Insert Coin"/>
+                android:layout_marginStart="@dimen/medium_space"
+                android:text="《 Coin" />
 
         </LinearLayout>
 
@@ -147,9 +145,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{homeViewModel._responseString}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/grid_background"
             app:layout_constraintTop_toBottomOf="@+id/coin_drag_destination" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

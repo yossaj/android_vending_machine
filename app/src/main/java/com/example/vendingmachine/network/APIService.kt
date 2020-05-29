@@ -31,7 +31,6 @@ object APIService{
             }
             else -> return jsonResult
         }
-
     }
 
     fun selectAPI(key : String?) : String{
