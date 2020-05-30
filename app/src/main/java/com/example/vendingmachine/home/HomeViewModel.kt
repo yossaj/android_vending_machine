@@ -9,8 +9,7 @@ import com.example.vendingmachine.network.APIService
 import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel(){
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+
 
     var balance = 0
 
@@ -19,16 +18,10 @@ class HomeViewModel : ViewModel(){
     val balanceString : LiveData<String>
         get() = _balanceString
 
-    val _responseString = MutableLiveData<String>()
-
-    val responseString : LiveData<String>
-        get() = _responseString
-
     val _apiKey = MutableLiveData<String>()
 
     val apiKey : LiveData<String>
         get() = _apiKey
-
 
     fun addToBalance(){
         balance += 100
@@ -43,16 +36,6 @@ class HomeViewModel : ViewModel(){
         _balanceString.value = "000"
     }
 
-
-    fun getVendedApi(context : Context) {
-        coroutineScope.launch {
-            val response = APIService.vend(apiKey.value)
-
-            withContext(Dispatchers.Main) {
-                _responseString.value = response
-            }
-        }
-    }
 
     fun setApiKey(view : View){
         val key = view.contentDescription.toString()

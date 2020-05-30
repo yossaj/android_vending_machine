@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.databinding.FragmentHomeBinding
 import com.example.vendingmachine.home.dialog.HomeDialogFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -33,9 +34,14 @@ class HomeFragment : Fragment(){
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
 
+        val dialog = HomeDialogFragment()
+        val apiBundle = Bundle()
+
         viewModel.apiKey.observe(viewLifecycleOwner, Observer {
             it.let {
-                viewModel.getVendedApi(requireContext())
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment())
+
+//                dialog.show(requireFragmentManager(), "sponsor")
             }
         })
 

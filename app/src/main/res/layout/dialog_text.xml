@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:id="@+id/dialog_text_view"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/large_spacing"
+    android:padding="@dimen/large_spacing"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
