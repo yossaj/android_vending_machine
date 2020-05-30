@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.vendingmachine.databinding.FragmentHomeBinding
+import com.example.vendingmachine.home.dialog.HomeDialogFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.coroutineScope
 

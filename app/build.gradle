@@ -43,9 +43,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
 //    third-party
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
 
 //    test
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"
     implementation "androidx.test:core:$androidXTestCoreVersion"
-    testImplementation 'org.mockito:mockito-core:2.7.22'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
 }
