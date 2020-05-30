@@ -10,12 +10,18 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <style name="TextAppearance.AppCompat.Medium.Vending" parent="VendingTheme">
-        <item name="android:textSize">24dp</item>
+    <style name="TextAppearance.DialogText" parent="VendingTheme">
+        <item name="android:textSize">30sp</item>
+        <item name="android:padding">@dimen/medium_space</item>
+        <item name="android:layout_margin">@dimen/medium_space</item>
     </style>
 
     <style name="ImageView.Vending" parent="VendingTheme">
         <item name="android:layout_margin">16dp</item>
+    </style>
+
+    <style name="VendingTheme.Custom" parent="Theme.AppCompat">
+        <item name="md_corner_radius">300dp</item>
     </style>
 
 </resources>

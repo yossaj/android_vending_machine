@@ -42,4 +42,8 @@ class HomeViewModel : ViewModel(){
         _apiKey.value = key
     }
 
+    fun resetAPIKey(){
+        _apiKey.value = null
+    }
+
 }
