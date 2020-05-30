@@ -34,14 +34,10 @@ class HomeFragment : Fragment(){
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
 
-        val dialog = HomeDialogFragment()
-        val apiBundle = Bundle()
-
         viewModel.apiKey.observe(viewLifecycleOwner, Observer {
             it.let {
-                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment())
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment(it))
 
-//                dialog.show(requireFragmentManager(), "sponsor")
             }
         })
 

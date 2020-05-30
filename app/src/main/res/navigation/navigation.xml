@@ -13,5 +13,7 @@
     <dialog
         android:id="@+id/homeDialogFragment"
         android:name="com.example.vendingmachine.home.dialog.HomeDialogFragment"
-        android:label="HomeDialogFragment" />
+        android:label="HomeDialogFragment">
+        <argument android:name="apikey" android:defaultValue="@null" />
+    </dialog>
 </navigation>
