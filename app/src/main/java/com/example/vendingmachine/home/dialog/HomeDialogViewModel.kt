@@ -21,7 +21,6 @@ class HomeDialogViewModel(val apiKey: String) : ViewModel(){
     fun getVendedApi(context : Context) {
         coroutineScope.launch {
             val response = APIService.vend(apiKey)
-
             withContext(Dispatchers.Main) {
                 _responseString.value = response
             }

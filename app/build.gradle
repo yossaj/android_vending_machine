@@ -50,6 +50,7 @@ dependencies {
 
 //    third-party
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 //    test
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"

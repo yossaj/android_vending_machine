@@ -1,6 +1,7 @@
 package com.example.vendingmachine.home.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,8 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.vendingmachine.R
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.dialog_image.*
 import kotlinx.android.synthetic.main.dialog_text.*
 
 class HomeDialogFragment : DialogFragment(){
@@ -35,11 +38,15 @@ class HomeDialogFragment : DialogFragment(){
 
         viewmodel.responseString.observe(this, Observer {
             it?.let{
-                dialog.dialog_text_view.text = it
+                if(args.apikey == "Cat" || args.apikey == "Dog") {
+                    Picasso.get().load(it).into(dialog.dialog_image)
+                }else{
+
+                    dialog.dialog_text_view.text = it
+                }
 
             }
         })
-
         return  dialog
     }
 
@@ -58,6 +65,17 @@ class HomeDialogFragment : DialogFragment(){
                     dialog_text_view.text = getString(R.string.loading)
                     dialog_title.text = getString(R.string.bull_title)
                 }
+            getString(R.string.cat) ->
+                return MaterialDialog(requireContext()).show {
+                    customView(R.layout.dialog_image)
+                    dialog_title_image.text = "Little Fur Balls"
+                }
+            getString(R.string.dog) ->
+                return MaterialDialog(requireContext()).show {
+                    customView(R.layout.dialog_image)
+                    dialog_title_image.text = "Daily Dose of Doggo"
+                }
+
             else ->
                 return MaterialDialog(requireContext()).show {
                     customView(R.layout.dialog_text)
@@ -65,6 +83,11 @@ class HomeDialogFragment : DialogFragment(){
                 }
 
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        dialog.dismiss()
+        super.onDismiss(dialog)
     }
 
 

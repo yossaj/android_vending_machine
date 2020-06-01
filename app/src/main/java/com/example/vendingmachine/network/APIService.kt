@@ -29,6 +29,15 @@ object APIService{
                 return jsonBull.getString("phrase")
 
             }
+            "Cat" ->{
+                val jsonCatArray = JSONArray(jsonResult)
+                val jsonCat = JSONObject(jsonCatArray[0].toString())
+                return jsonCat.getString("url")
+            }
+            "Dog" ->{
+                val jsonDog = JSONObject(jsonResult)
+                return jsonDog.getString("message")
+            }
             else -> return jsonResult
         }
     }
@@ -40,6 +49,7 @@ object APIService{
             "Mustache" -> return makeRequest(RON_SWANSON)
             "Advice" -> return makeRequest(ADVICE)
             "Bull" -> return makeRequest(BULL)
+            "Dog" -> return makeRequest(DOGS)
             else -> return "Request Failed: $key is out of stock"
         }
     }

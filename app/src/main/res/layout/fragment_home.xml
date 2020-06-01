@@ -78,11 +78,11 @@
                 android:src="@drawable/foxy" />
 
             <ImageView
-                android:id="@+id/pizza_button"
+                android:id="@+id/dog_button"
                 style="@style/ImageView.Vending"
-                android:contentDescription="@string/pizza"
+                android:contentDescription="@string/dog"
                 android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
-                android:src="@drawable/pizza" />
+                android:src="@drawable/doggo" />
 
 
         </GridLayout>

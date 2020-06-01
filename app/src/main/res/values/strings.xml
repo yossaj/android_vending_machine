@@ -6,7 +6,8 @@
     <string name="bull">Bull</string>
     <string name="fox">Fox</string>
     <string name="pizza">Pizza</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading....</string>
     <string name="bull_title">Corporate Bullshit Generator</string>
     <string name="swanson_title">The Wisdom of Ron Swanson</string>
+    <string name="dog">Dog</string>
 </resources>
