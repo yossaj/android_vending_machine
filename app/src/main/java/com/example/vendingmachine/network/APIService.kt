@@ -8,17 +8,19 @@ import java.net.URL
 import java.util.*
 
 
-private const val CATS = "https://api.thecatapi.com/v1/images/search?size=full"
+    private const val CATS = "https://api.thecatapi.com/v1/images/search?size=full"
     private const val DOGS = "https://dog.ceo/api/breeds/image/random"
     private const val RON_SWANSON = "https://ron-swanson-quotes.herokuapp.com/v2/quotes"
     private const val ADVICE = "https://api.adviceslip.com/advice"
     private const val BULL = "https://corporatebs-generator.sameerkumar.website/"
+    private const val CONNECTION_ERROR = "Connection Error: Unable to reach the website"
 
 
 object APIService{
 
     fun vend(key: String?) : String{
         val jsonResult = selectAPI(key)
+        if(jsonResult == CONNECTION_ERROR) return CONNECTION_ERROR
         when(key){
             "Mustache" -> {
                 val jsonMustache = JSONArray(jsonResult)
@@ -72,7 +74,11 @@ object APIService{
                 } else {
                     return IOException("Unable to reach website").toString()
                 }
-            } finally {
+            } catch (e : IOException){
+                IOException("Unable to reach website")
+                return  CONNECTION_ERROR
+            }
+            finally {
                 urlConnection.disconnect()
             }
         }

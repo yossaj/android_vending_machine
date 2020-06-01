@@ -39,7 +39,12 @@ class HomeDialogFragment : DialogFragment(){
         viewmodel.responseString.observe(this, Observer {
             it?.let{
                 if(args.apikey == "Cat" || args.apikey == "Dog") {
-                    Picasso.get().load(it).into(dialog.dialog_image)
+                    Picasso.get()
+                        .load(it)
+                        .placeholder(R.drawable.progress_animation)
+                        .error(R.drawable.error_dog)
+                        .into(dialog.dialog_image)
+
                 }else{
 
                     dialog.dialog_text_view.text = it

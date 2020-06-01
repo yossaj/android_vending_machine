@@ -43,7 +43,7 @@ class HomeFragment : Fragment(){
                         )
                     )
                     viewModel.resetAPIKey()
-                    viewModel.resetDisplayedBalance()
+                    viewModel.updateDisplayedBalanceUponSale()
 
 
                 } else {

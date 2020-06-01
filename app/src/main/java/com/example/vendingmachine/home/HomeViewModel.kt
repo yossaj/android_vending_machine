@@ -13,6 +13,8 @@ class HomeViewModel : ViewModel(){
 
     var balance = 0
 
+    val zeroFunds = "000"
+
     val _balanceString = MutableLiveData<String>()
 
     val balanceString : LiveData<String>
@@ -33,7 +35,7 @@ class HomeViewModel : ViewModel(){
     }
 
     init {
-        _balanceString.value = "000"
+        _balanceString.value = zeroFunds
     }
 
 
@@ -46,9 +48,15 @@ class HomeViewModel : ViewModel(){
         _apiKey.value = null
     }
 
-    fun resetDisplayedBalance(){
-        balance = 0
-        _balanceString.value = "000"
+    fun updateDisplayedBalanceUponSale(){
+        if(balance == 100) {
+            balance = 0
+            _balanceString.value = zeroFunds
+        }else {
+            balance -= 100
+            _balanceString.value = balance.toString()
+
+        }
     }
 
 }
