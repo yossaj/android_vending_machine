@@ -6,17 +6,14 @@ import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.FragmentHomeBinding
-import com.example.vendingmachine.home.dialog.HomeDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.coroutineScope
 
 class HomeFragment : Fragment(){
 
@@ -38,8 +35,24 @@ class HomeFragment : Fragment(){
 
         viewModel.apiKey.observe(viewLifecycleOwner, Observer {
             it?.let {
-                navController.navigate(HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment(it))
-                viewModel.resetAPIKey()
+                if (viewModel.balance >= 100) {
+
+                    navController.navigate(
+                        HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment(
+                            it
+                        )
+                    )
+                    viewModel.resetAPIKey()
+                    viewModel.resetDisplayedBalance()
+
+
+                } else {
+                    Snackbar.make(binding.root, "Insufficient Funds", Snackbar.LENGTH_LONG)
+                        .setActionTextColor(resources.getColor(R.color.colorPrimaryDark))
+                        .setTextColor(resources.getColor(R.color.colorPrimaryDark))
+                        .setBackgroundTint(resources.getColor(R.color.colorAccent))
+                        .show()
+                }
             }
         })
 

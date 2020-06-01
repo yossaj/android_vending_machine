@@ -46,4 +46,9 @@ class HomeViewModel : ViewModel(){
         _apiKey.value = null
     }
 
+    fun resetDisplayedBalance(){
+        balance = 0
+        _balanceString.value = "000"
+    }
+
 }
