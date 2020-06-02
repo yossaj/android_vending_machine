@@ -20,8 +20,9 @@
         <item name="android:layout_margin">16dp</item>
     </style>
 
-    <style name="VendingTheme.Custom" parent="Theme.AppCompat">
-        <item name="md_corner_radius">300dp</item>
+    <style name="VendingTheme.Button.Inverted" parent="VendingTheme">
+        <item name="android:background">@drawable/inverted_button_shape</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
 </resources>

@@ -9,6 +9,9 @@
         <action
             android:id="@+id/action_homeFragment_to_homeDialogFragment"
             app:destination="@id/homeDialogFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
     </fragment>
     <dialog
         android:id="@+id/homeDialogFragment"
@@ -16,4 +19,8 @@
         android:label="HomeDialogFragment">
         <argument android:name="apikey" android:defaultValue="@null"/>
     </dialog>
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.example.vendingmachine.tasks.TasksFragment"
+        android:label="TasksFragment" />
 </navigation>

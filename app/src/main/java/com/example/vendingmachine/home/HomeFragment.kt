@@ -2,13 +2,12 @@ package com.example.vendingmachine.home
 
 import android.os.Build
 import android.os.Bundle
-import android.view.DragEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.FragmentHomeBinding
@@ -18,20 +17,21 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment(){
 
     lateinit var viewModel: HomeViewModel
+    lateinit var navController : NavController
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         val binding = FragmentHomeBinding.inflate(inflater)
 
+        setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
-        val navController = findNavController()
+         navController = findNavController()
 
         viewModel.apiKey.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -45,17 +45,11 @@ class HomeFragment : Fragment(){
                     viewModel.resetAPIKey()
                     viewModel.updateDisplayedBalanceUponSale()
 
-
                 } else {
-                    Snackbar.make(binding.root, "Insufficient Funds", Snackbar.LENGTH_LONG)
-                        .setActionTextColor(resources.getColor(R.color.colorPrimaryDark))
-                        .setTextColor(resources.getColor(R.color.colorPrimaryDark))
-                        .setBackgroundTint(resources.getColor(R.color.colorAccent))
-                        .show()
+                    insufficentFundsSnackbar(binding)
                 }
             }
         })
-
 
         binding.coinDragDestination.setOnDragListener(dragListener)
         binding.coins.setOnLongClickListener(){
@@ -70,8 +64,6 @@ class HomeFragment : Fragment(){
         return binding.root
     }
 
-
-
     val dragListener = View.OnDragListener{view, event ->
         when(event.action){
             DragEvent.ACTION_DRAG_ENTERED -> {
@@ -85,6 +77,7 @@ class HomeFragment : Fragment(){
             }
             DragEvent.ACTION_DRAG_ENDED -> {
                 view.invalidate()
+                coins.visibility = View.VISIBLE
                 true
             }
             DragEvent.ACTION_DRAG_STARTED -> true
@@ -95,6 +88,27 @@ class HomeFragment : Fragment(){
             }
             else -> true
         }
+    }
+
+    fun insufficentFundsSnackbar(binding: FragmentHomeBinding) {
+        Snackbar.make(binding.root, "Insufficient Funds", Snackbar.LENGTH_LONG)
+            .setActionTextColor(resources.getColor(R.color.colorPrimaryDark))
+            .setTextColor(resources.getColor(R.color.colorPrimaryDark))
+            .setBackgroundTint(resources.getColor(R.color.colorAccent))
+            .show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when(id){
+            R.id.new_task -> navController.navigate(HomeFragmentDirections.actionHomeFragmentToTasksFragment())
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
