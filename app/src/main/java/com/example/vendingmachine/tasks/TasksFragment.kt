@@ -1,17 +1,19 @@
 package com.example.vendingmachine.tasks
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.databinding.FragmentTasksBinding
 
 class TasksFragment : Fragment(){
+
+    lateinit var sharedPreferences: SharedPreferences
+    var coinCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +21,8 @@ class TasksFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         fakeDataList()
+        sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+        getCoinCount()
         val binding = FragmentTasksBinding.inflate(inflater)
         val adapter = TasksAdapter()
         adapter.submitList(fakeDataList())
@@ -51,5 +55,15 @@ class TasksFragment : Fragment(){
         list.add(task2)
         list.add(task3)
         return list
+    }
+
+    fun getCoinCount(){
+        coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
+    }
+
+    override fun onPause() {
+        coinCount = coinCount + 1
+        sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
+        super.onPause()
     }
 }

@@ -20,6 +20,7 @@ class HomeFragment : Fragment(){
 
     lateinit var viewModel: HomeViewModel
     lateinit var navController : NavController
+    lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreateView(
@@ -30,6 +31,7 @@ class HomeFragment : Fragment(){
         val binding = FragmentHomeBinding.inflate(inflater)
 
         setHasOptionsMenu(true)
+        sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
@@ -37,7 +39,11 @@ class HomeFragment : Fragment(){
         getCoinCount()
 
         viewModel.numberOfCoins.observe(viewLifecycleOwner, Observer {
-            coinDisplaySwitch(it, binding)
+            if (it > 0) {
+                showCoin(binding)
+            } else {
+                hideCoinAndShowMessage(binding)
+            }
         })
 
         viewModel.apiKey.observe(viewLifecycleOwner, Observer {
@@ -70,26 +76,23 @@ class HomeFragment : Fragment(){
         return binding.root
     }
 
-    private fun getCoinCount() {
-        val coinCount = requireActivity()
-            .getSharedPreferences("pref", 0)
-            .getInt(getString(R.string.coin_count_key), 0)
-        viewModel._numberOfCoins.value = coinCount
+    private fun hideCoinAndShowMessage(binding: FragmentHomeBinding) {
+        binding.noFundsText?.visibility = View.VISIBLE
+        binding.noFundsContainer?.visibility = View.VISIBLE
+        binding.noFundsHint?.visibility = View.VISIBLE
+        binding.coins.visibility = View.GONE
     }
 
-    private fun coinDisplaySwitch( it: Int,  binding: FragmentHomeBinding) {
-        if (it > 0) {
-            binding.noFundsText?.visibility = View.GONE
-            binding.noFundsContainer?.visibility = View.GONE
-            binding.noFundsHint?.visibility = View.GONE
-            binding.coins.visibility = View.VISIBLE
+    private fun showCoin(binding: FragmentHomeBinding) {
+        binding.noFundsText?.visibility = View.GONE
+        binding.noFundsContainer?.visibility = View.GONE
+        binding.noFundsHint?.visibility = View.GONE
+        binding.coins.visibility = View.VISIBLE
+    }
 
-        } else {
-            binding.noFundsText?.visibility = View.VISIBLE
-            binding.noFundsContainer?.visibility = View.VISIBLE
-            binding.noFundsHint?.visibility = View.VISIBLE
-            binding.coins.visibility = View.GONE
-        }
+    private fun getCoinCount() {
+        val coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
+        viewModel._numberOfCoins.value = coinCount
     }
 
     val dragListener = View.OnDragListener{view, event ->
@@ -110,8 +113,10 @@ class HomeFragment : Fragment(){
             }
             DragEvent.ACTION_DRAG_STARTED -> true
             DragEvent.ACTION_DROP -> {
-                viewModel.addToBalanceAndConvertToString()
                 coins.visibility = View.VISIBLE
+                viewModel.addToBalanceAndConvertToString()
+                viewModel.reduceCoinCountByOne()
+
                 true
             }
             else -> true
@@ -137,6 +142,13 @@ class HomeFragment : Fragment(){
             R.id.new_task -> navController.navigate(HomeFragmentDirections.actionHomeFragmentToTasksFragment())
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        viewModel.numberOfCoins.value?.let {
+            sharedPreferences.edit().putInt(getString(R.string.coin_count_key), it).apply()
+        }
+        super.onPause()
     }
 
 

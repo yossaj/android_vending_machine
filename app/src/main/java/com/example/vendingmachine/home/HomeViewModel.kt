@@ -60,8 +60,16 @@ class HomeViewModel : ViewModel(){
         }else {
             balance -= 100
             _balanceString.value = balance.toString()
-
         }
+    }
+
+    fun reduceCoinCountByOne(){
+        _numberOfCoins.value?.let {
+            if(it > 0) {
+                _numberOfCoins.value = _numberOfCoins.value?.minus(1)
+            }
+        }
+
     }
 
 }
