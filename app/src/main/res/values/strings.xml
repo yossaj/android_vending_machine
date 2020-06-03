@@ -13,5 +13,7 @@
     <string name="picture_of_a_dog">Picture of a dog</string>
 
     <string name="new_task">+ New Task</string>
+    <string name="new_habit">+ New Habit</string>
     <string name="tasks_nav">Tasks</string>
+
 </resources>
