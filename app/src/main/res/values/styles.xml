@@ -10,6 +10,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.List" parent="VendingTheme">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="TextAppearance.DialogText" parent="VendingTheme">
         <item name="android:textSize">30sp</item>
         <item name="android:padding">@dimen/medium_space</item>
@@ -24,5 +28,9 @@
         <item name="android:background">@drawable/inverted_button_shape</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
+
+
+
+
 
 </resources>

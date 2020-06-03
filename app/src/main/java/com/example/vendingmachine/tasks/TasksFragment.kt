@@ -35,6 +35,21 @@ class TasksFragment : Fragment(){
         list.add(task1)
         list.add(task2)
         list.add(task3)
+        list.add(task1)
+        list.add(task2)
+        list.add(task3)
+        list.add(task1)
+        list.add(task2)
+        list.add(task3)
+        list.add(task1)
+        list.add(task2)
+        list.add(task3)
+        list.add(task1)
+        list.add(task2)
+        list.add(task3)
+        list.add(task1)
+        list.add(task2)
+        list.add(task3)
         return list
     }
 }
