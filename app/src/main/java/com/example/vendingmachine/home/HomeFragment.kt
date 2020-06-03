@@ -1,5 +1,6 @@
 package com.example.vendingmachine.home
 
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -13,6 +14,7 @@ import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.jetbrains.annotations.NotNull
 
 class HomeFragment : Fragment(){
 
@@ -31,12 +33,16 @@ class HomeFragment : Fragment(){
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
-         navController = findNavController()
+        navController = findNavController()
+        getCoinCount()
+
+        viewModel.numberOfCoins.observe(viewLifecycleOwner, Observer {
+            coinDisplaySwitch(it, binding)
+        })
 
         viewModel.apiKey.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (viewModel.balance >= 100) {
-
                     navController.navigate(
                         HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment(
                             it
@@ -62,6 +68,28 @@ class HomeFragment : Fragment(){
         }
 
         return binding.root
+    }
+
+    private fun getCoinCount() {
+        val coinCount = requireActivity()
+            .getSharedPreferences("pref", 0)
+            .getInt(getString(R.string.coin_count_key), 0)
+        viewModel._numberOfCoins.value = coinCount
+    }
+
+    private fun coinDisplaySwitch( it: Int,  binding: FragmentHomeBinding) {
+        if (it > 0) {
+            binding.noFundsText?.visibility = View.GONE
+            binding.noFundsContainer?.visibility = View.GONE
+            binding.noFundsHint?.visibility = View.GONE
+            binding.coins.visibility = View.VISIBLE
+
+        } else {
+            binding.noFundsText?.visibility = View.VISIBLE
+            binding.noFundsContainer?.visibility = View.VISIBLE
+            binding.noFundsHint?.visibility = View.VISIBLE
+            binding.coins.visibility = View.GONE
+        }
     }
 
     val dragListener = View.OnDragListener{view, event ->

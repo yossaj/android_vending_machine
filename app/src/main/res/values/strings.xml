@@ -16,4 +16,5 @@
     <string name="new_habit">+ New Habit</string>
     <string name="tasks_nav">Tasks</string>
 
+    <string name="coin_count_key">COIN_COUNT</string>
 </resources>

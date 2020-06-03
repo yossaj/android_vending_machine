@@ -105,6 +105,37 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/coin" />
 
+            <LinearLayout
+                android:id="@+id/no_funds_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/inverted_button_shape"
+                android:padding="8dp"
+                android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/no_funds_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:textSize="28sp"
+                android:text="OUT OF COINS"/>
+
+            <TextView
+                android:id="@+id/no_funds_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:text="Add and complete tasks to collect coins."/>
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
 
         <LinearLayout

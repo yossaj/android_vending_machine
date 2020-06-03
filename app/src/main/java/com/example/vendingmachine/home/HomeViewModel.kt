@@ -15,6 +15,11 @@ class HomeViewModel : ViewModel(){
 
     val zeroFunds = "000"
 
+    val _numberOfCoins = MutableLiveData<Int>()
+
+    val numberOfCoins : LiveData<Int>
+        get() = _numberOfCoins
+
     val _balanceString = MutableLiveData<String>()
 
     val balanceString : LiveData<String>
