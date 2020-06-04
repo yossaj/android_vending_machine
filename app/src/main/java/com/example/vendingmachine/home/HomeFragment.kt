@@ -21,6 +21,7 @@ class HomeFragment : Fragment(){
     lateinit var viewModel: HomeViewModel
     lateinit var navController : NavController
     lateinit var sharedPreferences: SharedPreferences
+    var coinCount = 0
 
 
     override fun onCreateView(
@@ -39,6 +40,7 @@ class HomeFragment : Fragment(){
         getCoinCount()
 
         viewModel.numberOfCoins.observe(viewLifecycleOwner, Observer {
+            coinCount = it
             if (it > 0) {
                 showCoin(binding)
             } else {
@@ -108,7 +110,9 @@ class HomeFragment : Fragment(){
             }
             DragEvent.ACTION_DRAG_ENDED -> {
                 view.invalidate()
-                coins.visibility = View.VISIBLE
+                if(coinCount > 0) {
+                    coins.visibility = View.VISIBLE
+                }
                 true
             }
             DragEvent.ACTION_DRAG_STARTED -> true

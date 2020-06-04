@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.databinding.FragmentTasksBinding
@@ -23,10 +25,23 @@ class TasksFragment : Fragment(){
         fakeDataList()
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
+        val viewModel = ViewModelProviders.of(this).get(TasksViewModel::class.java)
         val binding = FragmentTasksBinding.inflate(inflater)
-        val adapter = TasksAdapter()
+        val adapter = TasksAdapter(viewModel)
         adapter.submitList(fakeDataList())
         binding.taskHabitList.adapter = adapter
+
+        viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val switch = it
+                if(it){
+                    incrementCoinCount()
+                    viewModel._coinIncrementSwitch.value = false
+                }
+            }
+        })
+
+
         return binding.root
     }
 
@@ -61,9 +76,8 @@ class TasksFragment : Fragment(){
         coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
     }
 
-    override fun onPause() {
+    fun incrementCoinCount(){
         coinCount = coinCount + 1
         sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
-        super.onPause()
     }
 }

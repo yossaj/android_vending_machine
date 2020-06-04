@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.databinding.TaskItemBinding
 
-class TasksAdapter : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffCallback()){
+class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = TaskItemBinding.inflate(layoutInflater, parent, false)
+        binding.viewModel = viewModel
         return TaskViewHolder(binding)
 
     }
