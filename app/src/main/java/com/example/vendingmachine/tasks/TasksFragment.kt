@@ -45,6 +45,7 @@ class TasksFragment : Fragment(){
                 if(it){
                     incrementCoinCount()
                     viewModel._coinIncrementSwitch.value = false
+                    adapter.notifyDataSetChanged()
                 }
             }
         })

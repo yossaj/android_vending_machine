@@ -35,7 +35,6 @@ class AddTaskFragment : DialogFragment(){
         val dialog =  MaterialDialog(requireContext()).show {
             customView(R.layout.dialog_add_task)
 
-
             positiveButton {
                 val title : String = title_text.editableText.toString()
                 val note : String = note_text.editableText.toString()
