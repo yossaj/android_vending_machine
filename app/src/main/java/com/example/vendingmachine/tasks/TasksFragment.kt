@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.databinding.FragmentTasksBinding
 
 class TasksFragment : Fragment(){
@@ -25,6 +26,9 @@ class TasksFragment : Fragment(){
         fakeDataList()
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
+        val application = requireNotNull(this.activity).application
+        val datasource = TaskDatabase.getInstance(application)
+        val factory = TaskViewModelFactory(datasource)
         val viewModel = ViewModelProviders.of(this).get(TasksViewModel::class.java)
         val binding = FragmentTasksBinding.inflate(inflater)
         val adapter = TasksAdapter(viewModel)
@@ -40,11 +44,8 @@ class TasksFragment : Fragment(){
                 }
             }
         })
-
-
         return binding.root
     }
-
 
     fun fakeDataList() : MutableList<Task>{
         val list = mutableListOf<Task>()

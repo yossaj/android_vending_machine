@@ -154,7 +154,4 @@ class HomeFragment : Fragment(){
         }
         super.onPause()
     }
-
-
-
 }
