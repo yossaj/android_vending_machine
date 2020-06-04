@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [TaskDatabase::class], version = 1, exportSchema = false)
+@Database(entities = [Task::class], version = 1, exportSchema = false)
 abstract class TaskDatabase : RoomDatabase(){
     abstract val taskDao : TaskDao
 
@@ -13,7 +13,7 @@ abstract class TaskDatabase : RoomDatabase(){
 
         @Volatile
         private var INSTANCE: TaskDatabase? = null
-        val TABLE_NAME = "task_database"
+        private const val TABLE_NAME = "task_database"
 
         fun getInstance(context : Context) : TaskDatabase{
             synchronized(this){

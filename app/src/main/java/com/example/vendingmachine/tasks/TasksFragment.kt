@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
@@ -29,10 +30,10 @@ class TasksFragment : Fragment(){
         val application = requireNotNull(this.activity).application
         val datasource = TaskDatabase.getInstance(application)
         val factory = TaskViewModelFactory(datasource)
-        val viewModel = ViewModelProviders.of(this).get(TasksViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel::class.java)
         val binding = FragmentTasksBinding.inflate(inflater)
+        binding.viewmodel = viewModel
         val adapter = TasksAdapter(viewModel)
-        adapter.submitList(fakeDataList())
         binding.taskHabitList.adapter = adapter
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
@@ -41,6 +42,16 @@ class TasksFragment : Fragment(){
                 if(it){
                     incrementCoinCount()
                     viewModel._coinIncrementSwitch.value = false
+                }
+            }
+        })
+
+        viewModel.navigateToAddTaskTrigger.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                if(it) {
+                    this.findNavController()
+                        .navigate(TasksFragmentDirections.actionTasksFragmentToAddTaskFragment())
+                    viewModel._navigateToAddTaskTrigger.value = false
                 }
             }
         })

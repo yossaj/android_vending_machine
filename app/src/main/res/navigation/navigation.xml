@@ -22,5 +22,13 @@
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.example.vendingmachine.tasks.TasksFragment"
-        android:label="TasksFragment" />
+        android:label="TasksFragment" >
+        <action
+            android:id="@+id/action_tasksFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/addTaskFragment"
+        android:name="com.example.vendingmachine.tasks.taskdialog.AddTaskFragment"
+        android:label="AddTaskFragment" />
 </navigation>
