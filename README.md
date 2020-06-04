@@ -4,6 +4,7 @@ This is an extention of a project I originally made in Javascript ( https://shro
 
 <div align="left">
  <p>
+ <p>
     Vending Page:
     <br>
     <img src="https://i.imgur.com/Mleoffd.png" width="200" title="Homepage">
@@ -13,6 +14,7 @@ This is an extention of a project I originally made in Javascript ( https://shro
     Vended Kitten:
     <br>
     <img src="https://i.imgur.com/zDXKzN5.png" width="200" title="Kitten Prize">
+  </p>
   </p>
   </div>
 
