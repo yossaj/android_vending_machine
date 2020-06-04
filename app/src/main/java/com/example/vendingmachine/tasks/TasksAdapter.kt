@@ -15,7 +15,6 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
         val binding = TaskItemBinding.inflate(layoutInflater, parent, false)
         binding.viewModel = viewModel
         return TaskViewHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {

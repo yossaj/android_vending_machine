@@ -24,7 +24,6 @@ class TasksFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fakeDataList()
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
         val application = requireNotNull(this.activity).application
@@ -34,6 +33,10 @@ class TasksFragment : Fragment(){
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
         val adapter = TasksAdapter(viewModel)
+        viewModel.allTasks.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+
         binding.taskHabitList.adapter = adapter
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {

@@ -3,6 +3,7 @@ package com.example.vendingmachine.tasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,8 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    val allTasks = datasource.taskDao.getTasks()
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()
 
@@ -36,6 +39,7 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     init {
         _coinIncrementSwitch.value = false
         _navigateToAddTaskTrigger.value = false
+
     }
 
 }
