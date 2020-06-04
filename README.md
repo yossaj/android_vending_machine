@@ -6,13 +6,13 @@ This is an extention of a project I originally made in Javascript ( https://shro
  <p>
     Vending Page:
     <br>
-    <img src="https://i.imgur.com/Mleoffd.png" width="400" title="Homepage">
+    <img src="https://i.imgur.com/Mleoffd.png" width="200" title="Homepage">
   </p>
   
  <p>
     Vended Kitten:
     <br>
-    <img src="https://i.imgur.com/zDXKzN5.png" width="400" title="Kitten Prize">
+    <img src="https://i.imgur.com/zDXKzN5.png" width="200" title="Kitten Prize">
   </p>
   </div>
 
