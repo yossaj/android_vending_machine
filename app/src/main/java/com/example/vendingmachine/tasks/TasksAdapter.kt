@@ -1,5 +1,6 @@
 package com.example.vendingmachine.tasks
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -26,9 +27,13 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(task: Task){
+            binding.task = task
             binding.taskItemTitle.text = task.title
+            if(task.isCompleted) {
+                binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                binding.taskItemCheckbox.isChecked = true
+            }
         }
-
     }
 
     class TaskDiffCallback() : DiffUtil.ItemCallback<Task>(){

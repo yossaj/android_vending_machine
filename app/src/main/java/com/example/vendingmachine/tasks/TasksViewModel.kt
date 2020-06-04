@@ -8,11 +8,12 @@ import com.example.vendingmachine.data.TaskDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     val allTasks = datasource.taskDao.getTasks()
 
@@ -29,6 +30,21 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     fun incrementCoinSwitch(){
         _coinIncrementSwitch.value = true
+    }
+
+
+    fun updateTaskWhenComplete(task: Task){
+        val updatedtask = task
+        updatedtask.isCompleted = true
+        incrementCoinSwitch()
+        uiScope.launch {
+            updateTask(updatedtask)
+        }
+
+    }
+
+    suspend fun updateTask(task: Task){
+        datasource.taskDao.updateTask(task)
     }
 
     fun triggerAddTaskNav(){

@@ -22,7 +22,7 @@
         android:buttonTint="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="@{()-> viewModel.incrementCoinSwitch()}"
+        android:onClick="@{(view)-> viewModel.updateTaskWhenComplete(task)}"
         android:layout_gravity="center_vertical"/>
 
     <TextView
