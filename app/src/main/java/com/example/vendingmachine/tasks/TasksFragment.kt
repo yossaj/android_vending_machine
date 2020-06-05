@@ -64,39 +64,11 @@ class TasksFragment : Fragment(){
             viewModel.currentTask.observe(viewLifecycleOwner, Observer {
                 it?.let {
                     this.findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToViewTaskFragment(it.id))
-                    viewModel.resetCurrentTask()
-                    viewModel.resetViewTaskTrigger()
+                    viewModel.resetUponNavigationToViewTask()
                 }
-
             })
         })
         return binding.root
-    }
-
-    fun fakeDataList() : MutableList<Task>{
-        val list = mutableListOf<Task>()
-        val task1 = Task("New Task", "Some stuff")
-        val task2 = Task("Some Task", "Some stuff")
-        val task3 = Task("Some Other Task", "Some stuff")
-        list.add(task1)
-        list.add(task2)
-        list.add(task3)
-        list.add(task1)
-        list.add(task2)
-        list.add(task3)
-        list.add(task1)
-        list.add(task2)
-        list.add(task3)
-        list.add(task1)
-        list.add(task2)
-        list.add(task3)
-        list.add(task1)
-        list.add(task2)
-        list.add(task3)
-        list.add(task1)
-        list.add(task2)
-        list.add(task3)
-        return list
     }
 
     fun getCoinCount(){

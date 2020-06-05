@@ -1,5 +1,7 @@
 package com.example.vendingmachine.tasks
 
+import android.view.View
+import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,12 +46,20 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     }
 
 
-    fun updateTaskWhenComplete(task: Task){
+    fun updateTaskWhenComplete(task: Task, boolean: Boolean){
         val updatedtask = task
-        updatedtask.isCompleted = true
+        updatedtask.isCompleted = boolean
         incrementCoinSwitch()
         uiScope.launch {
             updateTask(updatedtask)
+        }
+    }
+
+    fun handleCheckUnCheck( task: Task){
+        if(task.isCompleted){
+            updateTaskWhenComplete(task, false)
+        }else if(!task.isCompleted){
+            updateTaskWhenComplete(task, true)
         }
 
     }
@@ -77,6 +87,11 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     fun resetCurrentTask(){
         _currentTask.value = null
+    }
+
+    fun resetUponNavigationToViewTask(){
+        resetCurrentTask()
+        resetViewTaskTrigger()
     }
 
 
