@@ -26,9 +26,18 @@
         <action
             android:id="@+id/action_tasksFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+        <action
+            android:id="@+id/action_tasksFragment_to_viewTaskFragment"
+            app:destination="@id/viewTaskFragment" />
     </fragment>
     <dialog
         android:id="@+id/addTaskFragment"
         android:name="com.example.vendingmachine.tasks.taskdialog.AddTaskFragment"
         android:label="AddTaskFragment" />
+    <dialog
+        android:id="@+id/viewTaskFragment"
+        android:name="com.example.vendingmachine.tasks.taskdialog.ViewTaskFragment"
+        android:label="ViewTaskFragment">
+        <argument android:name="task" android:defaultValue="@null"/>
+    </dialog>
 </navigation>

@@ -59,6 +59,14 @@ class TasksFragment : Fragment(){
                 }
             }
         })
+
+        viewModel.navigateToViewTaskTrigger.observe(viewLifecycleOwner, Observer {
+            viewModel.currentTask.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    this.findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToViewTaskFragment(it.id))
+                }
+            })
+        })
         return binding.root
     }
 

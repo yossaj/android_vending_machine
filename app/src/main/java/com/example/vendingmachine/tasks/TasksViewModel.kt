@@ -27,6 +27,17 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     val navigateToAddTaskTrigger : LiveData<Boolean>
         get() = _navigateToAddTaskTrigger
 
+    val _navigateToViewTaskTrigger = MutableLiveData<Boolean>()
+
+    val navigateToViewTaskTrigger : LiveData<Boolean>
+        get() = _navigateToViewTaskTrigger
+
+    val _currentTask = MutableLiveData<Task>()
+
+    val currentTask : LiveData<Task>
+        get() = _currentTask
+
+
 
     fun incrementCoinSwitch(){
         _coinIncrementSwitch.value = true
@@ -49,6 +60,15 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     fun triggerAddTaskNav(){
         _navigateToAddTaskTrigger.value = true
+    }
+
+    fun triggerViewTaskNav(){
+        _navigateToViewTaskTrigger.value = true
+    }
+
+    fun navigateToViewTaskAndPassTask(task: Task){
+        triggerViewTaskNav()
+        _currentTask.value = task
     }
 
 
