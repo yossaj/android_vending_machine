@@ -66,9 +66,17 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
         _navigateToViewTaskTrigger.value = true
     }
 
+    fun resetViewTaskTrigger(){
+        _navigateToViewTaskTrigger.value = false
+    }
+
     fun navigateToViewTaskAndPassTask(task: Task){
         triggerViewTaskNav()
         _currentTask.value = task
+    }
+
+    fun resetCurrentTask(){
+        _currentTask.value = null
     }
 
 

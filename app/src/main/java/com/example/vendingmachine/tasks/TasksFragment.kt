@@ -64,7 +64,10 @@ class TasksFragment : Fragment(){
             viewModel.currentTask.observe(viewLifecycleOwner, Observer {
                 it?.let {
                     this.findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToViewTaskFragment(it.id))
+                    viewModel.resetCurrentTask()
+                    viewModel.resetViewTaskTrigger()
                 }
+
             })
         })
         return binding.root
