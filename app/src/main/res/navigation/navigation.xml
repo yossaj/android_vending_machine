@@ -38,6 +38,6 @@
         android:id="@+id/viewTaskFragment"
         android:name="com.example.vendingmachine.tasks.taskdialog.ViewTaskFragment"
         android:label="ViewTaskFragment">
-        <argument android:name="task" android:defaultValue="@null"/>
+        <argument android:name="task_id" android:defaultValue="@null"/>
     </dialog>
 </navigation>

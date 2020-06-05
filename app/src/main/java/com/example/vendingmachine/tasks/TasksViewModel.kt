@@ -47,7 +47,7 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
 
     fun updateTaskWhenComplete(task: Task, boolean: Boolean){
-        val updatedtask = task
+        var updatedtask = task
         updatedtask.isCompleted = boolean
         incrementCoinSwitch()
         uiScope.launch {
@@ -55,17 +55,26 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
         }
     }
 
-    fun handleCheckUnCheck( task: Task){
+    suspend fun updateTask(task: Task){
+        datasource.taskDao.updateTask(task)
+    }
+
+    fun handleCheckUnCheck(task: Task){
         if(task.isCompleted){
             updateTaskWhenComplete(task, false)
         }else if(!task.isCompleted){
             updateTaskWhenComplete(task, true)
         }
-
     }
 
-    suspend fun updateTask(task: Task){
-        datasource.taskDao.updateTask(task)
+    fun deleteAllTasks(){
+        uiScope.launch {
+            deleteAll()
+        }
+    }
+
+    suspend fun deleteAll(){
+        datasource.taskDao.deleteAllTasks()
     }
 
     fun triggerAddTaskNav(){
@@ -93,7 +102,6 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
         resetCurrentTask()
         resetViewTaskTrigger()
     }
-
 
     init {
         _coinIncrementSwitch.value = false

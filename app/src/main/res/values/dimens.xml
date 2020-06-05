@@ -2,4 +2,5 @@
 <resources>
     <dimen name="medium_space">16dp</dimen>
     <dimen name="large_spacing">32dp</dimen>
+    <dimen name="add_task_text_size">22sp</dimen>
 </resources>
