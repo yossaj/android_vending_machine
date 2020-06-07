@@ -60,5 +60,7 @@ dependencies {
 //    test
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"
     implementation "androidx.test:core:$androidXTestCoreVersion"
+    androidTestImplementation "android.arch.core:core-testing:$androidXTestCoreVersion"
     testImplementation 'org.mockito:mockito-core:2.19.0'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1'
 }
