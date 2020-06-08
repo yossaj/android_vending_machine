@@ -104,8 +104,8 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     }
 
     init {
-        _coinIncrementSwitch.value = false
-        _navigateToAddTaskTrigger.value = false
+        _coinIncrementSwitch.postValue(false)
+        _navigateToAddTaskTrigger.postValue(false)
 
     }
 

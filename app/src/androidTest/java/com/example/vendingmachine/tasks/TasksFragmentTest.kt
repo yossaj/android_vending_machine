@@ -3,9 +3,11 @@ package com.example.vendingmachine.tasks
 import android.content.Context
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,35 +23,35 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 
 @RunWith(AndroidJUnit4::class)
 class TasksFragmentTest {
-    private lateinit var database: TaskDatabase
-    private lateinit var tasksViewModel : TasksViewModel
-    private lateinit var tasks: List<Task>
+//    private lateinit var database: TaskDatabase
+//    private lateinit var tasksViewModel : TasksViewModel
+//    private lateinit var tasks: List<Task>
 //
-//    @get:Rule
-//    var instantExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun init() = runBlockingTest{
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        database = Room.inMemoryDatabaseBuilder(context, TaskDatabase::class.java).build()
-        tasks = fakeData()
-        database.taskDao.insertTask(tasks[0])
-        database.taskDao.insertTask(tasks[1])
-        database.taskDao.insertTask(tasks[2])
-        tasksViewModel = TasksViewModel(database)
-        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.VendingTheme)
-        val navController = Mockito.mock(NavController::class.java)
-        scenario.onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
+    fun init(){
+        MockitoAnnotations.initMocks(this)
+        val factory = FragmentFactory()
+        val navController = TestNavHostController(
+            ApplicationProvider.getApplicationContext())
+        navController.setGraph(R.navigation.navigation)
+        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.VendingTheme, factory)
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navController)
         }
+
+
     }
 
     @After
     fun closeDb() = runBlockingTest{
-        database.close()
+//        database.close()
     }
 
     @Test

@@ -43,8 +43,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0-beta01'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0-beta01'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     implementation "android.arch.persistence.room:runtime:1.1.1"
@@ -69,4 +69,5 @@ dependencies {
 
     implementation "androidx.fragment:fragment-testing:$fragmentVersion"
     implementation "androidx.test:core:$androidXTestCoreVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 }
