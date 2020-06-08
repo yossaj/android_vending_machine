@@ -8,6 +8,9 @@ buildscript {
         version_moshi = "1.8.0"
         arch_testing_version ="2.1.0"
         androidXTestCoreVersion = '1.2.0'
+        fragmentVersion = '1.1.0-alpha07'
+        fragmentKtxVersion = '1.1.0-rc01'
+        dexMakerVersion = '2.12.1'
     }
     repositories {
         google()

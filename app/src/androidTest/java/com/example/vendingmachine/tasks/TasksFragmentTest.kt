@@ -1,36 +1,38 @@
 package com.example.vendingmachine.tasks
 
 import android.content.Context
+import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
-import com.example.vendingmachine.getOrAwaitValueAndroid
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert
 import org.junit.After
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
+import org.junit.runner.RunWith
+import org.mockito.Mockito
 
-class TasksViewModelTest {
-
+@RunWith(AndroidJUnit4::class)
+class TasksFragmentTest {
     private lateinit var database: TaskDatabase
     private lateinit var tasksViewModel : TasksViewModel
     private lateinit var tasks: List<Task>
-
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
+//
+//    @get:Rule
+//    var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun init(){
+    fun init() = runBlockingTest{
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(context, TaskDatabase::class.java).build()
         tasks = fakeData()
@@ -38,71 +40,42 @@ class TasksViewModelTest {
         database.taskDao.insertTask(tasks[1])
         database.taskDao.insertTask(tasks[2])
         tasksViewModel = TasksViewModel(database)
-
+        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.VendingTheme)
+        val navController = Mockito.mock(NavController::class.java)
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
     }
 
-//    @After
-//    fun closeDb(){
-//        database.close()
-//    }
-
-
-    @Test
-    fun getAllTasks() {
-        val requestedtasks = tasksViewModel.allTasks.getOrAwaitValueAndroid()
-        assertThat(requestedtasks.size, `is`(3))
-
-    }
-
-
-//    @Test
-//    fun incrementCoinSwitch() {
-//    }
-//
-//    @Test
-//    fun updateTaskWhenComplete() {
-//    }
-//
-//    @Test
-//    fun updateTask() {
-//    }
-//
-//    @Test
-//    fun handleCheckUnCheck() {
-//    }
-//
-//    @Test
-//    fun deleteAllTasks() {
-//    }
-//
-//    @Test
-//    fun deleteAll() {
-//    }
-
-    @Test
-    fun triggerAddTaskNav() {
+    @After
+    fun closeDb() = runBlockingTest{
+        database.close()
     }
 
     @Test
-    fun triggerViewTaskNav() {
+    fun getSharedPreferences() {
     }
 
     @Test
-    fun resetViewTaskTrigger() {
+    fun setSharedPreferences() {
     }
 
     @Test
-    fun navigateToViewTaskAndPassTask() {
+    fun getCoinCount() {
     }
 
     @Test
-    fun resetCurrentTask() {
-        tasksViewModel._currentTask.value = tasks[0]
-        assertThat(tasksViewModel.currentTask.value, `is`(tasks[0]))
-        tasksViewModel.resetCurrentTask()
-        assertNull(tasksViewModel.currentTask.value)
-
+    fun setCoinCount() {
     }
+
+    @Test
+    fun testGetCoinCount() {
+    }
+
+    @Test
+    fun incrementCoinCount() {
+    }
+
     fun fakeData() : List<Task>{
         val taskList = mutableListOf<Task>()
         val task1 = Task("Task1", "Tasky")
@@ -115,5 +88,4 @@ class TasksViewModelTest {
         taskList.add(task4)
         return taskList
     }
-
 }
