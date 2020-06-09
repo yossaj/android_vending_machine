@@ -50,34 +50,10 @@ class TasksViewModelTest {
     @Test
     fun getAllTasks() {
         val requestedtasks = tasksViewModel.allTasks.getOrAwaitValueAndroid()
-        assertThat(requestedtasks.size, `is`(3))
+        assertThat(requestedtasks?.size, `is`(3))
 
     }
 
-
-//    @Test
-//    fun incrementCoinSwitch() {
-//    }
-//
-//    @Test
-//    fun updateTaskWhenComplete() {
-//    }
-//
-//    @Test
-//    fun updateTask() {
-//    }
-//
-//    @Test
-//    fun handleCheckUnCheck() {
-//    }
-//
-//    @Test
-//    fun deleteAllTasks() {
-//    }
-//
-//    @Test
-//    fun deleteAll() {
-//    }
 
     @Test
     fun triggerAddTaskNav() {

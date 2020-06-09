@@ -17,4 +17,5 @@
     <string name="tasks_nav">Tasks</string>
 
     <string name="coin_count_key">COIN_COUNT</string>
+    <string name="no_funds">Insufficient Funds</string>
 </resources>

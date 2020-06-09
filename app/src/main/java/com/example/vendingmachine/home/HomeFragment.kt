@@ -128,7 +128,7 @@ class HomeFragment : Fragment(){
     }
 
     fun insufficentFundsSnackbar(binding: FragmentHomeBinding) {
-        Snackbar.make(binding.root, "Insufficient Funds", Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.root, getString(R.string.no_funds), Snackbar.LENGTH_LONG)
             .setActionTextColor(resources.getColor(R.color.colorPrimaryDark))
             .setTextColor(resources.getColor(R.color.colorPrimaryDark))
             .setBackgroundTint(resources.getColor(R.color.colorAccent))

@@ -10,6 +10,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
@@ -30,22 +34,19 @@ class TasksFragmentTest {
 //    private lateinit var database: TaskDatabase
 //    private lateinit var tasksViewModel : TasksViewModel
 //    private lateinit var tasks: List<Task>
-//
+    private lateinit var navController : TestNavHostController
+    private lateinit var factory : FragmentFactory
+
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun init(){
         MockitoAnnotations.initMocks(this)
-        val factory = FragmentFactory()
-        val navController = TestNavHostController(
+        factory = FragmentFactory()
+        navController = TestNavHostController(
             ApplicationProvider.getApplicationContext())
         navController.setGraph(R.navigation.navigation)
-        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.VendingTheme, factory)
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
-
 
     }
 
@@ -56,6 +57,10 @@ class TasksFragmentTest {
 
     @Test
     fun getSharedPreferences() {
+        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.VendingTheme, factory)
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
     }
 
     @Test
@@ -63,20 +68,17 @@ class TasksFragmentTest {
     }
 
     @Test
-    fun getCoinCount() {
+    fun newTaskButtonLaunchesDialog() {
+        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.VendingTheme, factory)
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+        onView(withId(R.id.add_task_button))
+            .check(matches(isDisplayed()))
+            .check(matches(withText("+ New Task")))
+            .check(matches(isClickable()))
     }
 
-    @Test
-    fun setCoinCount() {
-    }
-
-    @Test
-    fun testGetCoinCount() {
-    }
-
-    @Test
-    fun incrementCoinCount() {
-    }
 
     fun fakeData() : List<Task>{
         val taskList = mutableListOf<Task>()

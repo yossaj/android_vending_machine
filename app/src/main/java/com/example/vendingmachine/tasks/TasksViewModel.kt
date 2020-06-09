@@ -7,17 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val allTasks = datasource.taskDao.getTasks()
+    var allTasks = datasource.taskDao.getTasks()
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()
 
@@ -46,12 +43,15 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     }
 
 
+
     fun updateTaskWhenComplete(task: Task, boolean: Boolean){
         var updatedtask = task
         updatedtask.isCompleted = boolean
         incrementCoinSwitch()
         uiScope.launch {
-            updateTask(updatedtask)
+            withContext(Dispatchers.IO) {
+                updateTask(updatedtask)
+            }
         }
     }
 
@@ -74,7 +74,9 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     }
 
     suspend fun deleteAll(){
-        datasource.taskDao.deleteAllTasks()
+        withContext(Dispatchers.IO) {
+            datasource.taskDao.deleteAllTasks()
+        }
     }
 
     fun triggerAddTaskNav(){
@@ -106,7 +108,6 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     init {
         _coinIncrementSwitch.postValue(false)
         _navigateToAddTaskTrigger.postValue(false)
-
     }
 
 }
