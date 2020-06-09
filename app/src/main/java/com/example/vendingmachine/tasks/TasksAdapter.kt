@@ -39,12 +39,14 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
                 binding.habitCount.visibility = View.GONE
                 binding.habitCountSpacer.visibility = View.GONE
             }
-            if(task.isCompleted) {
+            if(task.isCompleted && !task.habit) {
                 binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 binding.taskItemCheckbox.isChecked = true
             }else if(!task.isCompleted){
                 binding.taskItemCheckbox.isChecked = false
                 binding.taskItemTitle.paintFlags = 0
+            }else if(task.habit && task.isCompleted){
+                binding.taskItemCheckbox.isChecked = true
             }
         }
     }

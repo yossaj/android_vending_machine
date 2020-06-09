@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import kotlinx.coroutines.*
-import okhttp3.Dispatcher
 
 class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
 
@@ -34,6 +33,20 @@ class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
         uiScope.launch {
             currentNewTask.value?.let {
                 insert(it)
+            }
+        }
+    }
+
+    fun deleteTask(){
+        uiScope.launch {
+            delete()
+        }
+    }
+
+    suspend fun delete() {
+        currentTaskId.value?.let {
+            withContext(Dispatchers.IO) {
+                datasource.taskDao.deleteTaskById(it)
             }
         }
     }

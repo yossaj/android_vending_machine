@@ -17,12 +17,10 @@ class AddTaskFragment : DialogFragment(){
 
     val args : AddTaskFragmentArgs by navArgs()
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val application = requireNotNull(this.activity).application
         val datasource = TaskDatabase.getInstance(application)
-
 
         val viewmodel by lazy {
             val factory = AddTaskViewModelFactory(datasource)
