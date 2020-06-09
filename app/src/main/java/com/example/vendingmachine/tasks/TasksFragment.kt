@@ -24,6 +24,7 @@ class TasksFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requireActivity().setTitle(getString(R.string.task_fragment_title))
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
         val application = requireNotNull(this.activity).application

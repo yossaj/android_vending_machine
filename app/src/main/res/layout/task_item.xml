@@ -14,7 +14,7 @@
 
 <LinearLayout
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <CheckBox
@@ -29,12 +29,33 @@
     <TextView
         style="@style/TextAppearance.List"
         android:id="@+id/task_item_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:lines="1"
+        android:maxWidth="300dp"
+        android:ellipsize="end"
         android:layout_gravity="center_vertical"
         android:onClick="@{(view)-> viewModel.navigateToViewTaskAndPassTask(task)}"
         android:layout_marginStart="@dimen/medium_space"
         android:layout_marginLeft="@dimen/medium_space"/>
+
+    <View
+        android:id="@+id/habit_count_spacer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/habit_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="22sp"
+        android:text="06"/>
+
 
 </LinearLayout>
 

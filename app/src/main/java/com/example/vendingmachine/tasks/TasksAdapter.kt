@@ -2,6 +2,7 @@ package com.example.vendingmachine.tasks
 
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -29,6 +30,13 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
         fun bind(task: Task){
             binding.task = task
             binding.taskItemTitle.text = task.title
+            if(task.habit){
+                binding.habitCount.visibility = View.VISIBLE
+                binding.habitCountSpacer.visibility = View.VISIBLE
+                val habitCount = task.habitCount.toString()
+                binding.habitCount.text = "0${habitCount}"
+
+            }
             if(task.isCompleted) {
                 binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 binding.taskItemCheckbox.isChecked = true
