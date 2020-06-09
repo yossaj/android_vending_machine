@@ -47,7 +47,7 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     fun updateTaskWhenComplete(task: Task, boolean: Boolean){
         var updatedtask = task
         updatedtask.isCompleted = boolean
-        incrementCoinSwitch()
+        if(boolean){incrementCoinSwitch()}
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 updateTask(updatedtask)
@@ -80,6 +80,7 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     }
 
     fun triggerAddTaskNav(){
+
         _navigateToAddTaskTrigger.value = true
     }
 

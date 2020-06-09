@@ -41,7 +41,6 @@ class TasksFragment : Fragment(){
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val switch = it
                 if(it){
                     incrementCoinCount()
                     viewModel._coinIncrementSwitch.value = false
