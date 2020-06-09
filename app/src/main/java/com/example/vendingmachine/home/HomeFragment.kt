@@ -143,15 +143,24 @@ class HomeFragment : Fragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when(id){
-            R.id.new_task -> navController.navigate(HomeFragmentDirections.actionHomeFragmentToTasksFragment())
+            R.id.new_task -> {
+                navController.navigate(HomeFragmentDirections.actionHomeFragmentToTasksFragment())
+                saveCoinCount()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onPause() {
+    fun saveCoinCount(){
         viewModel.numberOfCoins.value?.let {
             sharedPreferences.edit().putInt(getString(R.string.coin_count_key), it).apply()
         }
+    }
+
+    override fun onPause() {
+        saveCoinCount()
         super.onPause()
     }
+
+
 }
