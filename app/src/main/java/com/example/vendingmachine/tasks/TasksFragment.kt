@@ -60,6 +60,19 @@ class TasksFragment : Fragment(){
             }
         })
 
+        viewModel.navigateToAddHabitTrigger.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
+                    this.findNavController()
+                        .navigate(
+                            TasksFragmentDirections
+                                .actionTasksFragmentToAddTaskFragment(getString(R.string.habit))
+                        )
+                    viewModel._navigateToAddHabitTrigger.value = false
+                }
+            }
+        })
+
         viewModel.navigateToViewTaskTrigger.observe(viewLifecycleOwner, Observer {
             viewModel.currentTask.observe(viewLifecycleOwner, Observer {
                 it?.let {

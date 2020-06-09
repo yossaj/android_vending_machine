@@ -35,7 +35,9 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
                 binding.habitCountSpacer.visibility = View.VISIBLE
                 val habitCount = task.habitCount.toString()
                 binding.habitCount.text = "0${habitCount}"
-
+            }else if(!task.habit){
+                binding.habitCount.visibility = View.GONE
+                binding.habitCountSpacer.visibility = View.GONE
             }
             if(task.isCompleted) {
                 binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG

@@ -26,6 +26,11 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
     val navigateToAddTaskTrigger : LiveData<Boolean>
         get() = _navigateToAddTaskTrigger
 
+    val _navigateToAddHabitTrigger = MutableLiveData<Boolean>()
+
+    val navigateToAddHabitTrigger : LiveData<Boolean>
+        get() = _navigateToAddHabitTrigger
+
     val _navigateToViewTaskTrigger = MutableLiveData<Boolean>()
 
     val navigateToViewTaskTrigger : LiveData<Boolean>
@@ -55,12 +60,28 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
         }
     }
 
+    fun updateHabitWhenComplete(task: Task, boolean: Boolean){
+        var updateHabit = task
+        updateHabit.habitCount += 1
+        updateHabit.isCompleted = boolean
+        if(boolean){incrementCoinSwitch()}
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                updateTask(updateHabit)
+            }
+        }
+
+    }
+
     suspend fun updateTask(task: Task){
         datasource.taskDao.updateTask(task)
     }
 
     fun handleCheckUnCheck(task: Task){
-        if(task.isCompleted){
+        if(task.habit && !task.isCompleted){
+            updateHabitWhenComplete(task, true )
+        }
+        else if(task.isCompleted){
             updateTaskWhenComplete(task, false)
         }else if(!task.isCompleted){
             updateTaskWhenComplete(task, true)
@@ -79,8 +100,11 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
         }
     }
 
-    fun triggerAddTaskNav(){
+    fun triggerAddHabitNav(){
+        _navigateToAddHabitTrigger.value = true
+    }
 
+    fun triggerAddTaskNav(){
         _navigateToAddTaskTrigger.value = true
     }
 

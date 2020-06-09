@@ -33,7 +33,9 @@
     <dialog
         android:id="@+id/addTaskFragment"
         android:name="com.example.vendingmachine.tasks.taskdialog.AddTaskFragment"
-        android:label="AddTaskFragment" />
+        android:label="AddTaskFragment">
+        <argument android:name="habit_check" android:defaultValue="@null" />
+    </dialog>
     <dialog
         android:id="@+id/viewTaskFragment"
         android:name="com.example.vendingmachine.tasks.taskdialog.ViewTaskFragment"
