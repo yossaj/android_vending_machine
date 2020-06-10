@@ -53,6 +53,8 @@ dependencies {
 //    third-party
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.microsoft.appcenter:appcenter-analytics:$appCenterSdkVersion"
+    implementation "com.microsoft.appcenter:appcenter-crashes:$appCenterSdkVersion"
 
 //    test
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"

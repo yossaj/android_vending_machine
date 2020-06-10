@@ -21,57 +21,67 @@ class AddTaskFragment : DialogFragment(){
 
         val application = requireNotNull(this.activity).application
         val datasource = TaskDatabase.getInstance(application)
+        val habitBool = args.habitCheck.equals(getString(R.string.habit))
+        val trashBool = args.habitCheck.equals(getString(R.string.delete_all))
 
         val viewmodel by lazy {
             val factory = AddTaskViewModelFactory(datasource)
             ViewModelProviders.of(this, factory).get<AddTaskViewModel>()
         }
-        val habitBool = args.habitCheck.equals(getString(R.string.habit))
-        val trashBool = args.habitCheck.equals(getString(R.string.delete_all))
 
         if(habitBool){
-            val dialog = MaterialDialog(requireContext()).show {
-                customView(R.layout.dialog_add_task)
-                title_text_layout.hint = "Title of Habit"
-                note_text_layout.hint = "Notes on Habit"
-
-                positiveButton {
-                    val title: String = title_text.editableText.toString()
-                    val note: String = note_text.editableText.toString()
-                    val currentTask = Task(title, note, true)
-                    viewmodel._currentNewTask.value = currentTask
-                    viewmodel.addTask()
-                }
-            }
-            return dialog
-
+            return addHabitDialog(viewmodel)
         }else if(trashBool){
-            val dialog = MaterialDialog(requireContext()).show {
-                message(text = getString(R.string.delete_all_message))
-                positiveButton(text = "Delete All"){ dialog ->
-                    viewmodel.deleteAllTasks()
-
-                }
-                negativeButton(text = "Dismiss")
-            }
-            return dialog
-
+            return deleteAllDialog(viewmodel)
         }else {
-            val dialog = MaterialDialog(requireContext()).show {
-                customView(R.layout.dialog_add_task)
-                title_text_layout.hint = "Title of Task"
-                note_text_layout.hint = "Notes on Task"
-
-                positiveButton {
-                    val title: String = title_text.editableText.toString()
-                    val note: String = note_text.editableText.toString()
-                    val currentTask = Task(title, note)
-                    viewmodel._currentNewTask.value = currentTask
-                    viewmodel.addTask()
-                }
-            }
-            return dialog
+            return addTaskDialog(viewmodel)
         }
+    }
+
+    private fun addTaskDialog(viewmodel: AddTaskViewModel): MaterialDialog {
+        val dialog = MaterialDialog(requireContext()).show {
+            customView(R.layout.dialog_add_task)
+            title_text_layout.hint = "Title of Task"
+            note_text_layout.hint = "Notes on Task"
+
+            positiveButton {
+                val title: String = title_text.editableText.toString()
+                val note: String = note_text.editableText.toString()
+                val currentTask = Task(title, note)
+                viewmodel._currentNewTask.value = currentTask
+                viewmodel.addTask()
+            }
+        }
+        return dialog
+    }
+
+    private fun deleteAllDialog(viewmodel: AddTaskViewModel): MaterialDialog {
+        val dialog = MaterialDialog(requireContext()).show {
+            message(text = getString(R.string.delete_all_message))
+            positiveButton(text = "Delete All") { dialog ->
+                viewmodel.deleteAllTasks()
+
+            }
+            negativeButton(text = "Dismiss")
+        }
+        return dialog
+    }
+
+    private fun addHabitDialog(viewmodel: AddTaskViewModel): MaterialDialog {
+        val dialog = MaterialDialog(requireContext()).show {
+            customView(R.layout.dialog_add_task)
+            title_text_layout.hint = "Title of Habit"
+            note_text_layout.hint = "Notes on Habit"
+
+            positiveButton {
+                val title: String = title_text.editableText.toString()
+                val note: String = note_text.editableText.toString()
+                val currentTask = Task(title, note, true)
+                viewmodel._currentNewTask.value = currentTask
+                viewmodel.addTask()
+            }
+        }
+        return dialog
     }
 
 }

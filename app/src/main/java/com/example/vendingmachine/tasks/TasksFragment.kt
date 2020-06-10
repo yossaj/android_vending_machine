@@ -8,10 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
-import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.databinding.FragmentTasksBinding
-import com.example.vendingmachine.home.HomeFragmentDirections
 
 class TasksFragment : Fragment(){
 

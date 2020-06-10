@@ -1,7 +1,5 @@
 package com.example.vendingmachine.tasks
 
-import android.view.View
-import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

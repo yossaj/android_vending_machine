@@ -10,7 +10,9 @@
         android:id="@+id/view_task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_space"
         app:layout_constraintBottom_toTopOf="@+id/view_task_note"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +22,8 @@
         android:id="@+id/view_task_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginStart="@dimen/medium_space"
         app:layout_constraintBottom_toTopOf="@+id/delete_item_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,7 +32,9 @@
         android:id="@+id/delete_item_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete this task"
+        android:text="@string/delete_this_task"
+        android:background="@drawable/delete_button"
+        android:textColor="@color/colorAccentFaded"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
