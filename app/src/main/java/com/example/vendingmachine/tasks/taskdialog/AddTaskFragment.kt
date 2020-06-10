@@ -47,7 +47,6 @@ class AddTaskFragment : DialogFragment(){
 
         }else if(trashBool){
             val dialog = MaterialDialog(requireContext()).show {
-                title(R.string.delete_all)
                 message(text = getString(R.string.delete_all_message))
                 positiveButton(text = "Delete All"){ dialog ->
                     viewmodel.deleteAllTasks()
