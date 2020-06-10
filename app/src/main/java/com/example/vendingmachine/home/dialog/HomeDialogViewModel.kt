@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.vendingmachine.network.APIService
+import com.example.vendingmachine.data.network.APIService
 import kotlinx.coroutines.*
 
 class HomeDialogViewModel(val apiKey: String) : ViewModel(){

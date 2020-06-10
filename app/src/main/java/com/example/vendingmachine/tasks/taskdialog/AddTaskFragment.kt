@@ -27,6 +27,7 @@ class AddTaskFragment : DialogFragment(){
             ViewModelProviders.of(this, factory).get<AddTaskViewModel>()
         }
         val habitBool = args.habitCheck.equals(getString(R.string.habit))
+        val trashBool = args.habitCheck.equals(getString(R.string.delete_all))
 
         if(habitBool){
             val dialog = MaterialDialog(requireContext()).show {
@@ -41,6 +42,18 @@ class AddTaskFragment : DialogFragment(){
                     viewmodel._currentNewTask.value = currentTask
                     viewmodel.addTask()
                 }
+            }
+            return dialog
+
+        }else if(trashBool){
+            val dialog = MaterialDialog(requireContext()).show {
+                title(R.string.delete_all)
+                message(text = getString(R.string.delete_all_message))
+                positiveButton(text = "Delete All"){ dialog ->
+                    viewmodel.deleteAllTasks()
+
+                }
+                negativeButton(text = "Dismiss")
             }
             return dialog
 

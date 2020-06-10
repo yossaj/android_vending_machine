@@ -20,4 +20,7 @@
     <string name="no_funds">Insufficient Funds</string>
     <string name="task_fragment_title">Tasks And Habits</string>
     <string name="habit">habit</string>
+    <string name="delete_all">Delete All</string>
+
+    <string name="delete_all_message">Are you sure you want to delete all tasks and habits? </string>
 </resources>

@@ -1,12 +1,9 @@
 package com.example.vendingmachine.home
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.vendingmachine.network.APIService
-import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel(){
 

@@ -2,9 +2,7 @@ package com.example.vendingmachine.tasks
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +11,7 @@ import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.databinding.FragmentTasksBinding
+import com.example.vendingmachine.home.HomeFragmentDirections
 
 class TasksFragment : Fragment(){
 
@@ -24,6 +23,7 @@ class TasksFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         requireActivity().setTitle(getString(R.string.task_fragment_title))
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
@@ -91,5 +91,22 @@ class TasksFragment : Fragment(){
     fun incrementCoinCount(){
         coinCount = coinCount + 1
         sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.task_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when(id){
+            R.id.trash -> {
+                this.findNavController()
+                    .navigate(TasksFragmentDirections
+                        .actionTasksFragmentToAddTaskFragment(getString(R.string.delete_all)))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

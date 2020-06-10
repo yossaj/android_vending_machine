@@ -51,6 +51,18 @@ class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
         }
     }
 
+    fun deleteAllTasks(){
+        uiScope.launch {
+            deleteAll()
+        }
+    }
+
+    suspend fun deleteAll(){
+        withContext(Dispatchers.IO) {
+            datasource.taskDao.deleteAllTasks()
+        }
+    }
+
 
     suspend fun insert(task: Task) {
         withContext(Dispatchers.IO){

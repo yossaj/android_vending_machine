@@ -88,17 +88,7 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
         }
     }
 
-    fun deleteAllTasks(){
-        uiScope.launch {
-            deleteAll()
-        }
-    }
 
-    suspend fun deleteAll(){
-        withContext(Dispatchers.IO) {
-            datasource.taskDao.deleteAllTasks()
-        }
-    }
 
     fun triggerAddHabitNav(){
         _navigateToAddHabitTrigger.value = true

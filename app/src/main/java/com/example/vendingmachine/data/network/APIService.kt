@@ -1,4 +1,4 @@
-package com.example.vendingmachine.network
+package com.example.vendingmachine.data.network
 
 import org.json.JSONArray
 import org.json.JSONObject
