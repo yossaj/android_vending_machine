@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +13,6 @@ import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.jetbrains.annotations.NotNull
 
 class HomeFragment : Fragment(){
 
@@ -100,16 +98,16 @@ class HomeFragment : Fragment(){
     val dragListener = View.OnDragListener{view, event ->
         when(event.action){
             DragEvent.ACTION_DRAG_ENTERED -> {
-                view.invalidate()
+//                view.invalidate()
                 true
             }
             DragEvent.ACTION_DRAG_LOCATION -> true
             DragEvent.ACTION_DRAG_EXITED -> {
-                view.invalidate()
+//                view.invalidate()
                 true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                view.invalidate()
+//                view.invalidate()
                 if(coinCount > 0) {
                     coins.visibility = View.VISIBLE
                 }

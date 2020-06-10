@@ -15,8 +15,5 @@ class MainActivity : AppCompatActivity() {
             application, "2dcf9351-a14e-40bc-9f5d-af0085f16d1c",
             Analytics::class.java, Crashes::class.java
         )
-
     }
-
-
 }
