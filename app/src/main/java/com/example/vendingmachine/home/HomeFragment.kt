@@ -68,11 +68,13 @@ class HomeFragment : Fragment(){
             val dragShadowBuilder = View.DragShadowBuilder(it)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 it.startDragAndDrop(null, dragShadowBuilder, it, 0)
+                it.visibility =  View.INVISIBLE
+            }else{
+                viewModel.addToBalanceAndConvertToString()
+                viewModel.reduceCoinCountByOne()
             }
-            it.visibility =  View.INVISIBLE
             true
         }
-
         return binding.root
     }
 
@@ -98,16 +100,16 @@ class HomeFragment : Fragment(){
     val dragListener = View.OnDragListener{view, event ->
         when(event.action){
             DragEvent.ACTION_DRAG_ENTERED -> {
-//                view.invalidate()
+                view.invalidate()
                 true
             }
             DragEvent.ACTION_DRAG_LOCATION -> true
             DragEvent.ACTION_DRAG_EXITED -> {
-//                view.invalidate()
+                view.invalidate()
                 true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-//                view.invalidate()
+                view.invalidate()
                 if(coinCount > 0) {
                     coins.visibility = View.VISIBLE
                 }
