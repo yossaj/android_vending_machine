@@ -24,4 +24,6 @@
 
     <string name="delete_all_message">Are you sure you want to delete all tasks and habits? </string>
     <string name="delete_this_task">Delete this task</string>
+    <string name="habit_worker_error_tag">Habit reset</string>
+    <string name="habit_worker_error_message">Couldn\'t access database</string>
 </resources>
