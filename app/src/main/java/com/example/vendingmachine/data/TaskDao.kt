@@ -12,6 +12,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE entryid = :taskId")
     fun getTaskById(taskId: String): Task
 
+    @Query("SELECT * FROM tasks WHERE habit = 1 AND complete = 1")
+    fun getCompleteHabits() : List<Task>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTask(task: Task)

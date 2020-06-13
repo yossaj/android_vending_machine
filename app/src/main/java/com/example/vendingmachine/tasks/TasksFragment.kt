@@ -27,7 +27,7 @@ class TasksFragment : Fragment(){
         getCoinCount()
         val application = requireNotNull(this.activity).application
         val datasource = TaskDatabase.getInstance(application)
-        val factory = TaskViewModelFactory(datasource)
+        val factory = TaskViewModelFactory(datasource, application)
         val viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel::class.java)
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
@@ -37,6 +37,7 @@ class TasksFragment : Fragment(){
         })
 
         binding.taskHabitList.adapter = adapter
+        viewModel.uncheckDailyHabits()
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
             it?.let {

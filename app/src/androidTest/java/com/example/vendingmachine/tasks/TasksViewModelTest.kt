@@ -7,13 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.getOrAwaitValueAndroid
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert
-import org.junit.After
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -37,7 +31,7 @@ class TasksViewModelTest {
         database.taskDao.insertTask(tasks[0])
         database.taskDao.insertTask(tasks[1])
         database.taskDao.insertTask(tasks[2])
-        tasksViewModel = TasksViewModel(database)
+        tasksViewModel = TasksViewModel(database, application)
 
     }
 

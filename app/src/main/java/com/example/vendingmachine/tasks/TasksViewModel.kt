@@ -1,16 +1,28 @@
 package com.example.vendingmachine.tasks
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
+import com.example.vendingmachine.workers.DailyHabitReset
 import kotlinx.coroutines.*
+import java.sql.Time
+import java.util.concurrent.TimeUnit
 
-class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
+class TasksViewModel(
+    val datasource: TaskDatabase,
+    application: Application
+) : ViewModel(){
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val workManager = WorkManager.getInstance(application)
 
     var allTasks = datasource.taskDao.getTasks()
 
@@ -38,6 +50,17 @@ class TasksViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     val currentTask : LiveData<Task>
         get() = _currentTask
+
+
+    internal fun uncheckDailyHabits(){
+        val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(60, TimeUnit.SECONDS)
+        val builtRequest = resetHabitRequest.addTag("Reset Habit Request").build()
+        workManager
+            .enqueueUniquePeriodicWork(
+                "reset_habit_worker",
+                ExistingPeriodicWorkPolicy.KEEP,
+                builtRequest)
+    }
 
 
 
