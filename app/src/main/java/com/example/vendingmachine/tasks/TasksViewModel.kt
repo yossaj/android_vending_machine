@@ -53,13 +53,9 @@ class TasksViewModel(
 
 
     internal fun uncheckDailyHabits(){
-        val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(60, TimeUnit.SECONDS)
+        val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
         val builtRequest = resetHabitRequest.addTag("Reset Habit Request").build()
-        workManager
-            .enqueueUniquePeriodicWork(
-                "reset_habit_worker",
-                ExistingPeriodicWorkPolicy.KEEP,
-                builtRequest)
+        workManager.enqueue(builtRequest)
     }
 
 
@@ -85,6 +81,7 @@ class TasksViewModel(
         var updateHabit = task
         updateHabit.habitCount += 1
         updateHabit.isCompleted = boolean
+        updateHabit.updatedTime = System.currentTimeMillis()
         if(boolean){incrementCoinSwitch()}
         uiScope.launch {
             withContext(Dispatchers.IO) {
