@@ -22,25 +22,27 @@
             android:text="Everything for just $1!!!"
             android:textColor="@color/colorAccent"
             android:textSize="32dp"
+            app:layout_constraintBottom_toTopOf="@id/grid_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <GridLayout
             android:id="@+id/grid_background"
             android:layout_width="wrap_content"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/medium_space"
             android:layout_marginStart="@dimen/large_spacing"
             android:layout_marginEnd="@dimen/large_spacing"
             android:background="@drawable/grid_background"
             android:columnCount="3"
             android:padding="@dimen/medium_space"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.1">
+            >
 
             <ImageView
                 android:id="@+id/cat_button"
@@ -71,8 +73,8 @@
                 android:src="@drawable/coo" />
 
             <ImageView
-                style="@style/ImageView.Vending"
                 android:id="@+id/fox_button"
+                style="@style/ImageView.Vending"
                 android:contentDescription="@string/fox"
                 android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
                 android:src="@drawable/foxy" />
@@ -95,9 +97,12 @@
             android:layout_marginTop="@dimen/medium_space"
             android:layout_marginEnd="@dimen/large_spacing"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/coin_drag_destination"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/grid_background">
+            app:layout_constraintTop_toBottomOf="@+id/grid_background"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintVertical_chainStyle="packed">
 
             <ImageView
                 android:id="@+id/coins"
@@ -110,31 +115,30 @@
                 android:id="@+id/no_funds_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:background="@drawable/inverted_button_shape"
+                android:orientation="vertical"
                 android:padding="8dp"
-                android:orientation="vertical">
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/no_funds_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:textSize="28sp"
-                android:text="OUT OF COINS"/>
+                <TextView
+                    android:id="@+id/no_funds_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="OUT OF COINS"
+                    android:textSize="28sp"
+                    android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/no_funds_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textSize="18sp"
-                android:layout_gravity="center"
-                android:text="Add and complete tasks to collect coins."/>
+                <TextView
+                    android:id="@+id/no_funds_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Add and complete tasks to collect coins."
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -145,32 +149,32 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/large_spacing"
             android:layout_marginEnd="@dimen/large_spacing"
+            android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@id/linearLayout">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Insert Coin 》》"
-                android:layout_marginEnd="@dimen/medium_space"/>
+                android:layout_marginEnd="@dimen/medium_space"
+                android:text="Insert Coin 》》" />
 
             <TextView
                 android:id="@+id/balance_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{homeViewModel.balanceString}"
-                android:textSize="64dp"
-                />
+                android:textSize="64dp" />
 
             <TextView
-                android:layout_marginStart="@dimen/medium_space"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="《《 Insert Coin"/>
+                android:layout_marginStart="@dimen/medium_space"
+                android:text="《《 Insert Coin" />
 
         </LinearLayout>
 
