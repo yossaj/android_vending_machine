@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Vending Machine</string>
     <string name="cat">Cat</string>
-    <string name="boxer">Boxer</string>
+    <string name="boxer">Advice</string>
     <string name="mustache">Mustache</string>
     <string name="bull">Bull</string>
     <string name="fox">Fox</string>

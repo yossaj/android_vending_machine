@@ -29,7 +29,6 @@ object APIService{
             "Bull" -> {
                 val jsonBull = JSONObject(jsonResult)
                 return jsonBull.getString("phrase")
-
             }
             "Cat" ->{
                 val jsonCatArray = JSONArray(jsonResult)
@@ -39,6 +38,11 @@ object APIService{
             "Dog" ->{
                 val jsonDog = JSONObject(jsonResult)
                 return jsonDog.getString("message")
+            }
+            "Advice" ->{
+                val jsonAdviceObj = JSONObject(jsonResult)
+                val jsonAdvice = JSONObject(jsonAdviceObj.getString("slip"))
+                return jsonAdvice.getString("advice")
             }
             else -> return jsonResult
         }
