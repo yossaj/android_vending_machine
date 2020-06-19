@@ -24,6 +24,7 @@ class TasksViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val workManager = WorkManager.getInstance(application)
 
+
     var allTasks = datasource.taskDao.getTasks()
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()

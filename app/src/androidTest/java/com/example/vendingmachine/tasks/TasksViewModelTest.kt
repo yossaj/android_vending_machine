@@ -1,5 +1,6 @@
 package com.example.vendingmachine.tasks
 
+import android.app.Application
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
@@ -7,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.getOrAwaitValueAndroid
+import io.mockk.mockk
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Test
 
@@ -31,7 +33,8 @@ class TasksViewModelTest {
         database.taskDao.insertTask(tasks[0])
         database.taskDao.insertTask(tasks[1])
         database.taskDao.insertTask(tasks[2])
-        tasksViewModel = TasksViewModel(database, application)
+
+        tasksViewModel = TasksViewModel(database, application = mockk<Application>())
 
     }
 

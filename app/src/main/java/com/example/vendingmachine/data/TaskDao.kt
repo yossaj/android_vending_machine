@@ -14,7 +14,9 @@ interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE habit = 1 AND complete = 1")
     fun getCompleteHabits() : List<Task>
-
+//
+    @Query("SELECT title FROM tasks WHERE complete = 0")
+    fun getIncompleteTasksTitles() : List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTask(task: Task)
@@ -30,4 +32,5 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE complete = 1")
     fun deleteCompletedTasks(): Int
+
 }
