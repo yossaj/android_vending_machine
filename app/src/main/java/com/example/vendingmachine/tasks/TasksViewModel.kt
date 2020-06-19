@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.workers.DailyHabitReset
+import com.example.vendingmachine.workers.NotificationWorker
 import kotlinx.coroutines.*
 import java.sql.Time
 import java.util.concurrent.TimeUnit
@@ -57,6 +58,10 @@ class TasksViewModel(
         val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
         val builtRequest = resetHabitRequest.addTag("Reset Habit Request").build()
         workManager.enqueue(builtRequest)
+
+        val notificationTest = OneTimeWorkRequestBuilder<NotificationWorker>()
+        val buildNotificationRequest = notificationTest.addTag("Test Notification").build()
+        workManager.enqueue(buildNotificationRequest)
     }
 
 

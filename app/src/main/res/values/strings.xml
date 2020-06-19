@@ -26,4 +26,5 @@
     <string name="delete_this_task">Delete this task</string>
     <string name="habit_worker_error_tag">Habit reset</string>
     <string name="habit_worker_error_message">Couldn\'t access database</string>
+    <string name="remaining_tasks_id">REMAINING_TASKS_CHANNEL</string>
 </resources>

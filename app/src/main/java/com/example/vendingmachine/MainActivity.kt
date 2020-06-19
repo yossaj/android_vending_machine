@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
             Analytics::class.java, Crashes::class.java
         )
 
-        createChannel("REMAINING_TASKS", "Remaining Tasks", this)
+        createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
     }
 
     fun createChannel(channelId: String, channelName: String, activity: Activity) {
