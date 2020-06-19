@@ -59,9 +59,7 @@ class TasksViewModel(
         val builtRequest = resetHabitRequest.addTag("Reset Habit Request").build()
         workManager.enqueue(builtRequest)
 
-        val notificationTest = OneTimeWorkRequestBuilder<NotificationWorker>()
-        val buildNotificationRequest = notificationTest.addTag("Test Notification").build()
-        workManager.enqueue(buildNotificationRequest)
+
     }
 
 
