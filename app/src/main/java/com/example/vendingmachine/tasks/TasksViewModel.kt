@@ -54,16 +54,6 @@ class TasksViewModel(
         get() = _currentTask
 
 
-    internal fun uncheckDailyHabits(){
-        val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
-        val builtRequest = resetHabitRequest.addTag("Reset Habit Request").build()
-        workManager.enqueue(builtRequest)
-
-
-    }
-
-
-
     fun incrementCoinSwitch(){
         _coinIncrementSwitch.value = true
     }

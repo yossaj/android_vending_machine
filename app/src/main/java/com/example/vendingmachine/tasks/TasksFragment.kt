@@ -37,7 +37,6 @@ class TasksFragment : Fragment(){
         })
 
         binding.taskHabitList.adapter = adapter
-        viewModel.uncheckDailyHabits()
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
             it?.let {

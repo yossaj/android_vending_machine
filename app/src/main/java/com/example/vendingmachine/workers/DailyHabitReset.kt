@@ -20,16 +20,11 @@ class DailyHabitReset(context: Context, params: WorkerParameters) : Worker(conte
 
             val checkedHabits = datasource.taskDao.getCompleteHabits()
 
-            val currentTime = System.currentTimeMillis()
-            val uncheckDely = TimeUnit.HOURS.toMillis(20)
-
             checkedHabits.forEach { it ->
-                val unchecktime = (it.updatedTime + uncheckDely)
-                if (currentTime >= unchecktime) {
                     it.isCompleted = false
                     datasource.taskDao.updateTask(it)
-                }
             }
+
             return Result.success()
         } catch (throwable: Throwable) {
             Log.e(appContext.getString(R.string.habit_worker_error_tag), appContext.getString(R.string.habit_worker_error_message), throwable)
