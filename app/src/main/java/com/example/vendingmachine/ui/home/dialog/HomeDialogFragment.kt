@@ -40,11 +40,9 @@ class HomeDialogFragment : DialogFragment(){
                         .placeholder(R.drawable.progress_animation)
                         .error(R.drawable.error_dog)
                         .into(dialog.dialog_image)
-
                 }else{
                     dialog.dialog_text_view.text = it
                 }
-
             }
         })
         return  dialog

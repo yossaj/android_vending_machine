@@ -23,7 +23,6 @@ class HomeViewModel : ViewModel(){
         get() = _balanceString
 
     val _apiKey = MutableLiveData<String>()
-
     val apiKey : LiveData<String>
         get() = _apiKey
 

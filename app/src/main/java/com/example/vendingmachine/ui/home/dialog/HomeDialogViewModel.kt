@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.vendingmachine.data.network.APIService
+import com.example.vendingmachine.data.network.ApiService
+import com.example.vendingmachine.data.network.RetrofitBuilder
+import com.example.vendingmachine.utils.UrlParser
 import kotlinx.coroutines.*
 
 class HomeDialogViewModel(val apiKey: String) : ViewModel(){
@@ -17,12 +19,13 @@ class HomeDialogViewModel(val apiKey: String) : ViewModel(){
     val responseString : LiveData<String?>
         get() = _responseString
 
-
     fun getVendedApi(context : Context) {
+        val url = UrlParser.selectAPI(apiKey)
         coroutineScope.launch {
-            val response = APIService.vend(apiKey)
+            val service = RetrofitBuilder.buildServiceFor(url)
+            val data = service.getCatPic()
             withContext(Dispatchers.Main) {
-                _responseString.value = response
+                _responseString.value = data[0].url
             }
         }
     }
