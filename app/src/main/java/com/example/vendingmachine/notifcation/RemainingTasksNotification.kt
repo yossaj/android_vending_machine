@@ -31,7 +31,7 @@ fun NotificationManager.sendNotificaiton(titleText : String, message : String,ap
             R.drawable.kanye,
             applicationContext.getString(R.string.remaining_tasks_id),
             contentPendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
     notify(1, builder.build())
 
 }

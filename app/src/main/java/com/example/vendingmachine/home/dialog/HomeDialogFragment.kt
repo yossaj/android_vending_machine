@@ -42,7 +42,6 @@ class HomeDialogFragment : DialogFragment(){
                         .into(dialog.dialog_image)
 
                 }else{
-
                     dialog.dialog_text_view.text = it
                 }
 

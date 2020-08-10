@@ -28,7 +28,7 @@ class HomeFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater)
-
+        requireActivity().setTitle(getString(R.string.app_name))
         setHasOptionsMenu(true)
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
