@@ -1,4 +1,4 @@
-package com.example.vendingmachine.tasks.taskdialog
+package com.example.vendingmachine.ui.tasks.taskdialog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

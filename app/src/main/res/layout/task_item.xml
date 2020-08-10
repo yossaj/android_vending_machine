@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.vendingmachine.tasks.TasksViewModel" />
+            type="com.example.vendingmachine.ui.tasks.TasksViewModel" />
 
     </data>
 

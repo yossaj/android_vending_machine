@@ -1,4 +1,4 @@
-package com.example.vendingmachine.tasks
+package com.example.vendingmachine.ui.tasks
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

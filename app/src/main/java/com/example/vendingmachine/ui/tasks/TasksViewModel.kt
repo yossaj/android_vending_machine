@@ -1,20 +1,13 @@
-package com.example.vendingmachine.tasks
+package com.example.vendingmachine.ui.tasks
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
-import com.example.vendingmachine.workers.DailyHabitReset
-import com.example.vendingmachine.workers.NotificationWorker
 import kotlinx.coroutines.*
-import java.sql.Time
-import java.util.concurrent.TimeUnit
 
 class TasksViewModel(
     val datasource: TaskDatabase,

@@ -1,4 +1,4 @@
-package com.example.vendingmachine.home.dialog
+package com.example.vendingmachine.ui.home.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface

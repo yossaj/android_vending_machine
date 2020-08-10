@@ -1,4 +1,4 @@
-package com.example.vendingmachine.home.dialog
+package com.example.vendingmachine.ui.home.dialog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

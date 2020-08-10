@@ -1,4 +1,4 @@
-package com.example.vendingmachine.tasks
+package com.example.vendingmachine.ui.tasks
 
 import android.content.SharedPreferences
 import android.os.Bundle

@@ -1,9 +1,7 @@
-package com.example.vendingmachine.home
+package com.example.vendingmachine.ui.home
 
 
 import android.content.Context
-import android.view.View
-import android.widget.ImageView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.vendingmachine.getOrAwaitValue
 import org.hamcrest.CoreMatchers.`is`

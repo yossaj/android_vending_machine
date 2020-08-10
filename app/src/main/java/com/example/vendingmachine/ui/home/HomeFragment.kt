@@ -1,4 +1,4 @@
-package com.example.vendingmachine.home
+package com.example.vendingmachine.ui.home
 
 import android.content.SharedPreferences
 import android.os.Build

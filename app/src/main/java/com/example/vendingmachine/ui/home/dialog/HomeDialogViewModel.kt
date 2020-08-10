@@ -1,4 +1,4 @@
-package com.example.vendingmachine.home.dialog
+package com.example.vendingmachine.ui.home.dialog
 
 import android.content.Context
 import androidx.lifecycle.LiveData

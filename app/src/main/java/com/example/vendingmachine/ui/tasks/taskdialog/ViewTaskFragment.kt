@@ -1,4 +1,4 @@
-package com.example.vendingmachine.tasks.taskdialog
+package com.example.vendingmachine.ui.tasks.taskdialog
 
 import android.app.Dialog
 import android.os.Bundle
