@@ -24,23 +24,25 @@ class HomeDialogViewModel(val apiKey: String) : ViewModel(){
         coroutineScope.launch {
             val data = RetrofitBuilder.buildServiceFor(url)
             withContext(Dispatchers.Main) {
-                when(apiKey){
-                    "Cat" ->
-                        _responseString.value = data.getCatPic()[0].url
-                    "Dog" ->
-                        _responseString.value = data.getDogPic().message
-                    "Mustache" ->
-                        _responseString.value = data.getSwansonWisdom()[0]
-                    "Advice" ->
-                        _responseString.value = data.getAdvice().slip.advice
-                    "Bull" ->
-                        _responseString.value = data.getBull().phrase
-                }
-
+                filterResults(data)
             }
         }
     }
 
+    private suspend fun filterResults(data: ApiService) {
+        when (apiKey) {
+            "Cat" ->
+                _responseString.value = data.getCatPic()[0].url
+            "Dog" ->
+                _responseString.value = data.getDogPic().message
+            "Mustache" ->
+                _responseString.value = data.getSwansonWisdom()[0]
+            "Advice" ->
+                _responseString.value = data.getAdvice().slip.advice
+            "Bull" ->
+                _responseString.value = data.getBull().phrase
+        }
+    }
 
 
 }
