@@ -11,14 +11,12 @@ import androidx.test.espresso.action.GeneralSwipeAction
 import androidx.test.espresso.action.Press
 import androidx.test.espresso.action.Swipe
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
-import com.example.vendingmachine.tasks.TasksAdapter
+import com.example.vendingmachine.ui.tasks.TasksAdapter
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Before

@@ -4,7 +4,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.vendingmachine.home.HomeFragment"
+        android:name="com.example.vendingmachine.ui.home.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_homeDialogFragment"
@@ -15,13 +15,13 @@
     </fragment>
     <dialog
         android:id="@+id/homeDialogFragment"
-        android:name="com.example.vendingmachine.home.dialog.HomeDialogFragment"
+        android:name="com.example.vendingmachine.ui.home.dialog.HomeDialogFragment"
         android:label="HomeDialogFragment">
         <argument android:name="apikey" android:defaultValue="@null"/>
     </dialog>
     <fragment
         android:id="@+id/tasksFragment"
-        android:name="com.example.vendingmachine.tasks.TasksFragment"
+        android:name="com.example.vendingmachine.ui.tasks.TasksFragment"
         android:label="TasksFragment" >
         <action
             android:id="@+id/action_tasksFragment_to_addTaskFragment"
@@ -32,13 +32,13 @@
     </fragment>
     <dialog
         android:id="@+id/addTaskFragment"
-        android:name="com.example.vendingmachine.tasks.taskdialog.AddTaskFragment"
+        android:name="com.example.vendingmachine.ui.tasks.taskdialog.AddTaskFragment"
         android:label="AddTaskFragment">
         <argument android:name="habit_check" android:defaultValue="@null" />
     </dialog>
     <dialog
         android:id="@+id/viewTaskFragment"
-        android:name="com.example.vendingmachine.tasks.taskdialog.ViewTaskFragment"
+        android:name="com.example.vendingmachine.ui.tasks.taskdialog.ViewTaskFragment"
         android:label="ViewTaskFragment">
         <argument android:name="task_id" android:defaultValue="@null"/>
     </dialog>
