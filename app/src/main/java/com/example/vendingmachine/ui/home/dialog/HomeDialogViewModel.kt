@@ -22,12 +22,25 @@ class HomeDialogViewModel(val apiKey: String) : ViewModel(){
     fun getVendedApi(context : Context) {
         val url = UrlParser.selectAPI(apiKey)
         coroutineScope.launch {
-            val service = RetrofitBuilder.buildServiceFor(url)
-            val data = service.getCatPic()
+            val data = RetrofitBuilder.buildServiceFor(url)
             withContext(Dispatchers.Main) {
-                _responseString.value = data[0].url
+                when(apiKey){
+                    "Cat" ->
+                        _responseString.value = data.getCatPic()[0].url
+                    "Dog" ->
+                        _responseString.value = data.getDogPic().message
+                    "Mustache" ->
+                        _responseString.value = data.getSwansonWisdom()[0]
+                    "Advice" ->
+                        _responseString.value = data.getAdvice().slip.advice
+                    "Bull" ->
+                        _responseString.value = data.getBull().phrase
+                }
+
             }
         }
     }
+
+
 
 }
