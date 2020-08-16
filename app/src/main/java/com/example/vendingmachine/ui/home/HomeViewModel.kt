@@ -1,11 +1,19 @@
 package com.example.vendingmachine.ui.home
 
 import android.view.View
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.example.vendingmachine.data.network.RetrofitBuilder
+import com.example.vendingmachine.data.repository.ApiRepository
+import kotlinx.coroutines.*
 
-class HomeViewModel : ViewModel(){
+class HomeViewModel@ViewModelInject constructor(
+    private val apiRepository: ApiRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(){
 
 
     var balance = 0
@@ -35,12 +43,9 @@ class HomeViewModel : ViewModel(){
         _balanceString.value = balance.toString()
     }
 
-    init {
-        _balanceString.value = zeroFunds
-    }
-
 
     fun setApiKey(view : View){
+        resetAPIKey()
         val key = view.contentDescription.toString()
         _apiKey.value = key
     }
@@ -66,6 +71,45 @@ class HomeViewModel : ViewModel(){
             }
         }
 
+    }
+
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+
+    val _responseString = MutableLiveData<String?>()
+
+    val responseString : LiveData<String?>
+        get() = _responseString
+
+    fun getVendedApi() {
+        coroutineScope.launch {
+            val data = filterAndMakeRequest()
+            withContext(Dispatchers.Main){
+                _responseString.postValue(data)
+            }
+        }
+    }
+
+    private suspend fun filterAndMakeRequest() : String {
+        when (apiKey.value) {
+            "Cat" ->
+                return RetrofitBuilder.buildServiceFor().getCatPic()[0].url
+            "Dog" ->
+                return RetrofitBuilder.buildServiceFor().getDogPic().message
+            "Mustache" ->
+                return RetrofitBuilder.buildServiceFor().getSwansonWisdom()[0]
+            "Advice" ->
+                return  RetrofitBuilder.buildServiceFor().getAdvice().slip.advice
+            "Bull" ->
+                return RetrofitBuilder.buildServiceFor().getBull().phrase
+            else ->
+                return "ERROR : Unable to retrieve data"
+        }
+    }
+
+
+    init {
+        _balanceString.value = zeroFunds
     }
 
 }

@@ -19,28 +19,29 @@ class HomeDialogViewModel(val apiKey: String) : ViewModel(){
     val responseString : LiveData<String?>
         get() = _responseString
 
-    fun getVendedApi(context : Context) {
-        val url = UrlParser.selectAPI(apiKey)
+    fun getVendedApi() {
         coroutineScope.launch {
-            val data = RetrofitBuilder.buildServiceFor(url)
-            withContext(Dispatchers.Main) {
-                filterResults(data)
+            val data = filterAndMakeRequest()
+            withContext(Dispatchers.Main){
+                _responseString.postValue(data)
             }
         }
     }
 
-    private suspend fun filterResults(data: ApiService) {
+    private suspend fun filterAndMakeRequest() : String {
         when (apiKey) {
             "Cat" ->
-                _responseString.value = data.getCatPic()[0].url
+                return RetrofitBuilder.buildServiceFor().getCatPic()[0].url
             "Dog" ->
-                _responseString.value = data.getDogPic().message
+                return RetrofitBuilder.buildServiceFor().getDogPic().message
             "Mustache" ->
-                _responseString.value = data.getSwansonWisdom()[0]
+                return RetrofitBuilder.buildServiceFor().getSwansonWisdom()[0]
             "Advice" ->
-                _responseString.value = data.getAdvice().slip.advice
+                return  RetrofitBuilder.buildServiceFor().getAdvice().slip.advice
             "Bull" ->
-                _responseString.value = data.getBull().phrase
+                return RetrofitBuilder.buildServiceFor().getBull().phrase
+            else ->
+                return "ERROR : Unable to retrieve data"
         }
     }
 

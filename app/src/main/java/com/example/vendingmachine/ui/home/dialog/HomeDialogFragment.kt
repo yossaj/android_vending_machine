@@ -27,7 +27,7 @@ class HomeDialogFragment : DialogFragment(){
         }
 
         if(viewmodel.responseString.value == null) {
-            viewmodel.getVendedApi(requireContext())
+            viewmodel.getVendedApi()
         }
 
         val dialog = prepareCorrectDialog()

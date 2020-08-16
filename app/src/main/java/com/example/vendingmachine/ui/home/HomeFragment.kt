@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -16,11 +17,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(){
 
-    lateinit var viewModel: HomeViewModel
+    private val viewModel : HomeViewModel by activityViewModels<HomeViewModel>()
     lateinit var navController : NavController
     lateinit var sharedPreferences: SharedPreferences
     var coinCount = 0
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,6 @@ class HomeFragment : Fragment(){
         requireActivity().setTitle(getString(R.string.app_name))
         setHasOptionsMenu(true)
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
         navController = findNavController()
