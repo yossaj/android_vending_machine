@@ -18,6 +18,10 @@ class HomeViewModel@ViewModelInject constructor(
 
     var balance = 0
 
+    val _clicked = MutableLiveData<Boolean>()
+    val clicked : LiveData<Boolean>
+        get() = _clicked
+
     val zeroFunds = "000"
 
     val _numberOfCoins = MutableLiveData<Int>()
@@ -48,6 +52,11 @@ class HomeViewModel@ViewModelInject constructor(
         resetAPIKey()
         val key = view.contentDescription.toString()
         _apiKey.value = key
+        _clicked.postValue(true)
+    }
+
+    fun resetClicked(){
+        _clicked.postValue(false)
     }
 
     fun resetAPIKey(){
@@ -81,6 +90,10 @@ class HomeViewModel@ViewModelInject constructor(
     val responseString : LiveData<String?>
         get() = _responseString
 
+    fun resetResponse(){
+        _responseString.postValue(null)
+    }
+
     fun getVendedApi() {
         coroutineScope.launch {
             val data = filterAndMakeRequest()
@@ -106,6 +119,8 @@ class HomeViewModel@ViewModelInject constructor(
                 return "ERROR : Unable to retrieve data"
         }
     }
+
+
 
 
     init {

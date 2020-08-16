@@ -17,7 +17,6 @@
         android:id="@+id/homeDialogFragment"
         android:name="com.example.vendingmachine.ui.home.dialog.HomeDialogFragment"
         android:label="HomeDialogFragment">
-        <argument android:name="apikey" android:defaultValue="@null"/>
     </dialog>
     <fragment
         android:id="@+id/tasksFragment"

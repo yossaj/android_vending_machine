@@ -45,15 +45,14 @@ class HomeFragment : Fragment(){
             }
         })
 
-        viewModel.apiKey.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (viewModel.balance >= 100) {
+        viewModel.clicked.observe(viewLifecycleOwner, Observer {
+            if (it){
+                viewModel.resetResponse()
+                viewModel.resetClicked()
+                if (viewModel.balance >= 100 && !viewModel.apiKey.value.isNullOrBlank()) {
                     navController.navigate(
-                        HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment(
-                            it
-                        )
+                        HomeFragmentDirections.actionHomeFragmentToHomeDialogFragment()
                     )
-                    viewModel.resetAPIKey()
                     viewModel.updateDisplayedBalanceUponSale()
 
                 } else {
