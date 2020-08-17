@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object ApiRepositoryModule {
 
-
     @Singleton
     @Provides
     fun provideApiRepository(apiService: ApiService) : ApiRepository{

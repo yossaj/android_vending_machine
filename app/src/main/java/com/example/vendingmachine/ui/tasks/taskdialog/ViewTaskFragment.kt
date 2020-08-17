@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
@@ -12,24 +13,28 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.TaskDatabase
+import com.example.vendingmachine.ui.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.view_task_dialog.*
 
+@AndroidEntryPoint
 class ViewTaskFragment : DialogFragment(){
     val viewId : ViewTaskFragmentArgs by navArgs()
 
+    private val viewmodel : AddTaskViewModel by viewModels()
 
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val application = requireNotNull(this.activity).application
-        val datasource = TaskDatabase.getInstance(application)
-
-
-        val viewmodel by lazy {
-            val factory = AddTaskViewModelFactory(datasource)
-            ViewModelProviders.of(this, factory).get<AddTaskViewModel>()
-        }
+//        val application = requireNotNull(this.activity).application
+//        val datasource = TaskDatabase.getInstance(application)
+//
+//
+//        val viewmodel by lazy {
+//            val factory = AddTaskViewModelFactory(datasource)
+//            ViewModelProviders.of(this, factory).get<AddTaskViewModel>()
+//        }
 
         val taskid = viewId.taskId
 

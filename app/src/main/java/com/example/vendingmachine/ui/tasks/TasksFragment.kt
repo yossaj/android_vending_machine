@@ -3,17 +3,24 @@ package com.example.vendingmachine.ui.tasks
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.databinding.FragmentTasksBinding
+import com.example.vendingmachine.ui.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TasksFragment : Fragment(){
 
     lateinit var sharedPreferences: SharedPreferences
+    private val viewModel : TasksViewModel by viewModels()
+
     var coinCount = 0
 
     override fun onCreateView(
@@ -26,9 +33,9 @@ class TasksFragment : Fragment(){
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
         val application = requireNotNull(this.activity).application
-        val datasource = TaskDatabase.getInstance(application)
-        val factory = TaskViewModelFactory(datasource, application)
-        val viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel::class.java)
+//        val datasource = TaskDatabase.getInstance(application)
+//        val factory = TaskViewModelFactory(datasource, application)
+//        val viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel::class.java)
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
         val adapter = TasksAdapter(viewModel)

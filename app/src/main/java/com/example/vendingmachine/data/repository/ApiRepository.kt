@@ -16,7 +16,6 @@ class ApiRepository constructor(private val apiService: ApiService){
         _responseString.postValue(null)
     }
 
-
     val _apiKey = MutableLiveData<String>()
 
     fun setApi(key : String){
@@ -26,7 +25,6 @@ class ApiRepository constructor(private val apiService: ApiService){
     fun resetApiKey(){
         _apiKey.postValue(null)
     }
-
 
     fun getVendedApi() {
         coroutineScope.launch {

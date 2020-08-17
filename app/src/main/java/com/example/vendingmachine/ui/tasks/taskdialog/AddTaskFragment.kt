@@ -3,6 +3,7 @@ package com.example.vendingmachine.ui.tasks.taskdialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
 import androidx.navigation.fragment.navArgs
@@ -11,34 +12,31 @@ import com.afollestad.materialdialogs.customview.customView
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_task.*
 
+@AndroidEntryPoint
 class AddTaskFragment : DialogFragment(){
 
     val args : AddTaskFragmentArgs by navArgs()
+    private val viewmodel : AddTaskViewModel by viewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val application = requireNotNull(this.activity).application
-        val datasource = TaskDatabase.getInstance(application)
         val habitBool = args.habitCheck.equals(getString(R.string.habit))
         val trashBool = args.habitCheck.equals(getString(R.string.delete_all))
 
-        val viewmodel by lazy {
-            val factory = AddTaskViewModelFactory(datasource)
-            ViewModelProviders.of(this, factory).get<AddTaskViewModel>()
-        }
 
         if(habitBool){
-            return addHabitDialog(viewmodel)
+            return addHabitDialog()
         }else if(trashBool){
-            return deleteAllDialog(viewmodel)
+            return deleteAllDialog()
         }else {
-            return addTaskDialog(viewmodel)
+            return addTaskDialog()
         }
     }
 
-    private fun addTaskDialog(viewmodel: AddTaskViewModel): MaterialDialog {
+    private fun addTaskDialog(): MaterialDialog {
         val dialog = MaterialDialog(requireContext()).show {
             customView(R.layout.dialog_add_task)
             title_text_layout.hint = "Title of Task"
@@ -55,7 +53,7 @@ class AddTaskFragment : DialogFragment(){
         return dialog
     }
 
-    private fun deleteAllDialog(viewmodel: AddTaskViewModel): MaterialDialog {
+    private fun deleteAllDialog(): MaterialDialog {
         val dialog = MaterialDialog(requireContext()).show {
             message(text = getString(R.string.delete_all_message))
             positiveButton(text = "Delete All") { dialog ->
@@ -67,7 +65,7 @@ class AddTaskFragment : DialogFragment(){
         return dialog
     }
 
-    private fun addHabitDialog(viewmodel: AddTaskViewModel): MaterialDialog {
+    private fun addHabitDialog(): MaterialDialog {
         val dialog = MaterialDialog(requireContext()).show {
             customView(R.layout.dialog_add_task)
             title_text_layout.hint = "Title of Habit"

@@ -10,26 +10,26 @@ import com.example.vendingmachine.data.TaskDatabase
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
-class DailyHabitReset(context: Context, params: WorkerParameters) : Worker(context, params) {
-
-    override fun doWork(): Result {
-        val appContext = applicationContext
-
-        return try {
-            val datasource = TaskDatabase.getInstance(appContext)
-
-            val checkedHabits = datasource.taskDao.getCompleteHabits()
-
-            checkedHabits.forEach { it ->
-                    it.isCompleted = false
-                    datasource.taskDao.updateTask(it)
-            }
-
-            return Result.success()
-        } catch (throwable: Throwable) {
-            Log.e(appContext.getString(R.string.habit_worker_error_tag), appContext.getString(R.string.habit_worker_error_message), throwable)
-            Result.failure()
-        }
-    }
-
-}
+//class DailyHabitReset(context: Context, params: WorkerParameters) : Worker(context, params) {
+//
+//    override fun doWork(): Result {
+//        val appContext = applicationContext
+//
+//        return try {
+//            val datasource = TaskDatabase()
+//
+//            val checkedHabits = datasource.taskDao.getCompleteHabits()
+//
+//            checkedHabits.forEach { it ->
+//                    it.isCompleted = false
+//                    datasource.taskDao.updateTask(it)
+//            }
+//
+//            return Result.success()
+//        } catch (throwable: Throwable) {
+//            Log.e(appContext.getString(R.string.habit_worker_error_tag), appContext.getString(R.string.habit_worker_error_message), throwable)
+//            Result.failure()
+//        }
+//    }
+//
+//}

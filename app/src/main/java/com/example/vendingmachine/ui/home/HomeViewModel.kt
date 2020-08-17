@@ -15,7 +15,6 @@ class HomeViewModel@ViewModelInject constructor(
     private val apiRepository: ApiRepository,
     @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(){
 
-
     var balance = 0
 
     val _clicked = MutableLiveData<Boolean>()
@@ -50,7 +49,6 @@ class HomeViewModel@ViewModelInject constructor(
         _balanceString.value = balance.toString()
     }
 
-
     fun setApiKey(view : View){
         resetAPIKey()
         val key = view.contentDescription.toString()
@@ -82,7 +80,6 @@ class HomeViewModel@ViewModelInject constructor(
                 _numberOfCoins.value = _numberOfCoins.value?.minus(1)
             }
         }
-
     }
 
     val responseString : LiveData<String?>

@@ -1,13 +1,16 @@
 package com.example.vendingmachine.ui.tasks.taskdialog
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
 import kotlinx.coroutines.*
 
-class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
+class AddTaskViewModel@ViewModelInject constructor(val datasource: TaskDatabase,  @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(){
 
 
     val _currentNewTask = MutableLiveData<Task>()
@@ -46,7 +49,7 @@ class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
     suspend fun delete() {
         currentTaskId.value?.let {
             withContext(Dispatchers.IO) {
-                datasource.taskDao.deleteTaskById(it)
+                datasource.getTaskDao().deleteTaskById(it)
             }
         }
     }
@@ -59,14 +62,14 @@ class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
 
     suspend fun deleteAll(){
         withContext(Dispatchers.IO) {
-            datasource.taskDao.deleteAllTasks()
+            datasource.getTaskDao().deleteAllTasks()
         }
     }
 
 
     suspend fun insert(task: Task) {
         withContext(Dispatchers.IO){
-            datasource.taskDao.insertTask(task)
+            datasource.getTaskDao().insertTask(task)
         }
 
     }
@@ -80,7 +83,7 @@ class AddTaskViewModel(val datasource: TaskDatabase) : ViewModel(){
     suspend fun getTask(){
         currentTaskId.value?.let {
             withContext(Dispatchers.IO) {
-                 _requestedTask.postValue(datasource.taskDao.getTaskById(it))
+                 _requestedTask.postValue(datasource.getTaskDao().getTaskById(it))
             }
         }
     }

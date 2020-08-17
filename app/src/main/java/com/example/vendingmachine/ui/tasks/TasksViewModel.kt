@@ -1,25 +1,28 @@
 package com.example.vendingmachine.ui.tasks
 
 import android.app.Application
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkManager
 import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.TaskDao
 import com.example.vendingmachine.data.TaskDatabase
+import com.example.vendingmachine.data.repository.ApiRepository
 import kotlinx.coroutines.*
 
-class TasksViewModel(
-    val datasource: TaskDatabase,
-    application: Application
+class TasksViewModel@ViewModelInject constructor(
+    private val taskDao: TaskDao,
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val workManager = WorkManager.getInstance(application)
 
-
-    var allTasks = datasource.taskDao.getTasks()
+    var allTasks = taskDao.getTasks()
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()
 
@@ -79,7 +82,7 @@ class TasksViewModel(
     }
 
     suspend fun updateTask(task: Task){
-        datasource.taskDao.updateTask(task)
+        taskDao.updateTask(task)
     }
 
     fun handleCheckUnCheck(task: Task){
