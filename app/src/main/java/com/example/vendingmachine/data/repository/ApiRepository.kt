@@ -2,7 +2,6 @@ package com.example.vendingmachine.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.vendingmachine.data.network.ApiService
-import com.example.vendingmachine.data.network.RetrofitBuilder
 import kotlinx.coroutines.*
 
 class ApiRepository constructor(private val apiService: ApiService){
@@ -38,15 +37,15 @@ class ApiRepository constructor(private val apiService: ApiService){
     private suspend fun filterAndMakeRequest() : String {
         when (_apiKey.value) {
             "Cat" ->
-                return RetrofitBuilder.buildServiceFor().getCatPic()[0].url
+                return apiService.getCatPic()[0].url
             "Dog" ->
-                return RetrofitBuilder.buildServiceFor().getDogPic().message
+                return apiService.getDogPic().message
             "Mustache" ->
-                return RetrofitBuilder.buildServiceFor().getSwansonWisdom()[0]
+                return apiService.getSwansonWisdom()[0]
             "Advice" ->
-                return  RetrofitBuilder.buildServiceFor().getAdvice().slip.advice
+                return  apiService.getAdvice().slip.advice
             "Bull" ->
-                return RetrofitBuilder.buildServiceFor().getBull().phrase
+                return apiService.getBull().phrase
             else ->
                 return "ERROR : Unable to retrieve data"
         }

@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.example.vendingmachine.data.network.RetrofitBuilder
 import com.example.vendingmachine.data.repository.ApiRepository
 import kotlinx.coroutines.*
 

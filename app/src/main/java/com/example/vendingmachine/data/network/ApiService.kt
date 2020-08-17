@@ -6,7 +6,6 @@ import retrofit2.http.GET
 
 interface ApiService{
 
-
     @GET("https://api.thecatapi.com/v1/images/search?size=full")
     suspend fun getCatPic() : List<CatPic>
 
@@ -21,7 +20,5 @@ interface ApiService{
 
     @GET("https://corporatebs-generator.sameerkumar.website/")
     suspend fun getBull() : Bull
-
-
 
 }

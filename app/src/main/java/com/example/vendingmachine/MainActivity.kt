@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.vendingmachine.ui.home.HomeViewModel
-//import com.example.vendingmachine.workers.DailyHabitReset
-//import com.example.vendingmachine.workers.NotificationWorker
+import com.example.vendingmachine.workers.DailyHabitReset
+import com.example.vendingmachine.workers.NotificationWorker
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -32,10 +32,9 @@ class MainActivity : AppCompatActivity() {
             application, "2dcf9351-a14e-40bc-9f5d-af0085f16d1c",
             Analytics::class.java, Crashes::class.java
         )
-
-//        createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
-//        triggerNotificationWorker()
-//        uncheckDailyHabits()
+        createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
+        triggerNotificationWorker()
+        uncheckDailyHabits()
     }
 
     fun createChannel(channelId: String, channelName: String, activity: Activity) {
@@ -58,43 +57,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    fun triggerNotificationWorker() {
-//
-//       val timeDiff = setTimeDiff(9, 0)
-//
-//        val notificationWorkBuilder = OneTimeWorkRequestBuilder<NotificationWorker>()
-//        val buildNotificationRequest =
-//            notificationWorkBuilder
-//                .addTag("Test Notification")
-//                .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
-//                .build()
-//        WorkManager.getInstance(this).enqueue(buildNotificationRequest)
-//    }
-//
-//    fun uncheckDailyHabits(){
-//        val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
-//        val builtRequest = resetHabitRequest
-//            .addTag("Reset Habit Request")
-//            .setInitialDelay(setTimeDiff(7, 30), TimeUnit.MILLISECONDS)
-//            .build()
-//        WorkManager.getInstance(this).enqueue(builtRequest)
-//    }
-//
-//    fun setTimeDiff(hour : Int, minute : Int) : Long{
-//        val currentDate = Calendar.getInstance()
-//        val dueDate = Calendar.getInstance()
-//
-//        dueDate.set(Calendar.HOUR_OF_DAY, hour)
-//        dueDate.set(Calendar.MINUTE, minute)
-//        dueDate.set(Calendar.SECOND, 0)
-//        if (dueDate.before(currentDate)) {
-//            dueDate.add(Calendar.HOUR_OF_DAY, 24)
-//        }
-//
-//        val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
-//
-//        return timeDiff
-//    }
+    fun triggerNotificationWorker() {
+
+       val timeDiff = setTimeDiff(15, 33)
+
+        val notificationWorkBuilder = OneTimeWorkRequestBuilder<NotificationWorker>()
+        val buildNotificationRequest =
+            notificationWorkBuilder
+                .addTag("Test Notification")
+                .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
+                .build()
+        val workManager = WorkManager.getInstance(this)
+        workManager.enqueue(buildNotificationRequest)
+    }
+
+    fun uncheckDailyHabits(){
+
+        val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
+        val builtRequest = resetHabitRequest
+            .addTag("Reset Habit Request")
+            .setInitialDelay(setTimeDiff(16, 16), TimeUnit.MILLISECONDS)
+            .build()
+        val workManager = WorkManager.getInstance(this)
+        workManager.pruneWork()
+        workManager.enqueue(builtRequest)
+    }
+
+    fun setTimeDiff(hour : Int, minute : Int) : Long{
+        val currentDate = Calendar.getInstance()
+        val dueDate = Calendar.getInstance()
+
+        dueDate.set(Calendar.HOUR_OF_DAY, hour)
+        dueDate.set(Calendar.MINUTE, minute)
+        dueDate.set(Calendar.SECOND, 0)
+        if (dueDate.before(currentDate)) {
+            dueDate.add(Calendar.HOUR_OF_DAY, 24)
+        }
+
+        val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
+
+        return timeDiff
+    }
 
 
 }
