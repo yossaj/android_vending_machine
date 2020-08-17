@@ -34,9 +34,12 @@ class HomeViewModel@ViewModelInject constructor(
     val balanceString : LiveData<String>
         get() = _balanceString
 
-    val _apiKey = MutableLiveData<String>()
     val apiKey : LiveData<String>
-        get() = _apiKey
+        get() = apiRepository._apiKey
+
+    fun setApiKey(key : String){
+        apiRepository.setApi(key)
+    }
 
     fun addToBalance(){
         balance += 100
@@ -51,7 +54,7 @@ class HomeViewModel@ViewModelInject constructor(
     fun setApiKey(view : View){
         resetAPIKey()
         val key = view.contentDescription.toString()
-        _apiKey.value = key
+        setApiKey(key)
         _clicked.postValue(true)
     }
 
@@ -60,7 +63,7 @@ class HomeViewModel@ViewModelInject constructor(
     }
 
     fun resetAPIKey(){
-        _apiKey.value = null
+        apiRepository.resetApiKey()
     }
 
     fun updateDisplayedBalanceUponSale(){
@@ -82,45 +85,16 @@ class HomeViewModel@ViewModelInject constructor(
 
     }
 
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
-
-    val _responseString = MutableLiveData<String?>()
-
     val responseString : LiveData<String?>
-        get() = _responseString
+        get() = apiRepository._responseString
 
     fun resetResponse(){
-        _responseString.postValue(null)
+        apiRepository.resetResponseString()
     }
 
     fun getVendedApi() {
-        coroutineScope.launch {
-            val data = filterAndMakeRequest()
-            withContext(Dispatchers.Main){
-                _responseString.postValue(data)
-            }
-        }
+        apiRepository.getVendedApi()
     }
-
-    private suspend fun filterAndMakeRequest() : String {
-        when (apiKey.value) {
-            "Cat" ->
-                return RetrofitBuilder.buildServiceFor().getCatPic()[0].url
-            "Dog" ->
-                return RetrofitBuilder.buildServiceFor().getDogPic().message
-            "Mustache" ->
-                return RetrofitBuilder.buildServiceFor().getSwansonWisdom()[0]
-            "Advice" ->
-                return  RetrofitBuilder.buildServiceFor().getAdvice().slip.advice
-            "Bull" ->
-                return RetrofitBuilder.buildServiceFor().getBull().phrase
-            else ->
-                return "ERROR : Unable to retrieve data"
-        }
-    }
-
-
 
 
     init {

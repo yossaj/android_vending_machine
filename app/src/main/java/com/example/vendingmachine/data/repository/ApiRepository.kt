@@ -12,8 +12,22 @@ class ApiRepository constructor(private val apiService: ApiService){
 
     val _responseString = MutableLiveData<String?>()
 
+    fun resetResponseString(){
+        _responseString.postValue(null)
+    }
 
-    val apiKey = "Cat"
+
+    val _apiKey = MutableLiveData<String>()
+
+    fun setApi(key : String){
+        _apiKey.postValue(key)
+    }
+
+    fun resetApiKey(){
+        _apiKey.postValue(null)
+    }
+
+
     fun getVendedApi() {
         coroutineScope.launch {
             val data = filterAndMakeRequest()
@@ -24,7 +38,7 @@ class ApiRepository constructor(private val apiService: ApiService){
     }
 
     private suspend fun filterAndMakeRequest() : String {
-        when (apiKey) {
+        when (_apiKey.value) {
             "Cat" ->
                 return RetrofitBuilder.buildServiceFor().getCatPic()[0].url
             "Dog" ->
