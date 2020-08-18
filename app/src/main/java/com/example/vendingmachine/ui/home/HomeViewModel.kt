@@ -92,7 +92,6 @@ class HomeViewModel@ViewModelInject constructor(
         apiRepository.getVendedApi()
     }
 
-
     init {
         _balanceString.value = zeroFunds
     }

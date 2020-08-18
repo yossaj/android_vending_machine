@@ -1,7 +1,9 @@
 package com.example.vendingmachine.di
 
+import com.example.vendingmachine.data.TaskDao
 import com.example.vendingmachine.data.network.ApiService
 import com.example.vendingmachine.data.repository.ApiRepository
+import com.example.vendingmachine.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,12 +12,18 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object ApiRepositoryModule {
+object RepositoryModule {
 
     @Singleton
     @Provides
     fun provideApiRepository(apiService: ApiService) : ApiRepository{
         return ApiRepository(apiService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(taskDao: TaskDao) : UserRepository{
+        return UserRepository(taskDao)
     }
 
 }

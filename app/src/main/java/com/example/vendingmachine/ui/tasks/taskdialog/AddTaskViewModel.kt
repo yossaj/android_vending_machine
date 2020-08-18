@@ -8,86 +8,44 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.vendingmachine.data.Task
 import com.example.vendingmachine.data.TaskDatabase
+import com.example.vendingmachine.data.repository.UserRepository
 import kotlinx.coroutines.*
 
-class AddTaskViewModel@ViewModelInject constructor(val datasource: TaskDatabase,  @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(){
+class AddTaskViewModel@ViewModelInject constructor(private val userRepository: UserRepository, @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(){
 
 
-    val _currentNewTask = MutableLiveData<Task>()
-
-    val currentNewTask : LiveData<Task>
-        get() = _currentNewTask
 
     val _currentTaskId = MutableLiveData<String>()
 
     val currentTaskId : LiveData<String>
         get() = _currentTaskId
 
-    val _requestedTask = MutableLiveData<Task>()
+    val currentTask : LiveData<Task>
+        get() = userRepository._currentTask
 
     val requestedTask : LiveData<Task>
-        get() = _requestedTask
-
-
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+        get() = userRepository._requestedTask
 
     fun addTask(){
-        uiScope.launch {
-            currentNewTask.value?.let {
-                insert(it)
-            }
-        }
+        userRepository.addTask()
+    }
+
+    fun setCurrentTask(task: Task){
+        userRepository.setCurrentTask(task)
     }
 
     fun deleteTask(){
-        uiScope.launch {
-            delete()
-        }
-    }
-
-    suspend fun delete() {
-        currentTaskId.value?.let {
-            withContext(Dispatchers.IO) {
-                datasource.getTaskDao().deleteTaskById(it)
-            }
-        }
-    }
-
-    fun deleteAllTasks(){
-        uiScope.launch {
-            deleteAll()
-        }
-    }
-
-    suspend fun deleteAll(){
-        withContext(Dispatchers.IO) {
-            datasource.getTaskDao().deleteAllTasks()
-        }
-    }
-
-
-    suspend fun insert(task: Task) {
-        withContext(Dispatchers.IO){
-            datasource.getTaskDao().insertTask(task)
-        }
-
+        userRepository.deleteTask()
     }
 
     fun getTaskToView(){
-        uiScope.launch {
-            getTask()
-        }
+        userRepository.getTaskToView()
     }
 
-    suspend fun getTask(){
-        currentTaskId.value?.let {
-            withContext(Dispatchers.IO) {
-                 _requestedTask.postValue(datasource.getTaskDao().getTaskById(it))
-            }
-        }
-    }
 
+    fun deleteAllTasks(){
+        userRepository.deleteAllTasks()
+    }
 
 
 }

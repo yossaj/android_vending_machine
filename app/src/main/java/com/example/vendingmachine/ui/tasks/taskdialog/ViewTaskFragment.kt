@@ -19,29 +19,9 @@ import kotlinx.android.synthetic.main.view_task_dialog.*
 
 @AndroidEntryPoint
 class ViewTaskFragment : DialogFragment(){
-    val viewId : ViewTaskFragmentArgs by navArgs()
-
     private val viewmodel : AddTaskViewModel by viewModels()
 
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-//        val application = requireNotNull(this.activity).application
-//        val datasource = TaskDatabase.getInstance(application)
-//
-//
-//        val viewmodel by lazy {
-//            val factory = AddTaskViewModelFactory(datasource)
-//            ViewModelProviders.of(this, factory).get<AddTaskViewModel>()
-//        }
-
-        val taskid = viewId.taskId
-
-        viewmodel._currentTaskId.value = taskid
-        viewmodel.getTaskToView()
-
-
 
         val dialog =  MaterialDialog(requireContext()).show {
             customView(R.layout.view_task_dialog)
@@ -52,7 +32,7 @@ class ViewTaskFragment : DialogFragment(){
             })
         }
 
-        viewmodel.requestedTask.observe(this, Observer {
+        viewmodel.currentTask.observe(this, Observer {
             it?.let {
                 dialog.view_task_title.text = it.title
                 dialog.view_task_note.text = it.content
@@ -61,5 +41,4 @@ class ViewTaskFragment : DialogFragment(){
 
         return dialog
     }
-
 }

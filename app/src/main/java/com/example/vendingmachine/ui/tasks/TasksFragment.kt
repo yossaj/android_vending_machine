@@ -16,10 +16,10 @@ import com.example.vendingmachine.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TasksFragment : Fragment(){
+class TasksFragment : Fragment() {
 
     lateinit var sharedPreferences: SharedPreferences
-    private val viewModel : TasksViewModel by viewModels()
+    private val viewModel: TasksViewModel by viewModels()
 
     var coinCount = 0
 
@@ -32,10 +32,6 @@ class TasksFragment : Fragment(){
         requireActivity().setTitle(getString(R.string.task_fragment_title))
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         getCoinCount()
-        val application = requireNotNull(this.activity).application
-//        val datasource = TaskDatabase.getInstance(application)
-//        val factory = TaskViewModelFactory(datasource, application)
-//        val viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel::class.java)
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
         val adapter = TasksAdapter(viewModel)
@@ -47,7 +43,7 @@ class TasksFragment : Fragment(){
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it){
+                if (it) {
                     incrementCoinCount()
                     viewModel._coinIncrementSwitch.value = false
                     adapter.notifyDataSetChanged()
@@ -56,8 +52,8 @@ class TasksFragment : Fragment(){
         })
 
         viewModel.navigateToAddTaskTrigger.observe(viewLifecycleOwner, Observer {
-            it?.let{
-                if(it) {
+            it?.let {
+                if (it) {
                     this.findNavController()
                         .navigate(TasksFragmentDirections.actionTasksFragmentToAddTaskFragment())
                     viewModel._navigateToAddTaskTrigger.value = false
@@ -79,21 +75,23 @@ class TasksFragment : Fragment(){
         })
 
         viewModel.navigateToViewTaskTrigger.observe(viewLifecycleOwner, Observer {
-            viewModel.currentTask.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    this.findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToViewTaskFragment(it.id))
-                    viewModel.resetUponNavigationToViewTask()
-                }
-            })
-        })
+            if (it) {
+                this.findNavController().navigate(
+                    TasksFragmentDirections.actionTasksFragmentToViewTaskFragment()
+                )
+                viewModel.resetUponNavigationToViewTask()
+            }
+        }
+
+        )
         return binding.root
     }
 
-    fun getCoinCount(){
+    fun getCoinCount() {
         coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
     }
 
-    fun incrementCoinCount(){
+    fun incrementCoinCount() {
         coinCount = coinCount + 1
         sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
     }
@@ -105,11 +103,13 @@ class TasksFragment : Fragment(){
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        when(id){
+        when (id) {
             R.id.trash -> {
                 this.findNavController()
-                    .navigate(TasksFragmentDirections
-                        .actionTasksFragmentToAddTaskFragment(getString(R.string.delete_all)))
+                    .navigate(
+                        TasksFragmentDirections
+                            .actionTasksFragmentToAddTaskFragment(getString(R.string.delete_all))
+                    )
             }
         }
         return super.onOptionsItemSelected(item)

@@ -1,28 +1,21 @@
 package com.example.vendingmachine.ui.tasks
 
-import android.app.Application
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.work.WorkManager
 import com.example.vendingmachine.data.Task
-import com.example.vendingmachine.data.TaskDao
-import com.example.vendingmachine.data.TaskDatabase
-import com.example.vendingmachine.data.repository.ApiRepository
+import com.example.vendingmachine.data.repository.UserRepository
 import kotlinx.coroutines.*
 
 class TasksViewModel@ViewModelInject constructor(
-    private val taskDao: TaskDao,
+    private val userRepository: UserRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    var allTasks = taskDao.getTasks()
+    var allTasks = userRepository.allTasks
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()
 
@@ -44,27 +37,23 @@ class TasksViewModel@ViewModelInject constructor(
     val navigateToViewTaskTrigger : LiveData<Boolean>
         get() = _navigateToViewTaskTrigger
 
-    val _currentTask = MutableLiveData<Task>()
-
     val currentTask : LiveData<Task>
-        get() = _currentTask
+        get() = userRepository._currentTask
+
+    fun setCurrentTask(task : Task){
+        userRepository.setCurrentTask(task)
+    }
 
 
     fun incrementCoinSwitch(){
         _coinIncrementSwitch.value = true
     }
 
-
-
     fun updateTaskWhenComplete(task: Task, boolean: Boolean){
         var updatedtask = task
         updatedtask.isCompleted = boolean
         if(boolean){incrementCoinSwitch()}
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                updateTask(updatedtask)
-            }
-        }
+        userRepository.updateOnComplete(updatedtask)
     }
 
     fun updateHabitWhenComplete(task: Task, boolean: Boolean){
@@ -73,16 +62,8 @@ class TasksViewModel@ViewModelInject constructor(
         updateHabit.isCompleted = boolean
         updateHabit.updatedTime = System.currentTimeMillis()
         if(boolean){incrementCoinSwitch()}
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                updateTask(updateHabit)
-            }
-        }
+        userRepository.updateOnComplete(updateHabit)
 
-    }
-
-    suspend fun updateTask(task: Task){
-        taskDao.updateTask(task)
     }
 
     fun handleCheckUnCheck(task: Task){
@@ -95,8 +76,6 @@ class TasksViewModel@ViewModelInject constructor(
             updateTaskWhenComplete(task, true)
         }
     }
-
-
 
     fun triggerAddHabitNav(){
         _navigateToAddHabitTrigger.value = true
@@ -116,21 +95,21 @@ class TasksViewModel@ViewModelInject constructor(
 
     fun navigateToViewTaskAndPassTask(task: Task){
         triggerViewTaskNav()
-        _currentTask.value = task
+        userRepository.setCurrentTask(task)
     }
 
     fun resetCurrentTask(){
-        _currentTask.value = null
+        userRepository.resetCurrentTask()
     }
 
     fun resetUponNavigationToViewTask(){
-        resetCurrentTask()
         resetViewTaskTrigger()
     }
 
     init {
         _coinIncrementSwitch.postValue(false)
         _navigateToAddTaskTrigger.postValue(false)
+        _navigateToViewTaskTrigger.postValue(false)
     }
 
 }
