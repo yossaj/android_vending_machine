@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     fun triggerNotificationWorker() {
 
-       val timeDiff = setTimeDiff(15, 33)
+       val timeDiff = setTimeDiff(11, 30)
 
         val notificationWorkBuilder = OneTimeWorkRequestBuilder<NotificationWorker>()
         val buildNotificationRequest =
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
         val builtRequest = resetHabitRequest
             .addTag("Reset Habit Request")
-            .setInitialDelay(setTimeDiff(16, 16), TimeUnit.MILLISECONDS)
+            .setInitialDelay(setTimeDiff(1, 10), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
         workManager.pruneWork()

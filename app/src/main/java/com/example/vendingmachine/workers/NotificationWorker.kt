@@ -4,6 +4,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.vendingmachine.R
@@ -12,7 +14,7 @@ import com.example.vendingmachine.notifcation.sendNotificaiton
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
-class NotificationWorker constructor(val datasource : TaskDatabase ,context: Context, params: WorkerParameters) : Worker(context, params){
+class NotificationWorker @WorkerInject constructor(@Assisted context: Context, @Assisted params: WorkerParameters, val datasource : TaskDatabase) : Worker(context, params){
 
     override fun doWork(): Result {
         val appContext = applicationContext

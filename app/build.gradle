@@ -57,10 +57,14 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-crashes:$appCenterSdkVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+
+//    di
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha01'
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodels"
     kapt "androidx.hilt:hilt-compiler:$hilt_viewmodels"
+    implementation 'androidx.hilt:hilt-work:1.0.0-alpha01'
 
 //    test
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"
