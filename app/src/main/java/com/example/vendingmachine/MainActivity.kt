@@ -13,9 +13,9 @@ import androidx.work.WorkManager
 import com.example.vendingmachine.ui.home.HomeViewModel
 import com.example.vendingmachine.workers.DailyHabitReset
 import com.example.vendingmachine.workers.NotificationWorker
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 
         return timeDiff
     }
+
 
 
 }

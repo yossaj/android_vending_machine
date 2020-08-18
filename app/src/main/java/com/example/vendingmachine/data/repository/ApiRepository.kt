@@ -1,7 +1,10 @@
 package com.example.vendingmachine.data.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.vendingmachine.data.network.ApiService
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 
 class ApiRepository constructor(private val apiService: ApiService){
@@ -50,5 +53,26 @@ class ApiRepository constructor(private val apiService: ApiService){
                 return "ERROR : Unable to retrieve data"
         }
     }
+
+    fun testFireStore(){
+        val db = Firebase.firestore
+        coroutineScope.launch {
+            db.collection("tasks")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        Log.d("Firestore", "${document.id} => ${document.data}")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("Firestore", "Error getting documents.", exception)
+                }
+        }
+    }
+
+    init {
+        testFireStore()
+    }
+
 
 }
