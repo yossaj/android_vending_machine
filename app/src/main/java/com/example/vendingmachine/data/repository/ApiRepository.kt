@@ -2,7 +2,7 @@ package com.example.vendingmachine.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.data.network.ApiService
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -56,42 +56,45 @@ class ApiRepository constructor(private val apiService: ApiService){
         }
     }
 
-    fun testReadFireStore(){
-        coroutineScope.launch {
-            db.collection("tasks")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        Log.d("Firestore", "${document}")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("Firestore", "Error getting documents.", exception)
-                }
-        }
-    }
-
-    fun testWriteFireStore(){
-        coroutineScope.launch{
-            db.collection("tasks")
-                .add(Task(
-                    "Test Write",
-                    "This is a test to see if i reach the db",
-                    false,
-                    0,
-                    false))
-                .addOnSuccessListener { documentReference ->
-                    Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w("Firestore", "Error adding document", e)
-                }
-        }
-
-    }
+//    fun testReadFireStore(){
+//        coroutineScope.launch {
+//            db.collection("tasks")
+//                .get()
+//                .addOnSuccessListener { result ->
+//                    for (document in result) {
+//                        Log.d("Firestore", "${document}")
+//                    }
+//                }
+//                .addOnFailureListener { exception ->
+//                    Log.w("Firestore", "Error getting documents.", exception)
+//                }
+//        }
+//    }
+//
+//    fun testWriteFireStore(){
+//        coroutineScope.launch{
+//            db.collection("tasks")
+//                .add(
+//                    Task(
+//                        "Test Write",
+//                        "This is a test to see if i reach the db",
+//                        false,
+//                        0,
+//                        false
+//                    )
+//                )
+//                .addOnSuccessListener { documentReference ->
+//                    Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.w("Firestore", "Error adding document", e)
+//                }
+//        }
+//
+//    }
 
     init {
-        testReadFireStore()
+
     }
 
 

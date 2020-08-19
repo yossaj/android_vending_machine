@@ -4,7 +4,7 @@
     <data>
         <variable
             name="task"
-            type="com.example.vendingmachine.data.Task" />
+            type="com.example.vendingmachine.data.models.Task" />
 
         <variable
             name="viewModel"

@@ -2,6 +2,8 @@ package com.example.vendingmachine.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.vendingmachine.data.models.Habit
+import com.example.vendingmachine.data.models.Task
 
 @Dao
 interface TaskDao {
@@ -11,9 +13,6 @@ interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE entryid = :taskId")
     fun getTaskById(taskId: String): Task
-
-    @Query("SELECT * FROM tasks WHERE habit = 1 AND complete = 1")
-    fun getCompleteHabits() : List<Task>
 //
     @Query("SELECT title FROM tasks WHERE complete = 0")
     fun getIncompleteTasksTitles() : List<String>
@@ -32,5 +31,7 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE complete = 1")
     fun deleteCompletedTasks(): Int
+
+
 
 }

@@ -2,7 +2,7 @@ package com.example.vendingmachine.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.data.TaskDao
 import kotlinx.coroutines.*
 
@@ -17,31 +17,20 @@ class UserRepository constructor(private val taskDao: TaskDao){
     val currentNewTask : LiveData<Task>
         get() = _currentTask
 
-    val _requestedTask = MutableLiveData<Task>()
-
     fun updateOnComplete(task: Task){
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                updateTask(task)
+                taskDao.updateTask(task)
             }
         }
     }
 
-    suspend fun updateTask(task: Task){
-        taskDao.updateTask(task)
-    }
-
-
     fun deleteTask(){
         uiScope.launch {
-            delete()
-        }
-    }
-
-    suspend fun delete() {
-        _currentTask.value?.id?.let {
-            withContext(Dispatchers.IO) {
-                taskDao.deleteTaskById(it)
+            _currentTask.value?.id?.let {
+                withContext(Dispatchers.IO) {
+                    taskDao.deleteTaskById(it)
+                }
             }
         }
     }
@@ -49,40 +38,18 @@ class UserRepository constructor(private val taskDao: TaskDao){
     fun addTask(){
         uiScope.launch {
             currentNewTask.value?.let {
-                insert(it)
-            }
-        }
-    }
-
-    suspend fun insert(task: Task) {
-        withContext(Dispatchers.IO){
-            taskDao.insertTask(task)
-        }
-    }
-
-    fun getTaskToView(){
-        uiScope.launch {
-            getTask()
-        }
-    }
-
-    suspend fun getTask(){
-        _currentTask.value?.id?.let {
-            withContext(Dispatchers.IO) {
-                _requestedTask.postValue(taskDao.getTaskById(it))
+                withContext(Dispatchers.IO){
+                    taskDao.insertTask(it)
+                }
             }
         }
     }
 
     fun deleteAllTasks(){
         uiScope.launch {
-            deleteAll()
-        }
-    }
-
-    suspend fun deleteAll(){
-        withContext(Dispatchers.IO) {
-            taskDao.deleteAllTasks()
+            withContext(Dispatchers.IO) {
+                taskDao.deleteAllTasks()
+            }
         }
     }
 

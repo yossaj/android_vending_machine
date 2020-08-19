@@ -1,4 +1,4 @@
-package com.example.vendingmachine.data
+package com.example.vendingmachine.data.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,10 +8,10 @@ import java.util.*
 @Entity(tableName = "tasks")
 data class Task @JvmOverloads constructor(
     @ColumnInfo(name = "title") var title: String = "",
-    @ColumnInfo(name = "content") var content: String = "",
-    @ColumnInfo(name = "habit") var habit: Boolean = false,
-    @ColumnInfo(name = "habitcount") var habitCount: Int = 0,
+    @ColumnInfo(name = "description") var description: String = "",
+    @ColumnInfo(name = "period") val period : Int,
+    @ColumnInfo(name ="colour") val colour : Int,
     @ColumnInfo(name = "complete") var isCompleted: Boolean = false,
-    @ColumnInfo(name = "update") var updatedTime: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "update") var updatedOn: Long = System.currentTimeMillis(),
     @PrimaryKey @ColumnInfo(name = "entryid") var id: String = UUID.randomUUID().toString()
 )

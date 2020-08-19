@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.TaskItemBinding
 
 class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffCallback()){
@@ -30,23 +30,14 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
         fun bind(task: Task){
             binding.task = task
             binding.taskItemTitle.text = task.title
-            if(task.habit){
-                binding.habitCount.visibility = View.VISIBLE
-                binding.habitCountSpacer.visibility = View.VISIBLE
-                val habitCount = task.habitCount.toString()
-                binding.habitCount.text = "0${habitCount}"
-            }else if(!task.habit){
                 binding.habitCount.visibility = View.GONE
                 binding.habitCountSpacer.visibility = View.GONE
-            }
-            if(task.isCompleted && !task.habit) {
+            if(task.isCompleted) {
                 binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 binding.taskItemCheckbox.isChecked = true
             }else if(!task.isCompleted){
                 binding.taskItemCheckbox.isChecked = false
                 binding.taskItemTitle.paintFlags = 0
-            }else if(task.habit && task.isCompleted){
-                binding.taskItemCheckbox.isChecked = true
             }
         }
     }

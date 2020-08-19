@@ -19,12 +19,12 @@ class DailyHabitReset @WorkerInject constructor( @Assisted context: Context, @As
         val appContext = applicationContext
 
         return try {
-            val checkedHabits = datasource.getTaskDao().getCompleteHabits()
-
-            checkedHabits.forEach { it ->
-                    it.isCompleted = false
-                    datasource.getTaskDao().updateTask(it)
-            }
+//            val checkedHabits = datasource.getTaskDao().getCompleteHabits()
+//
+//            checkedHabits.forEach { it ->
+//                    it.isCompleted = false
+//                    datasource.getTaskDao().updateTask(it)
+//            }
 
             return Result.success()
         } catch (throwable: Throwable) {

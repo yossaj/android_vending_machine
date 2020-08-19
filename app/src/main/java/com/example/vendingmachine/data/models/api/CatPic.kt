@@ -1,4 +1,4 @@
-package com.example.vendingmachine.data.models
+package com.example.vendingmachine.data.models.api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

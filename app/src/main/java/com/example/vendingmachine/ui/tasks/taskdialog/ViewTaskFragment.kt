@@ -35,7 +35,7 @@ class ViewTaskFragment : DialogFragment(){
         viewmodel.currentTask.observe(this, Observer {
             it?.let {
                 dialog.view_task_title.text = it.title
-                dialog.view_task_note.text = it.content
+                dialog.view_task_note.text = it.description
             }
         })
 
