@@ -14,7 +14,7 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
 
     val TAG = "FIRE"
     private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
     val remoteDb = Firebase.firestore
 
     val allTasks = taskDao.getTasks()
@@ -26,6 +26,7 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
     fun listenToFireStoreChanges(){
         remoteDb.collection("tasks").addSnapshotListener{
                 snapshot, exception ->
+            snapshot
             val remoteTasks : List<Task> = snapshot?.toObjects(Task::class.java) as List<Task>
                 if(!remoteTasks.equals(allTasks.value) && remoteTasks.isNotEmpty()  && !allTasks.value.isNullOrEmpty()){
                     Log.d("FIRE", "Lists don't match")
@@ -42,11 +43,10 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
                         if(allTasks.value!!.contains(task)){
 //                            add to firestore
                             addTaskToFireStore(task)
-                            Log.d("FIRE", "Add Remote ${task.title}")
+                            Log.d("FIRE", "Add Remote ${task.toString()}")
                         }else if(remoteTasks.contains(task)){
                             Log.d("FIRE", "Added To Local : ${task.toString()}")
                             addTaskFromFireStore(task)
-                            Log.d("Fire","Add Local ${task.title}")
                         }
                     }
                 }else if( remoteTasks.isNullOrEmpty() && allTasks.value.isNullOrEmpty()){
@@ -67,7 +67,6 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
                         task -> addTaskFromFireStore(task)
                         Log.d("FIRE", "Add to Local : ${task.title}")
                     }
-
                 }
                 else{
                     Log.d("FIRE", "Lists match")
@@ -81,49 +80,44 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
 
     fun updateOnComplete(task: Task){
         uiScope.launch {
-            withContext(Dispatchers.IO) {
                 taskDao.updateTask(task)
-            }
         }
     }
 
     fun deleteTask(){
         uiScope.launch {
             _currentTask.value?.id?.let {
-                withContext(Dispatchers.IO) {
-                    taskDao.deleteTaskById(it)
+                    val taskid = it
+                    remoteDb.collection("tasks").document(taskid).delete().addOnCompleteListener {
+                        uiScope.launch { taskDao.deleteTaskById(taskid) }
+                    }.addOnFailureListener {
+                        uiScope.launch { taskDao.deleteTaskById(taskid) }
+                    }
                 }
             }
-        }
     }
 
     fun addTask(){
         uiScope.launch {
             currentNewTask.value?.let {
-                withContext(Dispatchers.IO){
                     taskDao.insertTask(it)
-                }
             }
         }
     }
 
     fun addTaskFromFireStore(task: Task){
         uiScope.launch {
-            withContext(Dispatchers.IO){
                 taskDao.insertTask(task)
-            }
         }
     }
 
     fun addTaskToFireStore(task: Task){
-        remoteDb.collection("tasks").add(task)
+        remoteDb.collection("tasks").document(task.id).set(task)
     }
 
     fun deleteAllTasks(){
         uiScope.launch {
-            withContext(Dispatchers.IO) {
                 taskDao.deleteAllTasks()
-            }
         }
     }
 
