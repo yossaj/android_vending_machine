@@ -43,6 +43,10 @@ class TasksViewModel@ViewModelInject constructor(
         userRepository.setCurrentTask(task)
     }
 
+    fun syncFireStore(){
+        userRepository.syncWithFireStore()
+    }
+
 
     fun incrementCoinSwitch(){
         _coinIncrementSwitch.value = true

@@ -33,6 +33,7 @@ class TasksFragment : Fragment() {
         val adapter = TasksAdapter(viewModel)
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            viewModel.syncFireStore()
         })
 
         binding.taskHabitList.adapter = adapter
