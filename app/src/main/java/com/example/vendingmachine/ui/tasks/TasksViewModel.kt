@@ -44,7 +44,7 @@ class TasksViewModel@ViewModelInject constructor(
     }
 
     fun syncFireStore(){
-        userRepository.syncWithFireStore()
+        userRepository.listenToFireStoreChanges()
     }
 
 

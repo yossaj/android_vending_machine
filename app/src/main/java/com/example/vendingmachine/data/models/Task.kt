@@ -12,6 +12,6 @@ data class Task @JvmOverloads constructor(
     @ColumnInfo(name = "period") val period : Int = 0,
     @ColumnInfo(name ="colour") val colour : Int = 0,
     @ColumnInfo(name = "complete") var isCompleted: Boolean = false,
-    @ColumnInfo(name = "update") var updatedOn: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "update") var update: Long = System.currentTimeMillis(),
     @PrimaryKey @ColumnInfo(name = "entryid") var id: String = UUID.randomUUID().toString()
 )

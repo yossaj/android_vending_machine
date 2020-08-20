@@ -17,42 +17,62 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     val remoteDb = Firebase.firestore
 
-    var allTasks = taskDao.getTasks()
+    val allTasks = taskDao.getTasks()
 
     fun addTaskFireStore() {
 
     }
 
-    fun syncWithFireStore(){
-        var localList = listOf<Task>()
-        allTasks.value?.let {
-            localList = it
-        }
+    fun listenToFireStoreChanges(){
         remoteDb.collection("tasks").addSnapshotListener{
                 snapshot, exception ->
-            val fsTasks = snapshot?.toObjects(Task::class.java)
-            fsTasks?.let {
-                if(!it.equals(localList)){
+            val remoteTasks : List<Task> = snapshot?.toObjects(Task::class.java) as List<Task>
+                if(!remoteTasks.equals(allTasks.value) && remoteTasks.isNotEmpty()  && !allTasks.value.isNullOrEmpty()){
                     Log.d("FIRE", "Lists don't match")
-                    val combinedTaskList = it.plus(localList)
+                    val combinedTaskList : List<Task> = if(remoteTasks.isEmpty())  allTasks.value!! else remoteTasks.plus(allTasks.value!!)
+                    combinedTaskList.forEach{
+                        Log.d("FIRE", it.toString())
+                    }
                     val newTasks = combinedTaskList
                         .groupBy { it.id }
                         .filter { it.value.size == 1 }
                         .flatMap { it.value }
-                    newTasks.forEach{
-                        Log.d("FIRE", "New Items are ${it.title}")
-                        if(localList.contains(it)){
+                    newTasks.forEach{ task ->
+                        Log.d("FIRE", "New Item : ${task.title} ${task.id}")
+                        if(allTasks.value!!.contains(task)){
 //                            add to firestore
-                        }else{
-                            addTaskFromFireStore(it)
+                            addTaskToFireStore(task)
+                            Log.d("FIRE", "Add Remote ${task.title}")
+                        }else if(remoteTasks.contains(task)){
+                            Log.d("FIRE", "Added To Local : ${task.toString()}")
+                            addTaskFromFireStore(task)
+                            Log.d("Fire","Add Local ${task.title}")
                         }
                     }
+                }else if( remoteTasks.isNullOrEmpty() && allTasks.value.isNullOrEmpty()){
+                    Log.d("FIRE", "Both Lists Empty")
 
-                }else{
-                    Log.d("FIRE", "Lists do match")
+                } else if(remoteTasks.isNullOrEmpty()){
+                    Log.d("FIRE", "Remote List Empty")
+                    allTasks.value?.let {
+                        it.forEach{
+                            task -> addTaskToFireStore(task)
+                            Log.d("FIRE", "Add to Remote : ${task.title}")
+                        }
+                    }
+                } else if(allTasks.value.isNullOrEmpty()){
+                    Log.d("FIRE", "Local List Empty")
+
+                    remoteTasks.forEach{
+                        task -> addTaskFromFireStore(task)
+                        Log.d("FIRE", "Add to Local : ${task.title}")
+                    }
+
+                }
+                else{
+                    Log.d("FIRE", "Lists match")
                 }
             }
-        }
     }
 
     val _currentTask = MutableLiveData<Task>()
@@ -95,6 +115,10 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
         }
     }
 
+    fun addTaskToFireStore(task: Task){
+        remoteDb.collection("tasks").add(task)
+    }
+
     fun deleteAllTasks(){
         uiScope.launch {
             withContext(Dispatchers.IO) {
@@ -102,6 +126,7 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
             }
         }
     }
+
 
     fun resetCurrentTask(){
         _currentTask.value = null
@@ -112,6 +137,5 @@ class UserRepository constructor(private val taskDao: TaskDao, private val habit
     }
 
     var allHabits = habitDao.getHabits()
-
 
 }
