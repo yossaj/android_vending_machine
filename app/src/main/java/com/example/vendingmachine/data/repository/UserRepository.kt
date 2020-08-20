@@ -3,10 +3,11 @@ package com.example.vendingmachine.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.vendingmachine.data.models.Task
-import com.example.vendingmachine.data.TaskDao
+import com.example.vendingmachine.data.persistence.HabitDao
+import com.example.vendingmachine.data.persistence.TaskDao
 import kotlinx.coroutines.*
 
-class UserRepository constructor(private val taskDao: TaskDao){
+class UserRepository constructor(private val taskDao: TaskDao, private val habitDao: HabitDao){
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -60,4 +61,7 @@ class UserRepository constructor(private val taskDao: TaskDao){
     fun setCurrentTask(task: Task){
         _currentTask.value = task
     }
+
+    var allHabits = habitDao.getHabits()
+
 }

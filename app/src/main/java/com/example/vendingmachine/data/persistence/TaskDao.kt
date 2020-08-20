@@ -1,4 +1,4 @@
-package com.example.vendingmachine.data
+package com.example.vendingmachine.data.persistence
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -32,20 +32,5 @@ interface TaskDao {
     @Query("DELETE FROM tasks WHERE complete = 1")
     fun deleteCompletedTasks(): Int
 
-
-    @Query("SELECT * FROM habits")
-    fun getHabits(): LiveData<List<Habit>>
-
-    @Query("SELECT * FROM habits WHERE entryid = :habitId ")
-    fun getHabitById(habitId : String) : LiveData<Habit>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertHabit(habit: Habit)
-
-    @Query("DELETE FROM habits WHERE entryid = :habitId")
-    fun deleteHabitById(habitId: String): Int
-
-    @Query("DELETE FROM habits")
-    fun deleteAllHabits()
 
 }

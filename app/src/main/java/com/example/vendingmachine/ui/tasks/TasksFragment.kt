@@ -3,16 +3,12 @@ package com.example.vendingmachine.ui.tasks
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
-import com.example.vendingmachine.data.TaskDatabase
 import com.example.vendingmachine.databinding.FragmentTasksBinding
-import com.example.vendingmachine.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
