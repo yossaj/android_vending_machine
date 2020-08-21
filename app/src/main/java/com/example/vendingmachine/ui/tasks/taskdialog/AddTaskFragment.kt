@@ -52,7 +52,6 @@ class AddTaskFragment : DialogFragment(){
             message(text = getString(R.string.delete_all_message))
             positiveButton(text = "Delete All") { dialog ->
                 viewmodel.deleteAllTasks()
-
             }
             negativeButton(text = "Dismiss")
         }

@@ -14,7 +14,8 @@ class TasksViewModel@ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
-    var allTasks = userRepository.allTasks
+    val allTasks : LiveData<List<Task>>
+        get() = userRepository.allTasks
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()
 

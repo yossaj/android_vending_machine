@@ -11,6 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 import com.example.vendingmachine.data.persistence.TaskDatabase.Companion.DATABASE_NAME
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 @Module
@@ -36,6 +39,12 @@ object DatabaseModule {
     @Singleton
     fun provideHabitDao(db : TaskDatabase) : HabitDao{
         return db.getHabitDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebase() : FirebaseFirestore{
+        return Firebase.firestore
     }
 
 }
