@@ -28,6 +28,10 @@ android {
         enabled = true
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }

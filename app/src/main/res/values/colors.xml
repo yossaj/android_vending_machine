@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E6E6E6</color>
+    <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#292F43</color>
     <color name="colorAccent">#AC3A72</color>
 
@@ -9,5 +9,6 @@
     <color name="tempCardColor">#51C1E4</color>
 
     <color name="colorWhite">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>

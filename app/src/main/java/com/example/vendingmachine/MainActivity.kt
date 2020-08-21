@@ -8,8 +8,13 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.vendingmachine.databinding.ActivityMainBinding
 import com.example.vendingmachine.ui.home.HomeViewModel
 import com.example.vendingmachine.workers.DailyHabitReset
 import com.example.vendingmachine.workers.NotificationWorker
@@ -25,9 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel : HomeViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+
         AppCenter.start(
             application, "2dcf9351-a14e-40bc-9f5d-af0085f16d1c",
             Analytics::class.java, Crashes::class.java
@@ -35,6 +42,13 @@ class MainActivity : AppCompatActivity() {
         createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
         triggerNotificationWorker()
         uncheckDailyHabits()
+        setContentView(binding.root)
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.homeFragment, R.id.tasksFragment))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+
     }
 
     fun createChannel(channelId: String, channelName: String, activity: Activity) {

@@ -38,16 +38,28 @@
                 android:layout_marginLeft="@dimen/medium_space"
                 android:layout_weight="1"
                 android:ellipsize="end"
+                android:fontFamily="@font/roboto"
                 android:lines="1"
                 android:maxWidth="300dp"
                 android:onClick="@{(view)-> viewModel.navigateToViewTaskAndPassTask(task)}" />
 
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                app:cornerRadius="30dp"
+                android:backgroundTint="@color/black"
+                android:layout_gravity="center_vertical"
+                app:icon="@drawable/ic_edit" />
+
             <CheckBox
                 android:id="@+id/task_item_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:buttonTint="@color/colorAccent"
+                android:layout_margin="10dp"
+                android:buttonTint="@color/transparent"
+                android:background="@drawable/checkbox_background"
                 android:onClick="@{(view)-> viewModel.handleCheckUnCheck(task)}" />
 
             <View
