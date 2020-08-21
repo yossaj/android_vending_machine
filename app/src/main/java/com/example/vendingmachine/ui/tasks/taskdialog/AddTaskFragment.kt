@@ -11,6 +11,7 @@ import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_task.*
+import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class AddTaskFragment : DialogFragment(){
@@ -35,11 +36,27 @@ class AddTaskFragment : DialogFragment(){
             title_text_layout.hint = "Title of Task"
             note_text_layout.hint = "Notes on Task"
 
+            var color = 1
+            select_blue_task.setOnClickListener{
+                color = 1
+                it.setPadding(5,5,5,5)
+            }
+
+            select_yellow_task.setOnClickListener{
+                color = 2
+                it.setPadding(5,5,5,5)
+            }
+
+            select_green_task.setOnClickListener{
+                color = 3
+                it.setPadding(5,5,5,5)
+            }
+
             positiveButton {
                 val title: String = title_text.editableText.toString()
                 val note: String = note_text.editableText.toString()
                 val currentTask =
-                    Task(title, note, 1, 2)
+                    Task(title, note, 1, color)
                 viewmodel.setCurrentTask(currentTask)
                 viewmodel.addTask()
             }

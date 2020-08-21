@@ -4,5 +4,5 @@
     <size
         android:height="10dp"
         android:width="10dp"/>
-    <solid android:color="@color/black"/>
+    <solid android:color="@color/task_yellow"/>
 </shape>

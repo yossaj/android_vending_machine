@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/black_circle"
+        android:icon="@drawable/blue_circle"
         android:title="Vend" />
 
     <item
