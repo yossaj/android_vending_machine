@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.homeFragment, R.id.tasksFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
+        supportActionBar?.hide()
         binding.navView.setupWithNavController(navController)
 
     }

@@ -2,13 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
+        android:icon="@drawable/black_circle"
         android:title="Vend" />
 
     <item
         android:id="@+id/tasksFragment"
+        android:icon="@drawable/check_complete"
         android:title="Tasks" />
 
     <item
         android:id="@+id/navigation_habits"
+        android:enabled="false"
+        android:icon="@drawable/trashcan_small"
         android:title="Habit" />
 </menu>
