@@ -1,6 +1,7 @@
 package com.example.vendingmachine.ui.tasks.taskdialog
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_task.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
@@ -39,18 +41,25 @@ class AddTaskFragment : DialogFragment(){
             var color = 1
             select_blue_task.setOnClickListener{
                 color = 1
-                it.setPadding(5,5,5,5)
+                it.isSelected = true
+                select_green_task.isSelected = false
+                select_yellow_task.isSelected = false
             }
 
             select_yellow_task.setOnClickListener{
                 color = 2
-                it.setPadding(5,5,5,5)
+                it.isSelected = true
+                select_green_task.isSelected = false
+                select_blue_task.isSelected = false
             }
 
             select_green_task.setOnClickListener{
                 color = 3
-                it.setPadding(5,5,5,5)
+                it.isSelected = true
+                select_blue_task.isSelected = false
+                select_yellow_task.isSelected = false
             }
+
 
             positiveButton {
                 val title: String = title_text.editableText.toString()
@@ -61,6 +70,7 @@ class AddTaskFragment : DialogFragment(){
                 viewmodel.addTask()
             }
         }
+
         return dialog
     }
 

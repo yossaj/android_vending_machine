@@ -8,14 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="md_color_button_text">@color/black</item>
+        <item name="md_color_title">@color/black</item>
     </style>
 
     <style name="TextAppearance.List" parent="VendingTheme">
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">22sp</item>
     </style>
 
     <style name="TextAppearance.DialogText" parent="VendingTheme">
         <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:padding">@dimen/medium_space</item>
         <item name="android:layout_margin">@dimen/medium_space</item>
     </style>
