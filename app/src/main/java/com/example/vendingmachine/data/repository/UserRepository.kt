@@ -15,16 +15,43 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore) {
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
-    val _allTasks = MutableLiveData<List<Task>>()
+    var _allTasks = MutableLiveData<List<Task>>()
     val allTasks: LiveData<List<Task>>
         get() = _allTasks
 
+    val _period = MutableLiveData<Int>(1)
+    val period : LiveData<Int>
+        get() = _period
+
+
+
     fun listenToFireStoreChanges() {
-        remoteDb.collection(TASKS).addSnapshotListener { snapshot, exception ->
+        remoteDb.collection(TASKS).whereEqualTo("period", period.value).addSnapshotListener { snapshot, exception ->
             val remoteTasks: List<Task> = snapshot?.toObjects(Task::class.java) as List<Task>
-            _allTasks.postValue(remoteTasks)
+                    _allTasks.postValue(remoteTasks)
+            }
+    }
+
+    fun incrementPeriod(){
+        _period.value?.let {
+            periodTemp ->
+            if(periodTemp <= 2){
+                _period.postValue(periodTemp + 1)
+            }
+        }
+
+    }
+
+    fun decrementPeriod(){
+        _period.value?.let {
+            periodTemp ->
+            if(periodTemp >= 0){
+                _period.postValue(periodTemp - 1)
+            }
         }
     }
+
+
 
     val _currentTask = MutableLiveData<Task>()
     val currentNewTask: LiveData<Task>

@@ -22,31 +22,61 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:orientation="horizontal"
-        android:layout_margin="@dimen/small_space"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/add_task_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_add_circle"
             android:onClick="@{()-> viewmodel.triggerAddTaskNav()}"
-            />
+            android:src="@drawable/ic_add_circle" />
 
         <ImageButton
             android:id="@+id/delete_all_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_delete"
-            />
+            android:src="@drawable/ic_delete" />
 
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/decrement_arrow_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/arrow_left"
+        android:layout_marginStart="@dimen/large_spacing"
+        app:layout_constraintBottom_toBottomOf="@+id/period_text"
+        android:onClick="@{() -> viewmodel.decrementPeriod()}"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/period_text" />
+
+    <TextView
+        android:id="@+id/period_text"
+        style="@style/TextAppearance.DialogText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TODAY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <ImageButton
+        android:id="@+id/increment_arrow_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparent"
+        android:layout_marginEnd="@dimen/large_spacing"
+        android:src="@drawable/arrow_right"
+        android:onClick="@{() -> viewmodel.incrementPeriod()}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/period_text"
+        app:layout_constraintTop_toTopOf="@+id/period_text" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -59,7 +89,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout3">
+        app:layout_constraintTop_toBottomOf="@id/period_text">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/task_habit_list"
