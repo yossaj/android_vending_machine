@@ -1,96 +1,92 @@
 package com.example.vendingmachine.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.vendingmachine.data.Task
-import com.example.vendingmachine.data.TaskDao
+import com.example.vendingmachine.data.models.Task
+import com.example.vendingmachine.utils.Constants.COMPLETED
+import com.example.vendingmachine.utils.Constants.TASKS
+import com.example.vendingmachine.utils.Constants.UPDATE_TAG
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.*
 
-class UserRepository constructor(private val taskDao: TaskDao){
+class UserRepository constructor(private val remoteDb: FirebaseFirestore) {
 
     private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
-    var allTasks = taskDao.getTasks()
+    val _allTasks = MutableLiveData<List<Task>>()
+    val allTasks: LiveData<List<Task>>
+        get() = _allTasks
+
+    fun listenToFireStoreChanges() {
+        remoteDb.collection(TASKS).addSnapshotListener { snapshot, exception ->
+            val remoteTasks: List<Task> = snapshot?.toObjects(Task::class.java) as List<Task>
+            _allTasks.postValue(remoteTasks)
+        }
+    }
 
     val _currentTask = MutableLiveData<Task>()
-    val currentNewTask : LiveData<Task>
+    val currentNewTask: LiveData<Task>
         get() = _currentTask
 
-    val _requestedTask = MutableLiveData<Task>()
-
-    fun updateOnComplete(task: Task){
+    fun updateOnComplete(task: Task) {
         uiScope.launch {
-            withContext(Dispatchers.IO) {
-                updateTask(task)
+            val docRef = remoteDb.collection(TASKS).document(task.id)
+
+            docRef
+                .update(COMPLETED, task.isCompleted)
+                .addOnSuccessListener { Log.d(UPDATE_TAG, "Task successfully updated!") }
+                .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
+        }
+    }
+
+    fun deleteTask() {
+        uiScope.launch {
+            _currentTask.value?.id?.let { taskId ->
+                remoteDb.collection("tasks").document(taskId).delete()
+                    .addOnCompleteListener {
+
+                    }
+                    .addOnFailureListener {
+
+                    }
             }
         }
     }
 
-    suspend fun updateTask(task: Task){
-        taskDao.updateTask(task)
-    }
-
-
-    fun deleteTask(){
+    fun addTask() {
         uiScope.launch {
-            delete()
-        }
-    }
-
-    suspend fun delete() {
-        _currentTask.value?.id?.let {
-            withContext(Dispatchers.IO) {
-                taskDao.deleteTaskById(it)
+            withContext(Dispatchers.Main){
+                currentNewTask.value?.let { task ->
+                    addTaskToFireStore(task)
+                }
             }
+
         }
     }
 
-    fun addTask(){
+    fun addTaskToFireStore(task: Task) {
+        remoteDb.collection("tasks").document(task.id).set(task)
+    }
+
+    fun deleteAllTasks() {
         uiScope.launch {
-            currentNewTask.value?.let {
-                insert(it)
-            }
+
         }
     }
 
-    suspend fun insert(task: Task) {
-        withContext(Dispatchers.IO){
-            taskDao.insertTask(task)
-        }
-    }
-
-    fun getTaskToView(){
-        uiScope.launch {
-            getTask()
-        }
-    }
-
-    suspend fun getTask(){
-        _currentTask.value?.id?.let {
-            withContext(Dispatchers.IO) {
-                _requestedTask.postValue(taskDao.getTaskById(it))
-            }
-        }
-    }
-
-    fun deleteAllTasks(){
-        uiScope.launch {
-            deleteAll()
-        }
-    }
-
-    suspend fun deleteAll(){
-        withContext(Dispatchers.IO) {
-            taskDao.deleteAllTasks()
-        }
-    }
-
-    fun resetCurrentTask(){
+    fun resetCurrentTask() {
         _currentTask.value = null
     }
 
-    fun setCurrentTask(task: Task){
+    fun setCurrentTask(task: Task) {
         _currentTask.value = task
     }
+
+
+    init {
+        listenToFireStoreChanges()
+    }
+
 }

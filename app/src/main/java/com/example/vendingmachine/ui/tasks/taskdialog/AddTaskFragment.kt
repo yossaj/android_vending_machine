@@ -1,19 +1,19 @@
 package com.example.vendingmachine.ui.tasks.taskdialog
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.vendingmachine.R
-import com.example.vendingmachine.data.Task
-import com.example.vendingmachine.data.TaskDatabase
+import com.example.vendingmachine.data.models.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_task.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class AddTaskFragment : DialogFragment(){
@@ -23,13 +23,9 @@ class AddTaskFragment : DialogFragment(){
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val habitBool = args.habitCheck.equals(getString(R.string.habit))
         val trashBool = args.habitCheck.equals(getString(R.string.delete_all))
 
-
-        if(habitBool){
-            return addHabitDialog()
-        }else if(trashBool){
+       if(trashBool){
             return deleteAllDialog()
         }else {
             return addTaskDialog()
@@ -42,14 +38,39 @@ class AddTaskFragment : DialogFragment(){
             title_text_layout.hint = "Title of Task"
             note_text_layout.hint = "Notes on Task"
 
+            var color = 1
+            select_blue_task.setOnClickListener{
+                color = 1
+                it.isSelected = true
+                select_green_task.isSelected = false
+                select_yellow_task.isSelected = false
+            }
+
+            select_yellow_task.setOnClickListener{
+                color = 2
+                it.isSelected = true
+                select_green_task.isSelected = false
+                select_blue_task.isSelected = false
+            }
+
+            select_green_task.setOnClickListener{
+                color = 3
+                it.isSelected = true
+                select_blue_task.isSelected = false
+                select_yellow_task.isSelected = false
+            }
+
+
             positiveButton {
                 val title: String = title_text.editableText.toString()
                 val note: String = note_text.editableText.toString()
-                val currentTask = Task(title, note)
+                val currentTask =
+                    Task(title, note, 1, color)
                 viewmodel.setCurrentTask(currentTask)
                 viewmodel.addTask()
             }
         }
+
         return dialog
     }
 
@@ -58,26 +79,8 @@ class AddTaskFragment : DialogFragment(){
             message(text = getString(R.string.delete_all_message))
             positiveButton(text = "Delete All") { dialog ->
                 viewmodel.deleteAllTasks()
-
             }
             negativeButton(text = "Dismiss")
-        }
-        return dialog
-    }
-
-    private fun addHabitDialog(): MaterialDialog {
-        val dialog = MaterialDialog(requireContext()).show {
-            customView(R.layout.dialog_add_task)
-            title_text_layout.hint = "Title of Habit"
-            note_text_layout.hint = "Notes on Habit"
-
-            positiveButton {
-                val title: String = title_text.editableText.toString()
-                val note: String = note_text.editableText.toString()
-                val currentTask = Task(title, note, true)
-                viewmodel.setCurrentTask(currentTask)
-                viewmodel.addTask()
-            }
         }
         return dialog
     }

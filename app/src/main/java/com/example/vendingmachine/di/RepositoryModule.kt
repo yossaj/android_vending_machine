@@ -1,9 +1,11 @@
 package com.example.vendingmachine.di
 
-import com.example.vendingmachine.data.TaskDao
+import com.example.vendingmachine.data.persistence.TaskDao
 import com.example.vendingmachine.data.network.ApiService
+import com.example.vendingmachine.data.persistence.HabitDao
 import com.example.vendingmachine.data.repository.ApiRepository
 import com.example.vendingmachine.data.repository.UserRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +24,8 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserRepository(taskDao: TaskDao) : UserRepository{
-        return UserRepository(taskDao)
+    fun provideUserRepository(remoteDb : FirebaseFirestore) : UserRepository{
+        return UserRepository(remoteDb)
     }
 
 }

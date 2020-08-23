@@ -1,7 +1,9 @@
 package com.example.vendingmachine.data.network
 
-import com.example.vendingmachine.data.models.*
-import com.google.gson.JsonObject
+import com.example.vendingmachine.data.models.api.Bull
+import com.example.vendingmachine.data.models.api.CatPic
+import com.example.vendingmachine.data.models.api.DogPic
+import com.example.vendingmachine.data.models.api.Slip
 import retrofit2.http.GET
 
 interface ApiService{

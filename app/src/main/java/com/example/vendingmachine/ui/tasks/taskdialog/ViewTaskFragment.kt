@@ -6,14 +6,9 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
-import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.vendingmachine.R
-import com.example.vendingmachine.data.TaskDatabase
-import com.example.vendingmachine.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.view_task_dialog.*
 
@@ -35,7 +30,7 @@ class ViewTaskFragment : DialogFragment(){
         viewmodel.currentTask.observe(this, Observer {
             it?.let {
                 dialog.view_task_title.text = it.title
-                dialog.view_task_note.text = it.content
+                dialog.view_task_note.text = it.description
             }
         })
 

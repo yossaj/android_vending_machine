@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="small_space">6dp</dimen>
     <dimen name="medium_space">16dp</dimen>
     <dimen name="large_spacing">32dp</dimen>
     <dimen name="add_task_text_size">22sp</dimen>

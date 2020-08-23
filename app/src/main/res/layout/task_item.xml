@@ -1,62 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="task"
-            type="com.example.vendingmachine.data.Task" />
+            type="com.example.vendingmachine.data.models.Task" />
 
         <variable
             name="viewModel"
             type="com.example.vendingmachine.ui.tasks.TasksViewModel" />
-
     </data>
 
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <CheckBox
-        android:id="@+id/task_item_checkbox"
-        android:buttonTint="@color/colorAccent"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/task_item_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(view)-> viewModel.handleCheckUnCheck(task)}"
-        android:layout_gravity="center_vertical"/>
+        app:cardBackgroundColor="@color/task_blue"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="true">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <TextView
-        style="@style/TextAppearance.List"
-        android:id="@+id/task_item_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:lines="1"
-        android:maxWidth="300dp"
-        android:ellipsize="end"
-        android:layout_gravity="center_vertical"
-        android:onClick="@{(view)-> viewModel.navigateToViewTaskAndPassTask(task)}"
-        android:layout_marginStart="@dimen/medium_space"
-        android:layout_marginLeft="@dimen/medium_space"/>
+            <TextView
+                android:id="@+id/task_item_title"
+                style="@style/TextAppearance.List"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/medium_space"
+                android:layout_marginLeft="@dimen/medium_space"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:lines="1"
+                android:maxWidth="300dp"
+                android:onClick="@{(view)-> viewModel.navigateToViewTaskAndPassTask(task)}" />
 
-    <View
-        android:id="@+id/habit_count_spacer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone"
-        />
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                app:cornerRadius="30dp"
+                android:backgroundTint="@color/black"
+                android:layout_gravity="center_vertical"
+                app:icon="@drawable/ic_edit" />
 
-    <TextView
-        android:id="@+id/habit_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:textSize="22sp"
-        android:text="06"/>
+            <CheckBox
+                android:id="@+id/task_item_checkbox"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:buttonTint="@color/transparent"
+                android:background="@drawable/checkbox_background"
+                android:onClick="@{(view)-> viewModel.handleCheckUnCheck(task)}" />
 
+            <View
+                android:id="@+id/habit_count_spacer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="gone" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/habit_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="06"
+                android:textSize="22sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
 </layout>

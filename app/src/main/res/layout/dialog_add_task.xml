@@ -1,47 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:layout_margin="@dimen/medium_space"
-    android:layout_gravity="center"
-    android:orientation="vertical">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/title_text_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_space">
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/medium_space"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title_text"
-            android:textSize="@dimen/add_task_text_size"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:layout_margin="@dimen/medium_space">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_task_text_size" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/note_text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_space">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/note_text"
-            android:textSize="@dimen/add_task_text_size"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/note_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:layout_margin="@dimen/medium_space">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/note_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/add_task_text_size" />
 
-</LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/select_blue_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
+                android:src="@drawable/blue_circle_selector" />
+
+            <ImageButton
+                android:id="@+id/select_yellow_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
+                android:src="@drawable/yellow_circle_selector" />
+
+
+            <ImageButton
+                android:id="@+id/select_green_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
+                android:src="@drawable/green_circle_selector" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </layout>

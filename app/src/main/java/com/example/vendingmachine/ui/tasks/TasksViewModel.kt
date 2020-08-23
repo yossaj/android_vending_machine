@@ -6,16 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.data.repository.UserRepository
-import kotlinx.coroutines.*
 
 class TasksViewModel@ViewModelInject constructor(
     private val userRepository: UserRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
-    var allTasks = userRepository.allTasks
+    val allTasks : LiveData<List<Task>>
+        get() = userRepository.allTasks
 
     val _coinIncrementSwitch = MutableLiveData<Boolean>()
 
@@ -44,6 +44,10 @@ class TasksViewModel@ViewModelInject constructor(
         userRepository.setCurrentTask(task)
     }
 
+    fun syncFireStore(){
+        userRepository.listenToFireStoreChanges()
+    }
+
 
     fun incrementCoinSwitch(){
         _coinIncrementSwitch.value = true
@@ -56,21 +60,8 @@ class TasksViewModel@ViewModelInject constructor(
         userRepository.updateOnComplete(updatedtask)
     }
 
-    fun updateHabitWhenComplete(task: Task, boolean: Boolean){
-        var updateHabit = task
-        updateHabit.habitCount += 1
-        updateHabit.isCompleted = boolean
-        updateHabit.updatedTime = System.currentTimeMillis()
-        if(boolean){incrementCoinSwitch()}
-        userRepository.updateOnComplete(updateHabit)
-
-    }
-
     fun handleCheckUnCheck(task: Task){
-        if(task.habit && !task.isCompleted){
-            updateHabitWhenComplete(task, true )
-        }
-        else if(task.isCompleted){
+        if(task.isCompleted){
             updateTaskWhenComplete(task, false)
         }else if(!task.isCompleted){
             updateTaskWhenComplete(task, true)

@@ -1,5 +1,6 @@
 package com.example.vendingmachine.ui.tasks
 
+import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.vendingmachine.data.Task
+import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.TaskItemBinding
 
 class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffCallback()){
@@ -30,23 +31,25 @@ class TasksAdapter(val viewModel: TasksViewModel) : ListAdapter<Task, TasksAdapt
         fun bind(task: Task){
             binding.task = task
             binding.taskItemTitle.text = task.title
-            if(task.habit){
-                binding.habitCount.visibility = View.VISIBLE
-                binding.habitCountSpacer.visibility = View.VISIBLE
-                val habitCount = task.habitCount.toString()
-                binding.habitCount.text = "0${habitCount}"
-            }else if(!task.habit){
                 binding.habitCount.visibility = View.GONE
                 binding.habitCountSpacer.visibility = View.GONE
-            }
-            if(task.isCompleted && !task.habit) {
+            binding.taskItemContainer.setCardBackgroundColor(getTaskColour(task))
+
+            if(task.isCompleted) {
                 binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 binding.taskItemCheckbox.isChecked = true
             }else if(!task.isCompleted){
                 binding.taskItemCheckbox.isChecked = false
                 binding.taskItemTitle.paintFlags = 0
-            }else if(task.habit && task.isCompleted){
-                binding.taskItemCheckbox.isChecked = true
+            }
+        }
+
+        fun getTaskColour(task: Task) : Int{
+            when(task.colour){
+                1 -> return Color.parseColor("#51C1E4")
+                2 -> return  Color.parseColor("#F2C94C")
+                3-> return Color.parseColor("#6FCF97")
+                else -> return Color.parseColor("#6FCF97")
             }
         }
     }

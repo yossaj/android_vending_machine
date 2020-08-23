@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -15,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,6 +26,10 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     testOptions {
@@ -74,6 +80,9 @@ dependencies {
     implementation "androidx.test:core:$androidXTestCoreVersion"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.19.0'
+
+//    firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.5.0'
 
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1'
     androidTestImplementation "android.arch.core:core-testing:$androidXTestCoreVersion"

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "303986002783",
+    "firebase_url": "https://venderino-27386.firebaseio.com",
+    "project_id": "venderino-27386",
+    "storage_bucket": "venderino-27386.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303986002783:android:b94b042ce0d92869d844ea",
+        "android_client_info": {
+          "package_name": "com.example.vendingmachine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303986002783-08p0doks1746e71ccl2bhkf8vb6red7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vendingmachine",
+            "certificate_hash": "8648e1c0d8f62b887df868ccd279bfa27dddf76a"
+          }
+        },
+        {
+          "client_id": "303986002783-7jhe6aohrk7a642bjnv9t5psr430t02c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVbuJ216DXcW_vdqntM6zd3te5OPFLG6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303986002783-7jhe6aohrk7a642bjnv9t5psr430t02c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
