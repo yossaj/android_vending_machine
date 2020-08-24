@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 import com.example.vendingmachine.data.persistence.TaskDatabase.Companion.DATABASE_NAME
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -43,8 +44,14 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideFirebase() : FirebaseFirestore{
+    fun provideFirestore() : FirebaseFirestore{
         return Firebase.firestore
+    }
+
+    @Provides
+    @Singleton
+    fun provideFireAuth() : FirebaseAuth{
+        return FirebaseAuth.getInstance()
     }
 
 }

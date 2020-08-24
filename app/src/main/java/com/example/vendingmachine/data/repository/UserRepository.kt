@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 
 class UserRepository constructor(private val remoteDb: FirebaseFirestore) {
 
+
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
