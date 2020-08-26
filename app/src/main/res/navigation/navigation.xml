@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
@@ -12,6 +14,9 @@
         <action
             android:id="@+id/action_homeFragment_to_tasksFragment"
             app:destination="@id/tasksFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_habitFragment"
+            app:destination="@id/habitFragment" />
     </fragment>
     <dialog
         android:id="@+id/homeDialogFragment"
@@ -40,4 +45,10 @@
         android:name="com.example.vendingmachine.ui.tasks.taskdialog.ViewTaskFragment"
         android:label="ViewTaskFragment">
     </dialog>
+
+    <fragment
+        android:id="@+id/habitFragment"
+        android:name="com.example.vendingmachine.ui.habits.HabitFragment"
+        android:label="fragment_habit"
+        tools:layout="@layout/fragment_habit" />
 </navigation>

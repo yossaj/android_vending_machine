@@ -26,7 +26,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     val period: LiveData<Int>
         get() = _period
 
-
     fun listenToFireStoreChanges() {
         remoteDb.collection("users")
             .document(getUid())
@@ -50,7 +49,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     }
 
-
     fun getUid() : String{
         currentUser?.let {
             val uid = it.uid
@@ -66,7 +64,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             }
         }
     }
-
 
     val _currentTask = MutableLiveData<Task>()
     val currentNewTask: LiveData<Task>

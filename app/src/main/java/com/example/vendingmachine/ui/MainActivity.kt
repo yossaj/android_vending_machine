@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel : HomeViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -47,7 +46,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.homeFragment,
-            R.id.tasksFragment
+            R.id.tasksFragment,
+            R.id.habitFragment
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         supportActionBar?.hide()
