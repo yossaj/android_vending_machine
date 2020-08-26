@@ -29,6 +29,10 @@ class AuthViewModel @ViewModelInject constructor(
         }
     }
 
+    fun signOut(){
+        firebaseAuth.signOut()
+    }
+
     init {
         getUserStatus()
     }

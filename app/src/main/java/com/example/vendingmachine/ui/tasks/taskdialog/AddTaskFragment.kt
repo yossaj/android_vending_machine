@@ -65,7 +65,7 @@ class AddTaskFragment : DialogFragment(){
                 val title: String = title_text.editableText.toString()
                 val note: String = note_text.editableText.toString()
                 val currentTask =
-                    Task(title, note, 1, color)
+                    Task(title, note, 1, color, viewmodel.getUserId())
                 viewmodel.setCurrentTask(currentTask)
                 viewmodel.addTask()
             }
