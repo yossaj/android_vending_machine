@@ -5,7 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.example.vendingmachine.MainActivity
+import com.example.vendingmachine.ui.MainActivity
 import com.example.vendingmachine.R
 
 fun NotificationManager.sendNotificaiton(titleText : String, message : String,applicationContext: Context){

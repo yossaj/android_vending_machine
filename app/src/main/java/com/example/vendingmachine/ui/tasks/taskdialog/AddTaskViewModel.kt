@@ -24,6 +24,10 @@ class AddTaskViewModel@ViewModelInject constructor(private val userRepository: U
         userRepository.setCurrentTask(task)
     }
 
+    fun getUserId() : String{
+       return userRepository.getUid()
+    }
+
     fun deleteTask(){
         userRepository.deleteTask()
     }

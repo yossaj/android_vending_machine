@@ -40,12 +40,23 @@ class TasksViewModel@ViewModelInject constructor(
     val currentTask : LiveData<Task>
         get() = userRepository._currentTask
 
+    val period : LiveData<Int>
+        get() = userRepository.period
+
     fun setCurrentTask(task : Task){
         userRepository.setCurrentTask(task)
     }
 
-    fun syncFireStore(){
+    fun updateTasks(){
         userRepository.listenToFireStoreChanges()
+    }
+
+    fun incrementPeriod(){
+        userRepository.incrementPeriod()
+    }
+
+    fun decrementPeriod(){
+        userRepository.decrementPeriod()
     }
 
 

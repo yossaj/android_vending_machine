@@ -5,6 +5,7 @@ import com.example.vendingmachine.data.network.ApiService
 import com.example.vendingmachine.data.persistence.HabitDao
 import com.example.vendingmachine.data.repository.ApiRepository
 import com.example.vendingmachine.data.repository.UserRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -24,8 +25,8 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserRepository(remoteDb : FirebaseFirestore) : UserRepository{
-        return UserRepository(remoteDb)
+    fun provideUserRepository(remoteDb : FirebaseFirestore, firebaseAuth : FirebaseAuth) : UserRepository{
+        return UserRepository(remoteDb, firebaseAuth)
     }
 
 }

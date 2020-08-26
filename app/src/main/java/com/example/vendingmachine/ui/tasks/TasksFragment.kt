@@ -31,6 +31,17 @@ class TasksFragment : Fragment() {
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
         val adapter = TasksAdapter(viewModel)
+
+        viewModel.period.observe(viewLifecycleOwner, Observer {
+            viewModel.updateTasks()
+            when(it){
+                1 -> binding.periodText.text = "TODAY"
+                2 -> binding.periodText.text = "THIS WEEK"
+                3 -> binding.periodText.text = "THIS MONTH"
+            }
+        })
+
+
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })

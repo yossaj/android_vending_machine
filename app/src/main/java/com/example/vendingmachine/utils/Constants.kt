@@ -5,4 +5,5 @@ object Constants {
     val TASKS = "tasks"
     val COMPLETED = "completed"
     val UPDATE_TAG = "FIRE UPDATE"
+    val SIGN_IN_CODE = 1010
 }

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/blue_circle"
+        android:icon="@drawable/vend"
         android:title="Vend" />
 
     <item
@@ -11,8 +11,7 @@
         android:title="Tasks" />
 
     <item
-        android:id="@+id/navigation_habits"
-        android:enabled="false"
-        android:icon="@drawable/trashcan_small"
+        android:id="@+id/habitFragment"
+        android:icon="@drawable/dailies"
         android:title="Habit" />
 </menu>
