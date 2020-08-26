@@ -3,6 +3,7 @@ package com.example.vendingmachine.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.utils.Constants.COMPLETED
 import com.example.vendingmachine.utils.Constants.TASKS
@@ -18,15 +19,19 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
-    var _allTasks = MutableLiveData<List<Task>>()
+    val _allTasks = MutableLiveData<List<Task>>()
     val allTasks: LiveData<List<Task>>
         get() = _allTasks
+
+    var _allHabits = MutableLiveData<List<Habit>>()
+    val allHabits : LiveData<List<Habit>>
+        get() = _allHabits
 
     val _period = MutableLiveData<Int>(1)
     val period: LiveData<Int>
         get() = _period
 
-    fun listenToFireStoreChanges() {
+    fun listenForTaskChanges() {
         remoteDb.collection("users")
             .document(getUid())
             .collection("tasks")
@@ -37,8 +42,23 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                     _allTasks.postValue(remoteTasks)
                 }
             }
+    }
+
+    fun listenForHabitChanges(){
+        remoteDb.collection("users")
+            .document(getUid())
+            .collection("habits")
+            .whereEqualTo("freqency", 1)
+            .addSnapshotListener{ snapshot, exception ->
+                snapshot?.let {
+                    var remoteHabits : List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
+                    _allHabits.postValue(remoteHabits)
+                }
+            }
 
     }
+
+
 
     fun incrementPeriod() {
         _period.value?.let { periodTemp ->
@@ -105,6 +125,14 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
+    fun addHabit(habit: Habit){
+        uiScope.launch {
+            remoteDb.collection("users").document(getUid()).collection("habits").document(habit.id).set(habit)
+        }
+
+    }
+
+
     fun addTaskToFireStore(task: Task) {
         remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
     }
@@ -124,7 +152,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     }
 
     init {
-        listenToFireStoreChanges()
+        listenForTaskChanges()
     }
 
 }

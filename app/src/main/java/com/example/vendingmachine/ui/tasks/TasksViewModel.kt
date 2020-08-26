@@ -48,7 +48,7 @@ class TasksViewModel@ViewModelInject constructor(
     }
 
     fun updateTasks(){
-        userRepository.listenToFireStoreChanges()
+        userRepository.listenForTaskChanges()
     }
 
     fun incrementPeriod(){

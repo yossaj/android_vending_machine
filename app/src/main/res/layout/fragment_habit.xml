@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:paddingBottom="?attr/actionBarSize">
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/show_habit_from_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_add_circle" />
+
+        <ImageButton
+            android:id="@+id/delete_all_habits_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_delete" />
+
+
+    </LinearLayout>
 
 
     <ImageButton
@@ -41,6 +67,70 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/habit_frequency" />
 
+    <FrameLayout
+        android:id="@+id/add_habit_outer_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curved_corners_background_yellow"
+        android:padding="@dimen/medium_space"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/habit_list_container"
+        app:layout_constraintStart_toStartOf="@+id/habit_list_container"
+        app:layout_constraintTop_toBottomOf="@id/habit_frequency">
+
+        <LinearLayout
+            android:id="@+id/add_habit_inner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/habit_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/habit_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/opaceWhite"
+                    android:hint="Habit" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/frequency_picker"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/medium_space"
+                android:background="@drawable/curved_corners_opace" />
+
+            <Spinner
+                android:id="@+id/times_picker"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/medium_space"
+                android:background="@drawable/curved_corners_opace" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_habit_btn"
+                app:icon="@drawable/add_button"
+                app:iconTint="@color/black"
+                android:textColor="@color/black"
+                android:text="Add New Habit"
+                android:layout_margin="@dimen/medium_space"
+                app:cornerRadius="@dimen/medium_space"
+                android:backgroundTint="@color/opaceWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/habit_list_container"
         android:layout_width="match_parent"
@@ -48,7 +138,7 @@
         android:layout_margin="@dimen/large_spacing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habit_frequency">
+        app:layout_constraintTop_toBottomOf="@+id/add_habit_outer_container">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/habit_list"
@@ -58,9 +148,6 @@
 
 
     </LinearLayout>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

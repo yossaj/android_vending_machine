@@ -11,5 +11,6 @@ data class Habit@JvmOverloads constructor(
     @ColumnInfo(name = "max") var max: Int,
     @ColumnInfo(name = "count") var count: Int = 0,
     @ColumnInfo(name = "updateAt") var updatedAt: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "frequency") var frequency : Int = 1,
     @PrimaryKey @ColumnInfo(name = "entryid") var id: String = UUID.randomUUID().toString()
 )
