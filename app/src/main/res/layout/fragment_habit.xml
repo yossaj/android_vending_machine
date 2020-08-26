@@ -34,13 +34,31 @@
         android:id="@+id/increment_arrow_btn_habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginEnd="@dimen/large_spacing"
         android:backgroundTint="@color/transparent"
         android:src="@drawable/arrow_right"
         app:layout_constraintBottom_toBottomOf="@+id/habit_frequency"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/habit_frequency" />
+
+    <LinearLayout
+        android:id="@+id/habit_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large_spacing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/habit_frequency">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/habit_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+    </LinearLayout>
+
 
 
 

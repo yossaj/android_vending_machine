@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="task"
+            name="habit"
             type="com.example.vendingmachine.data.models.Habit"/>
     </data>
 
@@ -36,6 +36,7 @@
                 android:textColor="@color/black"
                 android:maxLines="1"
                 android:textSize="18dp"
+                android:text="@{habit.title}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton"
                 app:layout_constraintStart_toEndOf="@id/habit_tally"
