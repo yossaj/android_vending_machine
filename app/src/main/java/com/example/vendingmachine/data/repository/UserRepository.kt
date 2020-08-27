@@ -57,6 +57,18 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             }
     }
 
+    fun updateHabitCount(habit : Habit, count : Int){
+        val docRef = remoteDb.collection("users")
+            .document(getUid())
+            .collection("habits")
+            .document(habit.id)
+
+        docRef
+            .update("count", count)
+            .addOnSuccessListener { Log.d(UPDATE_TAG, "Habit count successfully updated!") }
+            .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
+    }
+
 
 
     fun incrementPeriod() {

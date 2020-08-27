@@ -31,7 +31,17 @@ class HabitFragment : Fragment() {
     ): View? {
         val binding = FragmentHabitBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
-        val adapter = HabitAdapter()
+        val adapter = HabitAdapter(HabitAdapter.OnClickListener {
+            habit, increment ->
+            if(increment && habit.count < habit.max) {
+                val increaseCount = habit.count + 1
+                viewModel.updateHabitCount(habit, increaseCount)
+            }else if(!increment && habit.count > 0){
+                val decreaseCount = habit.count - 1
+                viewModel.updateHabitCount(habit, decreaseCount)
+            }
+
+        })
         binding.habitList.adapter = adapter
         viewModel.allHabits.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
@@ -75,7 +85,7 @@ class HabitFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }else{
-                val newhabit = Habit(habitname, frequency, times)
+                val newhabit = Habit(habitname, times, frequency)
                 viewModel.addHabit(newhabit)
             }
 

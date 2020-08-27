@@ -38,24 +38,24 @@
                 android:textSize="18dp"
                 android:text="@{habit.title}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton"
+                app:layout_constraintEnd_toStartOf="@+id/decrement_count_btn"
                 app:layout_constraintStart_toEndOf="@id/habit_tally"
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="Go to the gym" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/decrement_count_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:backgroundTint="@color/transparent"
                 android:src="@drawable/remove_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                app:layout_constraintEnd_toStartOf="@+id/increment_count_btn"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/increment_count_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
