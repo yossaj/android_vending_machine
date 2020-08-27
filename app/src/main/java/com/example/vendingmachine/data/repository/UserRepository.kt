@@ -48,14 +48,13 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         remoteDb.collection("users")
             .document(getUid())
             .collection("habits")
-            .whereEqualTo("freqency", 1)
+            .whereEqualTo("frequency", 1)
             .addSnapshotListener{ snapshot, exception ->
                 snapshot?.let {
                     var remoteHabits : List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
                     _allHabits.postValue(remoteHabits)
                 }
             }
-
     }
 
 
@@ -149,10 +148,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun setCurrentTask(task: Task) {
         _currentTask.value = task
-    }
-
-    init {
-        listenForTaskChanges()
     }
 
 }

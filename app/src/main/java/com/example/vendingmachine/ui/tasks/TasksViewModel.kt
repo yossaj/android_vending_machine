@@ -108,6 +108,10 @@ class TasksViewModel@ViewModelInject constructor(
         resetViewTaskTrigger()
     }
 
+    fun listenForTaskChanges(){
+        userRepository.listenForTaskChanges()
+    }
+
     init {
         _coinIncrementSwitch.postValue(false)
         _navigateToAddTaskTrigger.postValue(false)
