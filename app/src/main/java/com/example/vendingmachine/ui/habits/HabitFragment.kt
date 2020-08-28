@@ -1,9 +1,12 @@
 package com.example.vendingmachine.ui.habits
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -53,6 +56,12 @@ class HabitFragment : Fragment() {
                 binding.addHabitOuterContainer.visibility = View.GONE
             } else {
                 binding.addHabitOuterContainer.visibility = View.VISIBLE
+                val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.5f, 1f)
+                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, 1f)
+                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                ObjectAnimator.ofPropertyValuesHolder(binding.addHabitOuterContainer, scaleY, alpha).apply {
+                    interpolator = OvershootInterpolator()
+                }.start()
             }
         }
 
