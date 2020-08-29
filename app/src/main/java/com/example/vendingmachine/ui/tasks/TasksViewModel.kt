@@ -47,6 +47,10 @@ class TasksViewModel@ViewModelInject constructor(
         userRepository.setCurrentTask(task)
     }
 
+    fun addTask(task: Task){
+        userRepository.addTask(task)
+    }
+
     fun updateTasks(){
         userRepository.listenForTaskChanges()
     }

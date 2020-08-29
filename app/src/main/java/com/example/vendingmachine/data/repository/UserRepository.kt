@@ -10,6 +10,7 @@ import com.example.vendingmachine.utils.Constants.TASKS
 import com.example.vendingmachine.utils.Constants.UPDATE_TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.*
 
 class UserRepository constructor(private val remoteDb: FirebaseFirestore, private val firebaseAuth: FirebaseAuth) {
@@ -35,6 +36,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         remoteDb.collection("users")
             .document(getUid())
             .collection("tasks")
+            .orderBy("update", Query.Direction.DESCENDING)
             .whereEqualTo("period", period.value)
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {
@@ -49,6 +51,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             .document(getUid())
             .collection("habits")
             .whereEqualTo("frequency", 1)
+            .orderBy("updatedAt", Query.Direction.ASCENDING)
             .addSnapshotListener{ snapshot, exception ->
                 snapshot?.let {
                     var remoteHabits : List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
@@ -125,12 +128,10 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun addTask() {
+    fun addTask(task: Task) {
         uiScope.launch {
             withContext(Dispatchers.Main) {
-                currentNewTask.value?.let { task ->
                     addTaskToFireStore(task)
-                }
             }
 
         }

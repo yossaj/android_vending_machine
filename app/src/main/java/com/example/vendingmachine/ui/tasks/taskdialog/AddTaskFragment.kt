@@ -67,7 +67,6 @@ class AddTaskFragment : DialogFragment(){
                 val currentTask =
                     Task(title, note, 1, color, viewmodel.getUserId())
                 viewmodel.setCurrentTask(currentTask)
-                viewmodel.addTask()
             }
         }
 

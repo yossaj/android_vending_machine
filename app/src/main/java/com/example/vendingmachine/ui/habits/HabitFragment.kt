@@ -96,6 +96,7 @@ class HabitFragment : Fragment() {
             }else{
                 val newhabit = Habit(habitname, times, frequency)
                 viewModel.addHabit(newhabit)
+                binding.addHabitOuterContainer.visibility = View.GONE
             }
         }
 
