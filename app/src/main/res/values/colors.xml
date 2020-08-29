@@ -7,8 +7,11 @@
     <color name="colorAccentFaded">#CFA7BB</color>
 
     <color name="task_blue">#51C1E4</color>
+    <color name="task_blue_dark">#2196F3</color>
     <color name="task_yellow">#F2C94C</color>
+    <color name="task_yellow_dark">#FF9800</color>
     <color name="task_green">#6FCF97</color>
+    <color name="task_green_dark">#4CAF50</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="opaceWhite">#80FFFFFF</color>

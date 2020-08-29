@@ -27,11 +27,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/add_task_button"
+            android:id="@+id/show_task_form_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
-            android:onClick="@{()-> viewmodel.triggerAddTaskNav()}"
             android:src="@drawable/ic_add_circle" />
 
         <ImageButton
@@ -78,6 +77,106 @@
         app:layout_constraintBottom_toBottomOf="@+id/period_text"
         app:layout_constraintTop_toTopOf="@+id/period_text" />
 
+    <FrameLayout
+        android:id="@+id/add_task_outer_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curved_corners_background_yellow"
+        android:padding="@dimen/medium_space"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@id/period_text">
+
+        <LinearLayout
+            android:id="@+id/add_task_inner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/task_box"
+                android:layout_marginBottom="@dimen/medium_space"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/task_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/opaceWhite"
+                    android:hint="Title of Task" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/task_notes_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/task_notes_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/opaceWhite"
+                    android:hint="Notes on Task" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/period_picker"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/medium_space"
+                android:background="@drawable/curved_corners_opace" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/select_blue_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/blue_circle_selector" />
+
+                <ImageButton
+                    android:id="@+id/select_yellow_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/yellow_circle_selector" />
+
+
+                <ImageButton
+                    android:id="@+id/select_green_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/green_circle_selector" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_task_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_space"
+                android:backgroundTint="@color/opaceWhite"
+                android:text="Add New Task"
+                android:textColor="@color/black"
+                app:cornerRadius="@dimen/medium_space"
+                app:icon="@drawable/add_button"
+                app:iconTint="@color/black" />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -85,11 +184,12 @@
         android:orientation="vertical"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/period_text">
+        app:layout_constraintTop_toBottomOf="@id/add_task_outer_container">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/task_habit_list"
