@@ -15,15 +15,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
-import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.FragmentTasksBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.select_blue_task
 import kotlinx.android.synthetic.main.dialog_add_task.select_green_task
 import kotlinx.android.synthetic.main.dialog_add_task.select_yellow_task
-import kotlinx.android.synthetic.main.fragment_tasks.*
 
 @AndroidEntryPoint
 class TasksFragment : Fragment() {
@@ -46,7 +43,7 @@ class TasksFragment : Fragment() {
         binding.viewmodel = viewModel
         val adapter = TasksAdapter(viewModel)
 
-        addTaskFormSetup(binding)
+        addTaskFormSetup(binding, adapter)
         binding.showTaskFormButton.setOnClickListener{
             if (binding.addTaskOuterContainer.isVisible){
                 binding.addTaskOuterContainer.visibility = View.GONE
@@ -59,7 +56,6 @@ class TasksFragment : Fragment() {
                     interpolator = OvershootInterpolator()
                 }.start()
             }
-
         }
 
         viewModel.period.observe(viewLifecycleOwner, Observer {
@@ -70,7 +66,6 @@ class TasksFragment : Fragment() {
                 3 -> binding.periodText.text = "THIS MONTH"
             }
         })
-
 
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
@@ -123,7 +118,10 @@ class TasksFragment : Fragment() {
         return binding.root
     }
 
-    private fun addTaskFormSetup(binding: FragmentTasksBinding) {
+    private fun addTaskFormSetup(
+        binding: FragmentTasksBinding,
+        adapter: TasksAdapter
+    ) {
         var color = 1
         binding.selectBlueTask.setOnClickListener {
             color = 1
@@ -171,8 +169,9 @@ class TasksFragment : Fragment() {
             }else{
                 val newTask = Task(taskname, taskNote, period, color)
                 viewModel.addTask(newTask)
-                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 0.5f)
-                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0.5f)
+
+                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 0.0f)
+                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0.0f)
                 val animator = ObjectAnimator.ofPropertyValuesHolder(
                     binding.addTaskOuterContainer,
                     scaleY,
@@ -183,6 +182,7 @@ class TasksFragment : Fragment() {
                 animator.start()
                 animator.doOnEnd {
                     binding.addTaskOuterContainer.visibility = View.GONE
+                    adapter.notifyDataSetChanged()
                 }
             }
         }

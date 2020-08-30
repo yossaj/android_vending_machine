@@ -33,17 +33,24 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         get() = _period
 
     fun listenForTaskChanges() {
-        remoteDb.collection("users")
-            .document(getUid())
-            .collection("tasks")
-            .orderBy("update", Query.Direction.DESCENDING)
-            .whereEqualTo("period", period.value)
-            .addSnapshotListener { snapshot, exception ->
-                snapshot?.let {
-                    val remoteTasks: List<Task> = it.toObjects(Task::class.java) as List<Task>
-                    _allTasks.postValue(remoteTasks)
+        uiScope.launch {
+            remoteDb.collection("users")
+                .document(getUid())
+                .collection("tasks")
+                .orderBy("update", Query.Direction.DESCENDING)
+                .whereEqualTo("period", period.value)
+                .addSnapshotListener { snapshot, exception ->
+                    exception?.let {
+                        Log.d("Exception", it.message )
+                    }
+
+                    snapshot?.let {
+                        val remoteTasks: List<Task> = it.toObjects(Task::class.java) as List<Task>
+                        _allTasks.postValue(remoteTasks)
+                    }
                 }
-            }
+        }
+
     }
 
     fun listenForHabitChanges(){
@@ -53,7 +60,12 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             .whereEqualTo("frequency", 1)
             .orderBy("updatedAt", Query.Direction.ASCENDING)
             .addSnapshotListener{ snapshot, exception ->
+                exception?.let {
+                    Log.d("Habit Except", it.message )
+                }
+
                 snapshot?.let {
+
                     var remoteHabits : List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
                     _allHabits.postValue(remoteHabits)
                 }
@@ -130,10 +142,8 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun addTask(task: Task) {
         uiScope.launch {
-            withContext(Dispatchers.Main) {
-                    addTaskToFireStore(task)
-            }
-
+            _allTasks.value?.plus(task)
+            remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
         }
     }
 
@@ -142,11 +152,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             remoteDb.collection("users").document(getUid()).collection("habits").document(habit.id).set(habit)
         }
 
-    }
-
-
-    fun addTaskToFireStore(task: Task) {
-        remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
     }
 
     fun deleteAllTasks() {
