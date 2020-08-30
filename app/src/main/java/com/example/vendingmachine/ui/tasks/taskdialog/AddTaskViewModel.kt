@@ -15,9 +15,6 @@ class AddTaskViewModel@ViewModelInject constructor(private val userRepository: U
     val currentTask : LiveData<Task>
         get() = userRepository._currentTask
 
-
-
-
     fun setCurrentTask(task: Task){
         userRepository.setCurrentTask(task)
     }

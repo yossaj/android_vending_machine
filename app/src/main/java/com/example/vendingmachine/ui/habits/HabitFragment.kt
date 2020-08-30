@@ -10,6 +10,7 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,12 +36,11 @@ class HabitFragment : Fragment() {
     ): View? {
         val binding = FragmentHabitBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
-        val adapter = HabitAdapter(HabitAdapter.OnClickListener {
-            habit, increment ->
-            if(increment && habit.count < habit.max) {
+        val adapter = HabitAdapter(HabitAdapter.OnClickListener { habit, increment ->
+            if (increment && habit.count < habit.max) {
                 val increaseCount = habit.count + 1
                 viewModel.updateHabitCount(habit, increaseCount)
-            }else if(!increment && habit.count > 0){
+            } else if (!increment && habit.count > 0) {
                 val decreaseCount = habit.count - 1
                 viewModel.updateHabitCount(habit, decreaseCount)
             }
@@ -59,7 +59,12 @@ class HabitFragment : Fragment() {
                 val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.5f, 1f)
                 val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.5f, 1f)
                 val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                ObjectAnimator.ofPropertyValuesHolder(binding.addHabitOuterContainer, scaleY, scaleX, alpha).apply {
+                ObjectAnimator.ofPropertyValuesHolder(
+                    binding.addHabitOuterContainer,
+                    scaleY,
+                    scaleX,
+                    alpha
+                ).apply {
                     interpolator = OvershootInterpolator()
                 }.start()
             }
@@ -87,13 +92,13 @@ class HabitFragment : Fragment() {
             var habitname = binding.habitEditText.editableText.toString()
             var frequency = frequencyStringToValue(binding.frequencyPicker.selectedItem.toString())
             var times = timesStringToValue(binding.timesPicker.selectedItem.toString())
-            if(habitname.isNullOrEmpty()){
+            if (habitname.isNullOrEmpty()) {
                 Toast.makeText(
                     requireContext(),
                     "Please fill in all fields",
                     Toast.LENGTH_SHORT
                 ).show()
-            }else{
+            } else {
                 val newhabit = Habit(habitname, times, frequency)
                 viewModel.addHabit(newhabit)
                 binding.addHabitOuterContainer.visibility = View.GONE

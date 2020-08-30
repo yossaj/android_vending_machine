@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -23,6 +24,12 @@
         app:cardPreventCornerOverlap="true">
 
         <LinearLayout
+            android:id="@+id/expanded_task_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -30,17 +37,18 @@
             <TextView
                 android:id="@+id/task_item_title"
                 style="@style/TextAppearance.List"
+                android:textStyle="bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/medium_space"
                 android:layout_marginLeft="@dimen/medium_space"
+                tools:text="Task Title"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto"
                 android:lines="1"
-                android:maxWidth="300dp"
-                android:onClick="@{(view)-> viewModel.navigateToViewTaskAndPassTask(task)}" />
+                android:maxWidth="300dp" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -75,6 +83,19 @@
                 android:text="06"
                 android:textSize="22sp"
                 android:visibility="gone" />
+
+        </LinearLayout>
+
+            <TextView
+                android:id="@+id/expanded_task_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.List"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:layout_margin="@dimen/medium_space"
+                android:text="@{task.description}"
+                tools:text="Notes on task"/>
 
         </LinearLayout>
 
