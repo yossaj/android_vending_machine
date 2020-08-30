@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.graphics.Color
 import android.graphics.Paint
+import android.text.Editable
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
@@ -32,6 +33,22 @@ class TaskViewHolder(val binding: TaskItemBinding) :
                 ObjectAnimator.ofPropertyValuesHolder(binding.expandedTaskNote, scaleY, alpha).apply {
                     interpolator = AccelerateDecelerateInterpolator()
                 }.start()
+            }
+        }
+
+        binding.editTaskButton.setOnClickListener{
+            if(!binding.editTaskNoteText.isVisible){
+                binding.editTaskText.visibility = View.VISIBLE
+                binding.editTaskText.setText(task.title)
+                binding.editTaskNoteText.visibility = View.VISIBLE
+                binding.editTaskNoteText.setText(task.description)
+                binding.taskItemTitle.visibility = View.GONE
+                binding.expandedTaskNote.visibility = View.GONE
+            }else{
+                binding.taskItemTitle.visibility = View.VISIBLE
+                binding.expandedTaskNote.visibility = View.VISIBLE
+                binding.editTaskNoteText.visibility = View.GONE
+                binding.editTaskText.visibility = View.GONE
             }
         }
 

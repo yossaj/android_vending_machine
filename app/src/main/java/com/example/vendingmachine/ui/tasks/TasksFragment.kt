@@ -8,6 +8,7 @@ import android.view.*
 import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -118,7 +119,6 @@ class TasksFragment : Fragment() {
                 viewModel.resetUponNavigationToViewTask()
             }
         }
-
         )
         return binding.root
     }
@@ -171,11 +171,21 @@ class TasksFragment : Fragment() {
             }else{
                 val newTask = Task(taskname, taskNote, period, color)
                 viewModel.addTask(newTask)
-//                binding.addTaskOuterContainer.visibility = View.GONE
+                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 0.5f)
+                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0.5f)
+                val animator = ObjectAnimator.ofPropertyValuesHolder(
+                    binding.addTaskOuterContainer,
+                    scaleY,
+                    alpha
+                ).apply {
+                    interpolator = OvershootInterpolator()
+                }
+                animator.start()
+                animator.doOnEnd {
+                    binding.addTaskOuterContainer.visibility = View.GONE
+                }
             }
         }
-
-
     }
 
     fun periodStringToValue(period: String): Int {
