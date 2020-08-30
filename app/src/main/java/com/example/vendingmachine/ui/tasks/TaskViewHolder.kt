@@ -19,8 +19,6 @@ class TaskViewHolder(val binding: TaskItemBinding) :
     fun bind(task: Task) {
         binding.task = task
         binding.taskItemTitle.text = task.title
-        binding.habitCount.visibility = View.GONE
-        binding.habitCountSpacer.visibility = View.GONE
         binding.taskItemContainer.setCardBackgroundColor(getTaskColour(task))
 
         binding.taskItemContainer.setOnClickListener {
@@ -44,11 +42,13 @@ class TaskViewHolder(val binding: TaskItemBinding) :
                 binding.editTaskNoteText.setText(task.description)
                 binding.taskItemTitle.visibility = View.GONE
                 binding.expandedTaskNote.visibility = View.GONE
+                binding.deleteTaskBtn.visibility = View.VISIBLE
             }else{
                 binding.taskItemTitle.visibility = View.VISIBLE
                 binding.expandedTaskNote.visibility = View.VISIBLE
                 binding.editTaskNoteText.visibility = View.GONE
                 binding.editTaskText.visibility = View.GONE
+                binding.deleteTaskBtn.visibility = View.GONE
             }
         }
 

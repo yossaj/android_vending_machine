@@ -30,11 +30,6 @@ class TasksViewModelTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(context, TaskDatabase::class.java).build()
         tasks = fakeData()
-        database.taskDao.insertTask(tasks[0])
-        database.taskDao.insertTask(tasks[1])
-        database.taskDao.insertTask(tasks[2])
-
-        tasksViewModel = TasksViewModel(database, application = mockk<Application>())
 
     }
 
@@ -70,10 +65,7 @@ class TasksViewModelTest {
 
     @Test
     fun resetCurrentTask() {
-        tasksViewModel._currentTask.value = tasks[0]
-        assertThat(tasksViewModel.currentTask.value, `is`(tasks[0]))
-        tasksViewModel.resetCurrentTask()
-        assertNull(tasksViewModel.currentTask.value)
+
 
     }
     fun fakeData() : List<Task>{

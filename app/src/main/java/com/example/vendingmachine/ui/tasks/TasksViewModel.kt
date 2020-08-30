@@ -37,15 +37,9 @@ class TasksViewModel@ViewModelInject constructor(
     val navigateToViewTaskTrigger : LiveData<Boolean>
         get() = _navigateToViewTaskTrigger
 
-    val currentTask : LiveData<Task>
-        get() = userRepository._currentTask
-
     val period : LiveData<Int>
         get() = userRepository.period
 
-    fun setCurrentTask(task : Task){
-        userRepository.setCurrentTask(task)
-    }
 
     fun addTask(task: Task){
         userRepository.addTask(task)
@@ -53,6 +47,10 @@ class TasksViewModel@ViewModelInject constructor(
 
     fun updateTasks(){
         userRepository.listenForTaskChanges()
+    }
+
+    fun deleteTask(task: Task){
+        userRepository.deleteTask(task)
     }
 
     fun incrementPeriod(){
@@ -83,29 +81,8 @@ class TasksViewModel@ViewModelInject constructor(
         }
     }
 
-    fun triggerAddHabitNav(){
-        _navigateToAddHabitTrigger.value = true
-    }
-
-    fun triggerAddTaskNav(){
-        _navigateToAddTaskTrigger.value = true
-    }
-
-    fun triggerViewTaskNav(){
-        _navigateToViewTaskTrigger.value = true
-    }
-
     fun resetViewTaskTrigger(){
         _navigateToViewTaskTrigger.value = false
-    }
-
-    fun navigateToViewTaskAndPassTask(task: Task){
-        triggerViewTaskNav()
-        userRepository.setCurrentTask(task)
-    }
-
-    fun resetCurrentTask(){
-        userRepository.resetCurrentTask()
     }
 
     fun resetUponNavigationToViewTask(){

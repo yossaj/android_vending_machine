@@ -65,7 +65,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                 }
 
                 snapshot?.let {
-
                     var remoteHabits : List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
                     _allHabits.postValue(remoteHabits)
                 }
@@ -84,7 +83,20 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
     }
 
+    fun updateTask(task: Task){
+        val docRef = remoteDb.collection("users")
+            .document(getUid())
+            .collection("tasks")
+            .document(task.id)
 
+        docRef
+            .update("title", task.title,
+                "description", task.description,
+                "period", task.period,
+                "color", task.colour)
+            .addOnSuccessListener { Log.d(UPDATE_TAG, "Task count successfully updated!") }
+            .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
+    }
 
     fun incrementPeriod() {
         _period.value?.let { periodTemp ->
@@ -92,7 +104,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                 _period.postValue(periodTemp + 1)
             }
         }
-
     }
 
     fun getUid() : String{
@@ -111,10 +122,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    val _currentTask = MutableLiveData<Task>()
-    val currentNewTask: LiveData<Task>
-        get() = _currentTask
-
     fun updateOnComplete(task: Task) {
         uiScope.launch {
             val docRef = remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
@@ -126,17 +133,15 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun deleteTask() {
+    fun deleteTask(task: Task) {
         uiScope.launch {
-            _currentTask.value?.id?.let { taskId ->
-                remoteDb.collection("users").document(getUid()).collection(TASKS).document(taskId).delete()
+                remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).delete()
                     .addOnCompleteListener {
 
                     }
                     .addOnFailureListener {
 
                     }
-            }
         }
     }
 
@@ -158,14 +163,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         uiScope.launch {
 
         }
-    }
-
-    fun resetCurrentTask() {
-        _currentTask.value = null
-    }
-
-    fun setCurrentTask(task: Task) {
-        _currentTask.value = task
     }
 
 }
