@@ -4,22 +4,28 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.Editable
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.TaskItemBinding
+import kotlinx.android.synthetic.main.task_item.view.*
 
 class TaskViewHolder(val binding: TaskItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(task: Task) {
+    fun bind(
+        task: Task,
+        clickListener: TasksAdapter.OnClickListener
+    ) {
         binding.task = task
         binding.taskItemTitle.text = task.title
+        binding.expandedTaskNote.text = task.description
         binding.taskItemContainer.setCardBackgroundColor(getTaskColour(task))
+
+        binding.deleteTaskBtn.setOnClickListener{clickListener.onClick(task, 1)}
+        binding.taskItemCheckbox.setOnClickListener{ clickListener.onClick(task, 2) }
 
         binding.taskItemContainer.setOnClickListener {
             if (binding.expandedTaskNote.isVisible) {
@@ -35,20 +41,21 @@ class TaskViewHolder(val binding: TaskItemBinding) :
         }
 
         binding.editTaskButton.setOnClickListener{
-            if(!binding.editTaskNoteText.isVisible){
-                binding.editTaskText.visibility = View.VISIBLE
-                binding.editTaskText.setText(task.title)
-                binding.editTaskNoteText.visibility = View.VISIBLE
-                binding.editTaskNoteText.setText(task.description)
-                binding.taskItemTitle.visibility = View.GONE
-                binding.expandedTaskNote.visibility = View.GONE
-                binding.deleteTaskBtn.visibility = View.VISIBLE
+            toggleEditableText(task)
+        }
+
+        binding.updateTaskBtn.setOnClickListener{
+
+            val title = binding.editTaskText.editableText.toString()
+            val notes =  binding.editTaskNoteText.editableText.toString()
+
+            if (title.isNotBlank() && (title != task.title || notes != task.description)){
+                task.title = title
+                task.description = notes
+                clickListener.onClick(task, 3)
+                toggleEditableText(task)
             }else{
-                binding.taskItemTitle.visibility = View.VISIBLE
-                binding.expandedTaskNote.visibility = View.VISIBLE
-                binding.editTaskNoteText.visibility = View.GONE
-                binding.editTaskText.visibility = View.GONE
-                binding.deleteTaskBtn.visibility = View.GONE
+                clickListener.onClick(task, 4)
             }
         }
 
@@ -58,6 +65,26 @@ class TaskViewHolder(val binding: TaskItemBinding) :
         } else if (!task.isCompleted) {
             binding.taskItemCheckbox.isChecked = false
             binding.taskItemTitle.paintFlags = 0
+        }
+    }
+
+    private fun toggleEditableText(task: Task) {
+        if (!binding.editTaskNoteText.isVisible) {
+            binding.editTaskText.visibility = View.VISIBLE
+            binding.editTaskText.setText(task.title)
+            binding.editTaskNoteText.visibility = View.VISIBLE
+            binding.editTaskNoteText.setText(task.description)
+            binding.taskItemTitle.visibility = View.GONE
+            binding.expandedTaskNote.visibility = View.GONE
+            binding.deleteTaskBtn.visibility = View.VISIBLE
+            binding.updateTaskBtn.visibility = View.VISIBLE
+        } else {
+            binding.taskItemTitle.visibility = View.VISIBLE
+            binding.expandedTaskNote.visibility = View.VISIBLE
+            binding.editTaskNoteText.visibility = View.GONE
+            binding.editTaskText.visibility = View.GONE
+            binding.deleteTaskBtn.visibility = View.GONE
+            binding.updateTaskBtn.visibility = View.GONE
         }
     }
 

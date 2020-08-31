@@ -7,10 +7,6 @@
         <variable
             name="task"
             type="com.example.vendingmachine.data.models.Task" />
-
-        <variable
-            name="viewModel"
-            type="com.example.vendingmachine.ui.tasks.TasksViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -84,17 +80,10 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="10dp"
                 android:buttonTint="@color/transparent"
-                android:background="@drawable/checkbox_background"
-                android:onClick="@{(view)-> viewModel.handleCheckUnCheck(task)}" />
+                android:background="@drawable/checkbox_background" />
 
-            <ImageButton
-                android:id="@+id/delete_task_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:backgroundTint="@color/transparent"
-                android:onClick="@{()-> viewModel.deleteTask(task)}"
-                android:src="@drawable/ic_delete" />
+
+
 
         </LinearLayout>
 
@@ -106,7 +95,6 @@
                 android:textSize="18sp"
                 android:visibility="gone"
                 android:layout_margin="@dimen/medium_space"
-                android:text="@{task.description}"
                 tools:text="Notes on task"/>
 
             <EditText
@@ -123,6 +111,42 @@
                 android:fontFamily="@font/roboto"
                 android:lines="1"
                 android:maxWidth="300dp"/>
+
+            <LinearLayout
+                android:id="@+id/bottom_items_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/update_task_btn"
+                    app:icon="@drawable/update_icon"
+                    app:iconTint="@color/black"
+                    android:textColor="@color/black"
+                    android:text="Update Task"
+                    android:layout_margin="@dimen/small_space"
+                    android:visibility="gone"
+                    app:cornerRadius="@dimen/medium_space"
+                    android:enabled="true"
+                    android:backgroundTint="@color/opaceWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+
+                <ImageButton
+                    android:id="@+id/delete_task_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:backgroundTint="@color/transparent"
+                    android:layout_margin="@dimen/small_space"
+                    android:src="@drawable/ic_delete" />
+
+
+
+
+            </LinearLayout>
 
 
         </LinearLayout>

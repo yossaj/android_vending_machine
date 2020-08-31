@@ -41,7 +41,15 @@ class TasksFragment : Fragment() {
         getCoinCount()
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
-        val adapter = TasksAdapter(viewModel)
+        val adapter = TasksAdapter(TasksAdapter.OnClickListener{
+            task, viewType ->
+            when(viewType){
+                1 -> viewModel.deleteTask(task)
+                2 -> viewModel.handleCheckUnCheck(task)
+                3 -> viewModel.updateTasks(task)
+                4 -> Toast.makeText(requireContext(), "Nothing to Update", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         addTaskFormSetup(binding, adapter)
         binding.showTaskFormButton.setOnClickListener{
@@ -59,7 +67,6 @@ class TasksFragment : Fragment() {
         }
 
         viewModel.period.observe(viewLifecycleOwner, Observer {
-            viewModel.updateTasks()
             when(it){
                 1 -> binding.periodText.text = "TODAY"
                 2 -> binding.periodText.text = "THIS WEEK"
