@@ -97,7 +97,6 @@ class TasksViewModel@ViewModelInject constructor(
         _coinIncrementSwitch.postValue(false)
         _navigateToAddTaskTrigger.postValue(false)
         _navigateToViewTaskTrigger.postValue(false)
-        listenForTaskChanges()
     }
 
 }

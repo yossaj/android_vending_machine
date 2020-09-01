@@ -67,6 +67,7 @@ class TasksFragment : Fragment() {
         }
 
         viewModel.period.observe(viewLifecycleOwner, Observer {
+            viewModel.listenForTaskChanges()
             when(it){
                 1 -> binding.periodText.text = "TODAY"
                 2 -> binding.periodText.text = "THIS WEEK"
