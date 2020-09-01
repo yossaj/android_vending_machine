@@ -10,12 +10,14 @@ import com.example.vendingmachine.utils.Constants.TASKS
 import com.example.vendingmachine.utils.Constants.UPDATE_TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.*
 
 class UserRepository constructor(private val remoteDb: FirebaseFirestore, private val firebaseAuth: FirebaseAuth) {
 
     private val currentUser = firebaseAuth.currentUser
+    var registeredQuery = MutableLiveData<ListenerRegistration?>()
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -33,24 +35,35 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         get() = _period
 
     fun listenForTaskChanges() {
+
         uiScope.launch {
-            remoteDb.collection("users")
+            val taskQuery = remoteDb.collection("users")
                 .document(getUid())
                 .collection("tasks")
                 .orderBy("update", Query.Direction.DESCENDING)
                 .whereEqualTo("period", period.value)
-                .addSnapshotListener { snapshot, exception ->
-                    exception?.let {
-                        Log.d("Exception", it.message )
-                    }
 
-                    snapshot?.let {
-                        val remoteTasks: List<Task> = it.toObjects(Task::class.java) as List<Task>
-                        _allTasks.postValue(remoteTasks)
-                    }
-                }
+              registeredQuery.postValue(
+                  taskQuery.addSnapshotListener { snapshot, exception ->
+                      exception?.let {
+                          Log.d("Exception", it.message )
+                      }
+
+                      snapshot?.let {
+                          val remoteTasks: List<Task> = it.toObjects(Task::class.java)
+                          _allTasks.postValue(remoteTasks)
+                      }
+                  }
+              )
         }
+    }
 
+    fun removeRegisteredQuery(){
+        if(registeredQuery.value != null){
+            registeredQuery.value?.let {
+                it.remove()
+            }
+        }
     }
 
     fun listenForHabitChanges(){
