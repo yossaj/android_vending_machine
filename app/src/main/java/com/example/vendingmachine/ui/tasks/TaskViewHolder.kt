@@ -93,7 +93,7 @@ class TaskViewHolder(val binding: TaskItemBinding) :
             1 -> return Color.parseColor("#51C1E4")
             2 -> return Color.parseColor("#F2C94C")
             3 -> return Color.parseColor("#6FCF97")
-            else -> return Color.parseColor("#6FCF97")
+            else -> return Color.parseColor("#F2C94C")
         }
     }
 }

@@ -130,7 +130,7 @@ class TasksFragment : Fragment() {
         binding: FragmentTasksBinding,
         adapter: TasksAdapter
     ) {
-        var color = 1
+        var color = 2
         binding.selectBlueTask.setOnClickListener {
             color = 1
             it.isSelected = true

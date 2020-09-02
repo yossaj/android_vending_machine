@@ -59,11 +59,14 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     }
 
     fun removeRegisteredQuery(){
-        if(registeredQuery.value != null){
-            registeredQuery.value?.let {
-                it.remove()
+        uiScope.launch {
+            if(registeredQuery.value != null){
+                registeredQuery.value?.let {
+                    it.remove()
+                }
             }
         }
+
     }
 
     fun listenForHabitChanges(){
@@ -177,5 +180,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
         }
     }
+
 
 }

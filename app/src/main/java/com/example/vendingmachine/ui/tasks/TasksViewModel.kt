@@ -104,4 +104,9 @@ class TasksViewModel@ViewModelInject constructor(
         _navigateToViewTaskTrigger.postValue(false)
     }
 
+    override fun onCleared() {
+        removeSnapshotListener()
+        super.onCleared()
+    }
+
 }
