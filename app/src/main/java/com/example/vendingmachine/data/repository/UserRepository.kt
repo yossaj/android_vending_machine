@@ -132,7 +132,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun decrementPeriod() {
         _period.value?.let { periodTemp ->
-            if (periodTemp >= 0) {
+            if (periodTemp >= 2) {
                 _period.postValue(periodTemp - 1)
             }
         }

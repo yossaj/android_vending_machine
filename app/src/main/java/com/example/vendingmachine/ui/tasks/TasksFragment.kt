@@ -73,6 +73,36 @@ class TasksFragment : Fragment() {
                 2 -> binding.periodText.text = "THIS WEEK"
                 3 -> binding.periodText.text = "THIS MONTH"
             }
+
+            val scaleXIncrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.3f)
+            val scaleYIncrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.3f)
+            val scaleXDecrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.3f, 1f)
+            val scaleYDecrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.3f, 1f)
+
+            if(it == 1 ) {
+                ObjectAnimator.ofPropertyValuesHolder(binding.incrementArrowBtn, scaleYIncrease, scaleXIncrease)
+                    .apply {
+                        interpolator = OvershootInterpolator()
+                    }.start()
+
+                ObjectAnimator.ofPropertyValuesHolder(binding.decrementArrowBtn, scaleYDecrease, scaleXDecrease)
+                    .apply {
+                        interpolator = OvershootInterpolator()
+                    }.start()
+            }else if(it == 3){
+                ObjectAnimator.ofPropertyValuesHolder(binding.incrementArrowBtn, scaleYDecrease, scaleXDecrease)
+                    .apply {
+                        interpolator = OvershootInterpolator()
+                    }.start()
+            }else if(it == 2){
+                ObjectAnimator.ofPropertyValuesHolder(binding.decrementArrowBtn, scaleYIncrease, scaleXIncrease)
+                    .apply {
+                        interpolator = OvershootInterpolator()
+                    }.start()
+            }
+
+
+
         })
 
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
