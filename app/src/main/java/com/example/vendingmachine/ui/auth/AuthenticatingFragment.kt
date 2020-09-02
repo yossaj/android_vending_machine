@@ -44,7 +44,6 @@ class AuthenticatingFragment : Fragment(){
                 startActivity(mainActivityIntent)
             }
         })
-
         return binding.root
     }
 
