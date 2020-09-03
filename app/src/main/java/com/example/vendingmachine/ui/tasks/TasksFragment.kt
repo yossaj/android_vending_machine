@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -66,6 +67,8 @@ class TasksFragment : Fragment() {
             }
         }
 
+
+
         viewModel.period.observe(viewLifecycleOwner, Observer {
             viewModel.listenForTaskChanges()
             when(it){
@@ -78,6 +81,7 @@ class TasksFragment : Fragment() {
             val scaleYIncrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.3f)
             val scaleXDecrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.3f, 1f)
             val scaleYDecrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.3f, 1f)
+
 
             if(it == 1 ) {
                 ObjectAnimator.ofPropertyValuesHolder(binding.incrementArrowBtn, scaleYIncrease, scaleXIncrease)
@@ -110,6 +114,8 @@ class TasksFragment : Fragment() {
         })
 
         binding.taskHabitList.adapter = adapter
+
+
 
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
             it?.let {
