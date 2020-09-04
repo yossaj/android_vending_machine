@@ -192,9 +192,10 @@
         app:layout_constraintTop_toBottomOf="@id/add_task_outer_container">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/task_habit_list"
+            android:id="@+id/task_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/animation_slide_in"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>

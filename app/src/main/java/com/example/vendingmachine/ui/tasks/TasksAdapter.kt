@@ -22,11 +22,6 @@ class TasksAdapter(val clickListener : TasksAdapter.OnClickListener) : ListAdapt
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = getItem(position)
-        val positionX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X,  1000f, 0f  )
-        val animateRecyclerView = ObjectAnimator.ofPropertyValuesHolder(holder.itemView, positionX).apply {
-            interpolator = AccelerateDecelerateInterpolator()
-        }
-        animateRecyclerView.start()
         holder.bind(task, clickListener)
 
     }

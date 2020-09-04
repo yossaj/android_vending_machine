@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -67,8 +68,6 @@ class TasksFragment : Fragment() {
             }
         }
 
-
-
         viewModel.period.observe(viewLifecycleOwner, Observer {
             viewModel.listenForTaskChanges()
             when(it){
@@ -89,6 +88,8 @@ class TasksFragment : Fragment() {
                         interpolator = OvershootInterpolator()
                     }.start()
 
+                binding.taskList.scheduleLayoutAnimation()
+
                 ObjectAnimator.ofPropertyValuesHolder(binding.decrementArrowBtn, scaleYDecrease, scaleXDecrease)
                     .apply {
                         interpolator = OvershootInterpolator()
@@ -98,11 +99,14 @@ class TasksFragment : Fragment() {
                     .apply {
                         interpolator = OvershootInterpolator()
                     }.start()
+                binding.taskList.scheduleLayoutAnimation()
             }else if(it == 2){
                 ObjectAnimator.ofPropertyValuesHolder(binding.decrementArrowBtn, scaleYIncrease, scaleXIncrease)
                     .apply {
                         interpolator = OvershootInterpolator()
                     }.start()
+                binding.taskList.scheduleLayoutAnimation()
+
             }
 
 
@@ -111,9 +115,11 @@ class TasksFragment : Fragment() {
 
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+
         })
 
-        binding.taskHabitList.adapter = adapter
+        binding.taskList.adapter = adapter
+
 
 
 

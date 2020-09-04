@@ -51,7 +51,7 @@ class MainActivityTest{
     @Test
     fun navigateToTaskFragment(){
         onView(withId(R.id.new_task)).perform(click())
-        onView(withId(R.id.task_habit_list))
+        onView(withId(R.id.task_list))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TasksAdapter.TaskViewHolder>
                 (0, clickOnViewChild(R.id.task_item_checkbox)))
         pressBack()
