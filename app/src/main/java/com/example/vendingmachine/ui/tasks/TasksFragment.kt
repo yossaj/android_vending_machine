@@ -120,9 +120,6 @@ class TasksFragment : Fragment() {
 
         binding.taskList.adapter = adapter
 
-
-
-
         viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
