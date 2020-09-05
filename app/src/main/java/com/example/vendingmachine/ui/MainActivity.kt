@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
         val builtRequest = resetHabitRequest
             .addTag("Reset Habit Request")
-            .setInitialDelay(setTimeDiff(21, 32), TimeUnit.MILLISECONDS)
+            .setInitialDelay(setTimeDiff(0, 15), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
         workManager.pruneWork()
