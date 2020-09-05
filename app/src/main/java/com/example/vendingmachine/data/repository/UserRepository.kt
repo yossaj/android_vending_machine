@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.utils.Constants.COMPLETED
+import com.example.vendingmachine.utils.Constants.HABITS
 import com.example.vendingmachine.utils.Constants.TASKS
 import com.example.vendingmachine.utils.Constants.UPDATE_TAG
+import com.example.vendingmachine.utils.Constants.USERS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -37,7 +39,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     fun listenForTaskChanges() {
 
         uiScope.launch {
-            val taskQuery = remoteDb.collection("users")
+            val taskQuery = remoteDb.collection(USERS)
                 .document(getUid())
                 .collection("tasks")
                 .orderBy("update", Query.Direction.DESCENDING)
@@ -70,9 +72,9 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     }
 
     fun listenForHabitChanges(){
-        remoteDb.collection("users")
+        remoteDb.collection(USERS)
             .document(getUid())
-            .collection("habits")
+            .collection(HABITS)
             .whereEqualTo("frequency", 1)
             .orderBy("updatedAt", Query.Direction.ASCENDING)
             .addSnapshotListener{ snapshot, exception ->
