@@ -19,7 +19,9 @@ import kotlinx.coroutines.*
 class UserRepository constructor(private val remoteDb: FirebaseFirestore, private val firebaseAuth: FirebaseAuth) {
 
     private val currentUser = firebaseAuth.currentUser
-    var registeredQuery = MutableLiveData<ListenerRegistration?>()
+
+    var registeredTaskQuery = MutableLiveData<ListenerRegistration?>()
+    var registeredHabitQuery = MutableLiveData<ListenerRegistration?>()
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -36,6 +38,10 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     val period: LiveData<Int>
         get() = _period
 
+    val _frequency = MutableLiveData<Int>(1)
+    val frequency : LiveData<Int>
+        get() = _frequency
+
     fun listenForTaskChanges() {
 
         uiScope.launch {
@@ -45,7 +51,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                 .orderBy("update", Query.Direction.DESCENDING)
                 .whereEqualTo("period", period.value)
 
-              registeredQuery.postValue(
+              registeredTaskQuery.postValue(
                   taskQuery.addSnapshotListener { snapshot, exception ->
                       exception?.let {
                           Log.d("Exception", it.message )
@@ -60,33 +66,47 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun removeRegisteredQuery(){
+    fun removeRegisteredTaskQuery(){
         uiScope.launch {
-            if(registeredQuery.value != null){
-                registeredQuery.value?.let {
+            if(registeredTaskQuery.value != null){
+                registeredTaskQuery.value?.let {
                     it.remove()
                 }
             }
         }
-
     }
 
     fun listenForHabitChanges(){
-        remoteDb.collection(USERS)
-            .document(getUid())
-            .collection(HABITS)
-            .whereEqualTo("frequency", 1)
-            .orderBy("updatedAt", Query.Direction.ASCENDING)
-            .addSnapshotListener{ snapshot, exception ->
-                exception?.let {
-                    Log.d("Habit Except", it.message )
-                }
+        uiScope.launch {
+            val habitQuery = remoteDb.collection(USERS)
+                .document(getUid())
+                .collection(HABITS)
+                .whereEqualTo("frequency", frequency.value)
+                .orderBy("updatedAt", Query.Direction.ASCENDING)
 
-                snapshot?.let {
-                    var remoteHabits : List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
-                    _allHabits.postValue(remoteHabits)
+            registeredHabitQuery.postValue(
+                habitQuery.addSnapshotListener { snapshot, exception ->
+                    exception?.let {
+                        Log.d("Habit Except", it.message)
+                    }
+
+                    snapshot?.let {
+                        var remoteHabits: List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
+                        _allHabits.postValue(remoteHabits)
+                    }
+                }
+            )
+        }
+    }
+
+    fun removeRegisteredHabitListener(){
+        uiScope.launch {
+            if(registeredHabitQuery.value != null){
+                registeredHabitQuery.value?.let {
+                    it.remove()
                 }
             }
+        }
     }
 
     fun updateHabitCount(habit : Habit, count : Int){
@@ -124,6 +144,30 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
+    fun decrementPeriod() {
+        _period.value?.let { periodTemp ->
+            if (periodTemp >= 2) {
+                _period.postValue(periodTemp - 1)
+            }
+        }
+    }
+
+    fun incrementFrequency() {
+        _frequency.value?.let { freqTemp ->
+            if (freqTemp <= 2) {
+                _frequency.postValue(freqTemp + 1)
+            }
+        }
+    }
+
+    fun decrementFrequency() {
+        _frequency.value?.let { freqTemp ->
+            if (freqTemp >= 2) {
+                _frequency.postValue(freqTemp - 1)
+            }
+        }
+    }
+
     fun getUid() : String{
         currentUser?.let {
             val uid = it.uid
@@ -132,13 +176,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         return "1234"
     }
 
-    fun decrementPeriod() {
-        _period.value?.let { periodTemp ->
-            if (periodTemp >= 2) {
-                _period.postValue(periodTemp - 1)
-            }
-        }
-    }
 
     fun updateOnComplete(task: Task) {
         uiScope.launch {

@@ -95,7 +95,7 @@ class TasksViewModel@ViewModelInject constructor(
     }
 
     fun removeSnapshotListener(){
-        userRepository.removeRegisteredQuery()
+        userRepository.removeRegisteredTaskQuery()
     }
 
     init {

@@ -51,6 +51,19 @@ class HabitFragment : Fragment() {
         })
 
 
+        setUpShowHabitFormBtn(binding)
+        setUpAddHabitForm(binding)
+        binding.incrementArrowBtnHabit.setOnClickListener { viewModel.incrementFrequency() }
+        binding.decrementArrowBtnHabit.setOnClickListener { viewModel.decrementFrequency() }
+        viewModel.frequency.observe(viewLifecycleOwner, Observer {
+            viewModel.listenForHabits()
+            binding.habitFrequency.text = frequencyValueToString(it)
+        })
+
+        return binding.root
+    }
+
+    private fun setUpShowHabitFormBtn(binding: FragmentHabitBinding) {
         binding.showHabitFromBtn.setOnClickListener {
             if (binding.addHabitOuterContainer.isVisible) {
                 binding.addHabitOuterContainer.visibility = View.GONE
@@ -69,7 +82,9 @@ class HabitFragment : Fragment() {
                 }.start()
             }
         }
+    }
 
+    private fun setUpAddHabitForm(binding: FragmentHabitBinding) {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.frequecy_array,
@@ -104,8 +119,6 @@ class HabitFragment : Fragment() {
                 binding.addHabitOuterContainer.visibility = View.GONE
             }
         }
-
-        return binding.root
     }
 
     fun frequencyStringToValue(frequency: String): Int {
@@ -115,7 +128,15 @@ class HabitFragment : Fragment() {
             "Monthly" -> return 3
             else -> return 1
         }
+    }
 
+    fun frequencyValueToString(frequency: Int) : String{
+        when(frequency){
+            1 -> return "Daily"
+            2 -> return "Weekly"
+            3 -> return "Monthly"
+            else -> return "Daily"
+        }
     }
 
     fun timesStringToValue(times: String): Int {

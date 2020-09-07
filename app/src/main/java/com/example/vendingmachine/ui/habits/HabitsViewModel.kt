@@ -18,6 +18,9 @@ class HabitsViewModel@ViewModelInject constructor(
     val allHabits : LiveData<List<Habit>>
         get() = userRepository.allHabits
 
+    val frequency : LiveData<Int>
+        get() = userRepository.frequency
+
     fun addHabit(habit : Habit){
         userRepository.addHabit(habit)
     }
@@ -26,12 +29,25 @@ class HabitsViewModel@ViewModelInject constructor(
         userRepository.listenForHabitChanges()
     }
 
+    fun incrementFrequency(){
+        userRepository.incrementFrequency()
+    }
+
+    fun decrementFrequency(){
+        userRepository.decrementFrequency()
+    }
+
     fun updateHabitCount(habit: Habit, count : Int){
         userRepository.updateHabitCount(habit, count)
     }
 
     init {
         listenForHabits()
+    }
+
+    override fun onCleared() {
+        userRepository.removeRegisteredHabitListener()
+        super.onCleared()
     }
 
 
