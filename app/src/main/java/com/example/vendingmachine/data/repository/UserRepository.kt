@@ -202,7 +202,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun addTask(task: Task) {
         uiScope.launch {
-            _allTasks.value?.plus(task)
             remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
         }
     }

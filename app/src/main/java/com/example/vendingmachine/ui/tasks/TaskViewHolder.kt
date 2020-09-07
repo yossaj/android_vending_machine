@@ -53,6 +53,8 @@ class TaskViewHolder(val binding: TaskItemBinding) :
                 task.title = title
                 task.description = notes
                 clickListener.onClick(task, 3)
+                binding.taskItemTitle.setText(task.title)
+                binding.expandedTaskNote.setText(task.description)
                 toggleEditableText(task)
             }else{
                 clickListener.onClick(task, 4)

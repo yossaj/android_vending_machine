@@ -32,7 +32,8 @@ class TasksAdapter(val clickListener : TasksAdapter.OnClickListener) : ListAdapt
         }
 
         override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
-            return oldItem.equals(newItem)
+            val bool = oldItem.equals(newItem)
+            return bool
         }
     }
 

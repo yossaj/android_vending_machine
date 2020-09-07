@@ -115,7 +115,6 @@ class TasksFragment : Fragment() {
 
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-
         })
 
         binding.taskList.adapter = adapter
