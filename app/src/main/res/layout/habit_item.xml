@@ -10,6 +10,7 @@
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/habit_item_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -75,6 +76,53 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/edit_form_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="@dimen/small_space"
+                android:background="@drawable/curved_corners_background_yellow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <EditText
+                    android:id="@+id/edit_habit_title"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/curved_corners_opace"
+                    android:layout_height="wrap_content"
+                    tool:text="Edit Habit title"
+                    android:layout_margin="@dimen/small_space"
+                    android:text="@{habit.title}"/>
+
+                <NumberPicker
+                    android:id="@+id/repeat_habit_max"
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/small_space"
+                    android:background="@drawable/curved_corners_opace"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/update_habit_btn"
+                    app:icon="@drawable/update_icon"
+                    app:iconTint="@color/black"
+                    android:textColor="@color/black"
+                    android:text="Update Habit"
+                    android:layout_margin="@dimen/small_space"
+                    app:cornerRadius="@dimen/medium_space"
+                    android:enabled="true"
+                    android:backgroundTint="@color/opaceWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
