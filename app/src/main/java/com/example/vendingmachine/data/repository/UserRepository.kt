@@ -136,6 +136,19 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
     }
 
+    fun updateHabit(habit: Habit){
+        val docRef = remoteDb.collection(USERS)
+            .document(getUid())
+            .collection(HABITS)
+            .document(habit.id)
+
+        docRef.update(
+            "title", habit.title,
+            "max", habit.max,
+            "frequency", habit.frequency
+        )
+    }
+
     fun incrementPeriod() {
         _period.value?.let { periodTemp ->
             if (periodTemp <= 2) {
@@ -210,7 +223,6 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         uiScope.launch {
             remoteDb.collection("users").document(getUid()).collection("habits").document(habit.id).set(habit)
         }
-
     }
 
     fun deleteAllTasks() {

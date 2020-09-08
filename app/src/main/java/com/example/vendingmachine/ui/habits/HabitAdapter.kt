@@ -17,9 +17,7 @@ class HabitAdapter(val clickListener : OnClickListener) : ListAdapter<Habit, Hab
 
     override fun onBindViewHolder(holder: HabitViewHolder, position: Int) {
         val habit = getItem(position)
-        holder.binding.incrementCountBtn.setOnClickListener{clickListener.onClick(habit, true)}
-        holder.binding.decrementCountBtn.setOnClickListener{clickListener.onClick(habit, false)}
-        return holder.bind(habit)
+        return holder.bind(habit, clickListener)
     }
 
     class HabitDiffCallback() : DiffUtil.ItemCallback<Habit>(){
@@ -33,8 +31,8 @@ class HabitAdapter(val clickListener : OnClickListener) : ListAdapter<Habit, Hab
 
     }
 
-    class OnClickListener(val clickListener: (habit: Habit, increment : Boolean) -> Unit) {
-        fun onClick(habit: Habit, increment: Boolean) = clickListener(habit, increment)
+    class OnClickListener(val clickListener: (habit: Habit, viewType : Int) -> Unit) {
+        fun onClick(habit: Habit, viewType : Int) = clickListener(habit, viewType)
     }
 
 

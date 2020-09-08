@@ -98,6 +98,7 @@
                     android:layout_height="wrap_content"
                     tool:text="Edit Habit title"
                     android:layout_margin="@dimen/small_space"
+                    android:padding="@dimen/small_space"
                     android:text="@{habit.title}"/>
 
                 <NumberPicker

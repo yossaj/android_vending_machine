@@ -45,7 +45,6 @@ class TaskViewHolder(val binding: TaskItemBinding) :
         }
 
         binding.updateTaskBtn.setOnClickListener{
-
             val title = binding.editTaskText.editableText.toString()
             val notes =  binding.editTaskNoteText.editableText.toString()
 

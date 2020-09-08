@@ -41,6 +41,10 @@ class HabitsViewModel@ViewModelInject constructor(
         userRepository.updateHabitCount(habit, count)
     }
 
+    fun updateHabit(habit: Habit){
+        userRepository.updateHabit(habit)
+    }
+
     init {
         listenForHabits()
     }

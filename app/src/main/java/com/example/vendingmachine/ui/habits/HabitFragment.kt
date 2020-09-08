@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
@@ -36,13 +37,17 @@ class HabitFragment : Fragment() {
     ): View? {
         val binding = FragmentHabitBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
-        val adapter = HabitAdapter(HabitAdapter.OnClickListener { habit, increment ->
-            if (increment && habit.count < habit.max) {
+        val adapter = HabitAdapter(HabitAdapter.OnClickListener { habit, viewType ->
+            if (viewType.equals(1) && habit.count < habit.max) {
                 val increaseCount = habit.count + 1
                 viewModel.updateHabitCount(habit, increaseCount)
-            } else if (!increment && habit.count > 0) {
+            } else if (viewType.equals(2) && habit.count > 0) {
                 val decreaseCount = habit.count - 1
                 viewModel.updateHabitCount(habit, decreaseCount)
+            }else if(viewType.equals(3)){
+                viewModel.updateHabit(habit)
+            }else if(viewType.equals(4)){
+                Toast.makeText(requireContext(), "Nothing to Update", Toast.LENGTH_SHORT).show()
             }
         })
         binding.habitList.adapter = adapter

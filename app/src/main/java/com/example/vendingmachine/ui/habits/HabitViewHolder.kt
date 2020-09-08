@@ -11,12 +11,35 @@ import com.example.vendingmachine.databinding.HabitItemBinding
 class HabitViewHolder(val binding: HabitItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(habit : Habit){
+    fun bind(
+        habit: Habit,
+        clickListener: HabitAdapter.OnClickListener
+    ){
         binding.habit = habit
+        binding.incrementCountBtn.setOnClickListener{clickListener.onClick(habit, 1)}
+        binding.decrementCountBtn.setOnClickListener{clickListener.onClick(habit, 2)}
 
-        binding.editHabitTitle.setText("Hello Hello")
+        binding.editHabitTitle.setText(habit.title)
         binding.repeatHabitMax.setMinValue(1)
         binding.repeatHabitMax.setMaxValue(10)
+
+
+
+
+            binding.updateHabitBtn.setOnClickListener {
+                val title = binding.editHabitTitle.editableText.toString()
+                val max = binding.repeatHabitMax.value
+                if(title.isNotEmpty() && title != habit.title) {
+                    habit.title = title
+                    habit.max = max
+                    clickListener.onClick(habit, 3)
+                    toggleEditHabit(habit)
+                }else{
+                    clickListener.onClick(habit, 4)
+                }
+            }
+
+
 
         binding.habitItemContainer.setOnLongClickListener {
             toggleEditHabit(habit)
@@ -44,16 +67,15 @@ class HabitViewHolder(val binding: HabitItemBinding) :
             binding.habitTally.visibility = View.INVISIBLE
             binding.habitTallyAnimation.visibility = View.INVISIBLE
             binding.editFormContainer.visibility = View.VISIBLE
-
         }else{
             binding.editFormContainer.visibility = View.GONE
             binding.habitTitle.visibility = View.VISIBLE
             binding.incrementCountBtn.visibility = View.VISIBLE
             binding.decrementCountBtn.visibility = View.VISIBLE
             if(habit.count < habit.max){
-                binding.habitTallyAnimation.visibility = View.VISIBLE
-            }else{
                 binding.habitTally.visibility = View.VISIBLE
+            }else{
+                binding.habitTallyAnimation.visibility = View.VISIBLE
             }
         }
     }
