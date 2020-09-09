@@ -67,6 +67,7 @@ class HabitViewHolder(val binding: HabitItemBinding) :
             binding.habitTally.visibility = View.INVISIBLE
             binding.habitTallyAnimation.visibility = View.INVISIBLE
             binding.editFormContainer.visibility = View.VISIBLE
+            binding.repeatHabitMax.value = habit.max
         }else{
             binding.editFormContainer.visibility = View.GONE
             binding.habitTitle.visibility = View.VISIBLE

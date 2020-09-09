@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.ActivityMainBinding
@@ -92,10 +93,11 @@ class MainActivity : AppCompatActivity() {
 
     fun uncheckDailyHabits(){
 
-        val resetHabitRequest = OneTimeWorkRequestBuilder<DailyHabitReset>()
+//        OneTimeWorkRequestBuilder<DailyHabitReset>()
+        val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(24, TimeUnit.HOURS)
         val builtRequest = resetHabitRequest
             .addTag("Reset Habit Request")
-            .setInitialDelay(setTimeDiff(0, 15), TimeUnit.MILLISECONDS)
+            .setInitialDelay(setTimeDiff(9, 5), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
         workManager.pruneWork()
