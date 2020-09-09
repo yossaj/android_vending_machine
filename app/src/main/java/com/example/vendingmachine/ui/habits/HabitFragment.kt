@@ -48,6 +48,8 @@ class HabitFragment : Fragment() {
                 viewModel.updateHabit(habit)
             }else if(viewType.equals(4)){
                 Toast.makeText(requireContext(), "Nothing to Update", Toast.LENGTH_SHORT).show()
+            }else if(viewType.equals(5)){
+                Toast.makeText(requireContext(), "Long Click to Edit Habit", Toast.LENGTH_SHORT).show()
             }
         })
         binding.habitList.adapter = adapter

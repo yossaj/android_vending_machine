@@ -2,6 +2,7 @@ package com.example.vendingmachine.ui.habits
 
 import android.graphics.drawable.Animatable
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendingmachine.data.models.Habit
@@ -29,7 +30,7 @@ class HabitViewHolder(val binding: HabitItemBinding) :
             binding.updateHabitBtn.setOnClickListener {
                 val title = binding.editHabitTitle.editableText.toString()
                 val max = binding.repeatHabitMax.value
-                if(title.isNotEmpty() && title != habit.title) {
+                if(title.isNotEmpty() && (title != habit.title || max != habit.max)) {
                     habit.title = title
                     habit.max = max
                     clickListener.onClick(habit, 3)
@@ -44,6 +45,10 @@ class HabitViewHolder(val binding: HabitItemBinding) :
         binding.habitItemContainer.setOnLongClickListener {
             toggleEditHabit(habit)
             true
+        }
+
+        binding.habitItemContainer.setOnClickListener {
+            clickListener.onClick(habit, 5)
         }
 
         if(habit.count < habit.max) {
