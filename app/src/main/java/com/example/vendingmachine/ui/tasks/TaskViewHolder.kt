@@ -24,7 +24,10 @@ class TaskViewHolder(val binding: TaskItemBinding) :
         binding.expandedTaskNote.text = task.description
         binding.taskItemContainer.setCardBackgroundColor(getTaskColour(task))
 
-        binding.deleteTaskBtn.setOnClickListener{clickListener.onClick(task, 1)}
+        binding.deleteTaskBtn.setOnClickListener{
+            clickListener.onClick(task, 1)
+            toggleEditableText(task)
+        }
         binding.taskItemCheckbox.setOnClickListener{ clickListener.onClick(task, 2) }
 
         binding.taskItemContainer.setOnClickListener {

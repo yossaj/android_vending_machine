@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -41,6 +42,8 @@ class AuthenticatingFragment : Fragment(){
             }else{
                 Toast.makeText(requireContext(), "Signed In as ${firebaseUser}", Toast.LENGTH_SHORT).show()
                 val mainActivityIntent = Intent(requireContext(), MainActivity::class.java)
+                mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                finishAffinity(requireActivity())
                 startActivity(mainActivityIntent)
             }
         })

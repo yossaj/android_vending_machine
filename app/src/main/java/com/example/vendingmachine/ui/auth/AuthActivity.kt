@@ -14,7 +14,6 @@ class AuthActivity : AppCompatActivity(){
 
     private val viewModel : AuthViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityAuthBinding.inflate(layoutInflater)

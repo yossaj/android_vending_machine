@@ -252,23 +252,4 @@ class TasksFragment : Fragment() {
         coinCount = coinCount + 1
         sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.task_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            R.id.trash -> {
-                this.findNavController()
-                    .navigate(
-                        TasksFragmentDirections
-                            .actionTasksFragmentToAddTaskFragment(getString(R.string.delete_all))
-                    )
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

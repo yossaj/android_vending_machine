@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
         triggerNotificationWorker()
         uncheckDailyHabits()
+        uncheckWeeklyHabits()
         setContentView(binding.root)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -92,12 +93,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun uncheckDailyHabits(){
-
-//        OneTimeWorkRequestBuilder<DailyHabitReset>()
         val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(24, TimeUnit.HOURS)
         val builtRequest = resetHabitRequest
             .addTag("Reset Habit Request")
-            .setInitialDelay(setTimeDiff(9, 5), TimeUnit.MILLISECONDS)
+            .setInitialDelay(setTimeDiff(4, 30), TimeUnit.MILLISECONDS)
+            .build()
+        val workManager = WorkManager.getInstance(this)
+        workManager.pruneWork()
+        workManager.enqueue(builtRequest)
+    }
+
+    fun uncheckWeeklyHabits(){
+        val resetWeeklyHabits = PeriodicWorkRequestBuilder<DailyHabitReset>(7, TimeUnit.DAYS)
+        val builtRequest = resetWeeklyHabits
+            .addTag("Reset Weekly Habit Request")
+            .setInitialDelay(setTimeDiff(4, 30), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
         workManager.pruneWork()
