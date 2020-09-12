@@ -5,8 +5,10 @@ import android.animation.PropertyValuesHolder
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.view.isVisible
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.TaskItemBinding
@@ -31,16 +33,7 @@ class TaskViewHolder(val binding: TaskItemBinding) :
         binding.taskItemCheckbox.setOnClickListener{ clickListener.onClick(task, 2) }
 
         binding.taskItemContainer.setOnClickListener {
-            if (binding.expandedTaskNote.isVisible) {
-                binding.expandedTaskNote.visibility = View.GONE
-            } else {
-                binding.expandedTaskNote.visibility = View.VISIBLE
-                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.5f, 1f)
-                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                ObjectAnimator.ofPropertyValuesHolder(binding.expandedTaskNote, scaleY, alpha).apply {
-                    interpolator = AccelerateDecelerateInterpolator()
-                }.start()
-            }
+            toggleExpanded()
         }
 
         binding.editTaskButton.setOnClickListener{
@@ -69,6 +62,25 @@ class TaskViewHolder(val binding: TaskItemBinding) :
         } else if (!task.isCompleted) {
             binding.taskItemCheckbox.isChecked = false
             binding.taskItemTitle.paintFlags = 0
+        }
+    }
+
+    private fun toggleExpanded() {
+        val titleParams = binding.taskItemTitle.layoutParams as  ViewGroup.MarginLayoutParams
+        if (binding.expandedTaskNote.isVisible) {
+            binding.expandedTaskNote.visibility = View.GONE
+            binding.taskItemTitle.setMaxLines(1)
+            titleParams.setMargins(titleParams.leftMargin, 0, titleParams.rightMargin, titleParams.bottomMargin)
+        } else {
+            binding.expandedTaskNote.visibility = View.VISIBLE
+            binding.taskItemTitle.setMaxLines(4)
+            titleParams.setMargins(titleParams.leftMargin, 12, titleParams.rightMargin, titleParams.bottomMargin)
+            binding.taskItemTitle.layoutParams = titleParams
+            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.5f, 1f)
+            val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+            ObjectAnimator.ofPropertyValuesHolder(binding.expandedTaskNote, scaleY, alpha).apply {
+                interpolator = AccelerateDecelerateInterpolator()
+            }.start()
         }
     }
 

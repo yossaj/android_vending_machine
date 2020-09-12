@@ -39,12 +39,11 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/medium_space"
                 android:layout_marginLeft="@dimen/medium_space"
-                tools:text="Task Title"
+                tools:text="Task Title - and lets add a little more to see what it looks like."
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto"
-                android:lines="1"
-                android:maxWidth="300dp"/>
+                android:lines="1"/>
 
             <EditText
                 android:id="@+id/edit_task_text"
