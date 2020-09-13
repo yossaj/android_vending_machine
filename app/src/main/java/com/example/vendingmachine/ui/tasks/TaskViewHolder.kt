@@ -8,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.view.isVisible
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.TaskItemBinding
-import kotlinx.android.synthetic.main.task_item.view.*
 
 class TaskViewHolder(val binding: TaskItemBinding) :
     RecyclerView.ViewHolder(binding.root) {

@@ -10,23 +10,35 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.vendingmachine.data.persistence.TaskDatabase
 import com.example.vendingmachine.notifcation.sendNotificaiton
+import com.example.vendingmachine.utils.Constants
+import com.example.vendingmachine.utils.Constants.TASKS
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.IOException
 
-class NotificationWorker @WorkerInject constructor(@Assisted context: Context, @Assisted params: WorkerParameters, val datasource : TaskDatabase) : Worker(context, params){
+class NotificationWorker @WorkerInject constructor(@Assisted context: Context, @Assisted params: WorkerParameters, private val remoteDb: FirebaseFirestore,
+                                                   private val firebaseAuth: FirebaseAuth
+) : Worker(context, params){
 
     override fun doWork(): Result {
         val appContext = applicationContext
 
-        return try {
-            val remainingTasks = datasource.getTaskDao().getIncompleteTasksTitles()
-            val remainingTasksCount = remainingTasks.size.toString()
+        try {
+            val userId = if(firebaseAuth.currentUser != null) firebaseAuth.currentUser!!.uid else  return Result.retry()
+            val querySnapshot = remoteDb
+                .collection(TASKS)
+                .document(userId)
+                .collection("tasks")
+                .whereEqualTo("completed", false).get().result
+
+            val remainingTasksCount = if(querySnapshot != null) querySnapshot!!.documents.size else 0
             var title = "You have $remainingTasksCount tasks left to do today"
             var message = ""
-            if(remainingTasks.size == 0){
+            if(remainingTasksCount == 0){
                 title = "Add a new task"
                 message = "Get some shit done today!"
             }else{
-                remainingTasks[0]
+                title = querySnapshot!!.toString()
             }
 
             val notificationManager = ContextCompat.getSystemService(
@@ -44,6 +56,7 @@ class NotificationWorker @WorkerInject constructor(@Assisted context: Context, @
             Log.e("notification_error", throwable.toString())
             return Result.failure()
         }
+        return Result.retry()
     }
 
 }

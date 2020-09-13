@@ -31,8 +31,6 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel : HomeViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -80,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     fun triggerNotificationWorker() {
 
-       val timeDiff = setTimeDiff(11, 30)
+       val timeDiff = setTimeDiff(17, 54)
 
         val notificationWorkBuilder = OneTimeWorkRequestBuilder<NotificationWorker>()
         val buildNotificationRequest =
@@ -89,6 +87,7 @@ class MainActivity : AppCompatActivity() {
                 .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
                 .build()
         val workManager = WorkManager.getInstance(this)
+        workManager.pruneWork()
         workManager.enqueue(buildNotificationRequest)
     }
 

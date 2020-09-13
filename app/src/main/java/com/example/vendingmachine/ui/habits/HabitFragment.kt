@@ -40,6 +40,7 @@ class HabitFragment : Fragment() {
         val adapter = HabitAdapter(HabitAdapter.OnClickListener { habit, viewType ->
             if (viewType.equals(1) && habit.count < habit.max) {
                 val increaseCount = habit.count + 1
+                incrementCoinCount()
                 viewModel.updateHabitCount(habit, increaseCount)
             } else if (viewType.equals(2) && habit.count > 0) {
                 val decreaseCount = habit.count - 1
@@ -158,6 +159,14 @@ class HabitFragment : Fragment() {
             else -> return 1
         }
 
+    }
+
+
+    fun incrementCoinCount() {
+        val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+        var coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
+        coinCount += 1
+        sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
     }
 
 }

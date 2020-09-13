@@ -18,12 +18,6 @@ class HomeDialogFragment : DialogFragment(){
     private val viewmodel : HomeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//
-//        val viewmodel by lazy {
-//            val factory =
-//                HomeDialogViewModelFactory(args.apikey)
-//            ViewModelProviders.of(this, factory).get<HomeDialogViewModel>()
-//        }
 
         val apikey = viewmodel.apiKey.value
 

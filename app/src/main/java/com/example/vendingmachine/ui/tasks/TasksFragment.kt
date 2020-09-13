@@ -27,10 +27,7 @@ import kotlinx.android.synthetic.main.dialog_add_task.select_yellow_task
 @AndroidEntryPoint
 class TasksFragment : Fragment() {
 
-    lateinit var sharedPreferences: SharedPreferences
     private val viewModel: TasksViewModel by viewModels()
-
-    var coinCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +36,6 @@ class TasksFragment : Fragment() {
     ): View? {
         setHasOptionsMenu(true)
         requireActivity().setTitle(getString(R.string.task_fragment_title))
-        sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
-        getCoinCount()
         val binding = FragmentTasksBinding.inflate(inflater)
         binding.viewmodel = viewModel
         val adapter = TasksAdapter(TasksAdapter.OnClickListener{
@@ -244,12 +239,10 @@ class TasksFragment : Fragment() {
 
     }
 
-    fun getCoinCount() {
-        coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
-    }
-
     fun incrementCoinCount() {
-        coinCount = coinCount + 1
+        val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+        var coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
+        coinCount += 1
         sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
     }
 }
