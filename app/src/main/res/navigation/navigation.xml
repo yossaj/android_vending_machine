@@ -51,4 +51,9 @@
         android:name="com.example.vendingmachine.ui.habits.HabitFragment"
         android:label="fragment_habit"
         tools:layout="@layout/fragment_habit" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.vendingmachine.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
