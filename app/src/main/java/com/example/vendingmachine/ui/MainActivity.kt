@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun triggerNotificationWorker() {
-
        val timeDiff = setTimeDiff(17, 54)
 
         val notificationWorkBuilder = OneTimeWorkRequestBuilder<NotificationWorker>()
@@ -126,7 +125,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
-
         return timeDiff
     }
 

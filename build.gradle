@@ -15,7 +15,7 @@ buildscript {
         dexMakerVersion = '2.12.1'
         nav_version = "2.3.0-beta01"
         appCenterSdkVersion = '3.2.1'
-        work = "2.3.4"
+        work = "2.4.0"
     }
     repositories {
         google()

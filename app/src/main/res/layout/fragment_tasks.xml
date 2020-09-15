@@ -164,11 +164,9 @@
                 android:id="@+id/add_task_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/medium_space"
-                android:backgroundTint="@color/opaceWhite"
                 android:text="Add New Task"
-                android:textColor="@color/black"
-                app:cornerRadius="@dimen/medium_space"
+                style="@style/VendingTheme.Button"
+                android:backgroundTint="@color/opaceWhite"
                 app:icon="@drawable/add_button"
                 app:iconTint="@color/black" />
 
