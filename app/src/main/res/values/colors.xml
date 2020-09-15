@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#673AB7</color>
     <color name="colorAccent">#AC3A72</color>
+    <color name="colorSecondary">@color/task_green</color>
 
     <color name="colorAccentFaded">#CFA7BB</color>
 

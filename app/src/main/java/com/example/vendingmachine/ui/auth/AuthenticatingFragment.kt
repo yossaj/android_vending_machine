@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.AuthenticatingFragmentBinding
 import com.example.vendingmachine.ui.MainActivity
 import com.example.vendingmachine.ui.home.HomeViewModel
@@ -75,6 +76,7 @@ class AuthenticatingFragment : Fragment(){
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
+                .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),
             SIGN_IN_CODE
