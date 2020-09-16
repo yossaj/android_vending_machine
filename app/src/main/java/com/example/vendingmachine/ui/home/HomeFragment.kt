@@ -1,9 +1,11 @@
 package com.example.vendingmachine.ui.home
 
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -40,6 +42,7 @@ class HomeFragment : Fragment(){
             coinCount = it
             if (it > 0) {
                 showCoin(binding)
+                binding.coinCountDisplay?.setText("x${it.toString()}")
             } else {
                 hideCoinAndShowMessage(binding)
             }
@@ -81,6 +84,7 @@ class HomeFragment : Fragment(){
         binding.noFundsContainer?.visibility = View.VISIBLE
         binding.noFundsHint?.visibility = View.VISIBLE
         binding.coins.visibility = View.GONE
+        binding.coinCountDisplay?.visibility = View.GONE
     }
 
     private fun showCoin(binding: FragmentHomeBinding) {
@@ -88,6 +92,7 @@ class HomeFragment : Fragment(){
         binding.noFundsContainer?.visibility = View.GONE
         binding.noFundsHint?.visibility = View.GONE
         binding.coins.visibility = View.VISIBLE
+        binding.coinCountDisplay?.visibility = View.VISIBLE
     }
 
     private fun getCoinCount() {
@@ -129,7 +134,7 @@ class HomeFragment : Fragment(){
         Snackbar.make(binding.root, getString(R.string.no_funds), Snackbar.LENGTH_LONG)
             .setActionTextColor(resources.getColor(R.color.colorPrimaryDark))
             .setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            .setBackgroundTint(resources.getColor(R.color.colorAccent))
+            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.task_yellow))
             .show()
     }
 

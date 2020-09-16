@@ -9,17 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.AuthenticatingFragmentBinding
 import com.example.vendingmachine.ui.MainActivity
-import com.example.vendingmachine.ui.home.HomeViewModel
 import com.example.vendingmachine.utils.Constants.SIGN_IN_CODE
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

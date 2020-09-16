@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -22,6 +23,7 @@
             android:text="Everything for just $1!!!"
             android:textColor="@color/colorAccent"
             android:textSize="32dp"
+            android:shadowColor="@color/task_green"
             app:layout_constraintBottom_toTopOf="@id/grid_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +50,7 @@
                 android:id="@+id/cat_button"
                 style="@style/ImageView.Vending"
                 android:contentDescription="@string/cat"
+
                 android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
                 android:src="@drawable/cat" />
 
@@ -97,6 +100,7 @@
             android:layout_marginTop="@dimen/medium_space"
             android:layout_marginEnd="@dimen/large_spacing"
             android:orientation="horizontal"
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/coin_drag_destination"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,13 +115,23 @@
                 android:clickable="true"
                 android:src="@drawable/coin" />
 
+            <TextView
+                android:id="@+id/coin_count_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:fontFamily="@font/vt323"
+                android:textSize="32sp"
+                tools:text="x2"/>
+
             <LinearLayout
                 android:id="@+id/no_funds_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inverted_button_shape"
                 android:orientation="vertical"
-                android:padding="8dp"
+                android:gravity="center"
+                android:padding="@dimen/small_space"
                 android:visibility="gone">
 
                 <TextView
@@ -161,6 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/medium_space"
+                android:fontFamily="@font/vt323"
                 android:text="Insert Coin 》》" />
 
             <TextView
@@ -168,12 +183,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{homeViewModel.balanceString}"
-                android:textSize="64dp" />
+                android:fontFamily="@font/vt323"
+                tools:text="000"
+                android:textSize="72dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/medium_space"
+                android:fontFamily="@font/vt323"
                 android:text="《《 Insert Coin" />
 
         </LinearLayout>
