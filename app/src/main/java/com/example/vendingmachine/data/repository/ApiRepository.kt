@@ -55,47 +55,4 @@ class ApiRepository constructor(private val apiService: ApiService){
                 return "ERROR : Unable to retrieve data"
         }
     }
-
-//    fun testReadFireStore(){
-//        coroutineScope.launch {
-//            db.collection("tasks")
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    for (document in result) {
-//                        Log.d("Firestore", "${document}")
-//                    }
-//                }
-//                .addOnFailureListener { exception ->
-//                    Log.w("Firestore", "Error getting documents.", exception)
-//                }
-//        }
-//    }
-//
-//    fun testWriteFireStore(){
-//        coroutineScope.launch{
-//            db.collection("tasks")
-//                .add(
-//                    Task(
-//                        "Test Write",
-//                        "This is a test to see if i reach the db",
-//                        false,
-//                        0,
-//                        false
-//                    )
-//                )
-//                .addOnSuccessListener { documentReference ->
-//                    Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
-//                }
-//                .addOnFailureListener { e ->
-//                    Log.w("Firestore", "Error adding document", e)
-//                }
-//        }
-//
-//    }
-
-    init {
-
-    }
-
-
 }

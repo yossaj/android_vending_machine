@@ -3,6 +3,7 @@ package com.example.vendingmachine.ui.home.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -53,6 +54,7 @@ class HomeDialogFragment : DialogFragment(){
                 customView(R.layout.dialog_text)
                 dialog_text_view.text = getString(R.string.loading)
                 dialog_title.text = getString(R.string.swanson_title)
+                text_dialog_icon.visibility = View.VISIBLE
             }
             getString(R.string.bull) ->
                 return MaterialDialog(requireContext()).show {
@@ -70,7 +72,11 @@ class HomeDialogFragment : DialogFragment(){
                     customView(R.layout.dialog_image)
                     dialog_title_image.text = "Daily Dose of Doggo"
                 }
-
+            "Advice" ->
+                return MaterialDialog(requireContext()).show {
+                    customView(R.layout.dialog_text)
+                    dialog_title.text = "Knockout Advice"
+                }
             else ->
                 return MaterialDialog(requireContext()).show {
                     customView(R.layout.dialog_text)
