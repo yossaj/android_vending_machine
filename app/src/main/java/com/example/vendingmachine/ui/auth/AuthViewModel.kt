@@ -1,11 +1,13 @@
 package com.example.vendingmachine.ui.auth
 
+import android.content.SharedPreferences
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.example.vendingmachine.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -20,13 +22,17 @@ class AuthViewModel @ViewModelInject constructor(
 
 
     fun getUserStatus() {
-        val user = firebaseAuth.currentUser
+        val user : FirebaseUser? = firebaseAuth.currentUser
         if (user != null) {
             val username = user.displayName
             _signInStatus.postValue(username)
         }else{
             _signInStatus.postValue(null)
         }
+    }
+
+    fun setUserName(username : String){
+        _signInStatus.postValue(username)
     }
 
     init {

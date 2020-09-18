@@ -21,6 +21,7 @@ import com.example.vendingmachine.databinding.ActivityMainBinding
 import com.example.vendingmachine.ui.home.HomeViewModel
 import com.example.vendingmachine.workers.DailyHabitReset
 import com.example.vendingmachine.workers.NotificationWorker
+import com.google.firebase.firestore.FirebaseFirestore
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                 Analytics::class.java, Crashes::class.java
             )
         createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
+        FirebaseFirestore.setLoggingEnabled(true);
         triggerNotificationWorker()
         uncheckDailyHabits()
         uncheckWeeklyHabits()

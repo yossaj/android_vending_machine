@@ -27,6 +27,7 @@ class SettingsFragment : Fragment() {
         val binding = FragmentSettingsBinding.inflate(inflater)
 
         binding.signOutBtn.setOnClickListener {
+            removeSharedPrefUsername()
             viewModel.signOut()
             viewModel.getUser()
         }
@@ -43,6 +44,11 @@ class SettingsFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    fun removeSharedPrefUsername(){
+        val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+        sharedPreferences.edit().remove(getString(R.string.username_key)).apply()
     }
 
 }

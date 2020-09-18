@@ -3,6 +3,7 @@ package com.example.vendingmachine.ui.auth
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,22 +34,35 @@ class AuthenticatingFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val binding = AuthenticatingFragmentBinding.inflate(inflater)
-
         setUpAnimations(binding)
+        getUserSharedPreferences()?.let {
+            viewModel.setUserName(it)
+        }
+
 
         viewModel.signInStatus.observe(viewLifecycleOwner, Observer {
             firebaseUser ->
             if(firebaseUser.isNullOrEmpty()){
-                launchSignIn()
+                val sharedPrefUsername = getUserSharedPreferences()
+                if(sharedPrefUsername.isNullOrEmpty()){
+                    launchSignIn()
+                }else{
+                    launchMainActivity(sharedPrefUsername)
+                }
             }else{
-                Toast.makeText(requireContext(), "Signed In as ${firebaseUser}", Toast.LENGTH_SHORT).show()
-                val mainActivityIntent = Intent(requireContext(), MainActivity::class.java)
-                mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                finishAffinity(requireActivity())
-                startActivity(mainActivityIntent)
+                setUsernameSP(firebaseUser)
+                launchMainActivity(firebaseUser)
             }
         })
         return binding.root
+    }
+
+    private fun launchMainActivity(firebaseUser: String?) {
+        Toast.makeText(requireContext(), "Signed In as ${firebaseUser}", Toast.LENGTH_SHORT).show()
+        val mainActivityIntent = Intent(requireContext(), MainActivity::class.java)
+        mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        finishAffinity(requireActivity())
+        startActivity(mainActivityIntent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -74,6 +88,7 @@ class AuthenticatingFragment : Fragment(){
         )
 
         startActivityForResult(
+
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setTheme(R.style.LoginTheme)
@@ -99,5 +114,17 @@ class AuthenticatingFragment : Fragment(){
         yellowDotAnimation.repeatCount = ObjectAnimator.INFINITE
         yellowDotAnimation.repeatMode = ObjectAnimator.REVERSE
         yellowDotAnimation.start()
+    }
+
+
+    fun getUserSharedPreferences() : String?{
+        val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+        val username = sharedPreferences.getString(getString(R.string.username_key), "")
+        return username
+    }
+
+    fun setUsernameSP(username : String){
+        val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+        sharedPreferences.edit().putString(getString(R.string.username_key), username).apply()
     }
 }

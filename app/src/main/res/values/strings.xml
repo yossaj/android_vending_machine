@@ -17,6 +17,7 @@
     <string name="tasks_nav">Tasks</string>
 
     <string name="coin_count_key">COIN_COUNT</string>
+    <string name="username_key">USER_NAME</string>
     <string name="no_funds">Insufficient Funds</string>
     <string name="task_fragment_title">Tasks And Habits</string>
     <string name="habit">habit</string>

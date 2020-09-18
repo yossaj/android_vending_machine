@@ -2,11 +2,10 @@ package com.example.vendingmachine.ui.tasks
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.*
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnimationUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -20,9 +19,7 @@ import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.FragmentTasksBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_add_task.select_blue_task
-import kotlinx.android.synthetic.main.dialog_add_task.select_green_task
-import kotlinx.android.synthetic.main.dialog_add_task.select_yellow_task
+import kotlinx.android.synthetic.main.dialog_add_task.*
 
 @AndroidEntryPoint
 class TasksFragment : Fragment() {

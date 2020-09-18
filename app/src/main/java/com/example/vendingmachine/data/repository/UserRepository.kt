@@ -184,6 +184,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
     fun getUid() : String{
         currentUser?.let {
             val uid = it.uid
+            Log.d("UID", uid.toString())
             return  uid
         }
         return "1234"
@@ -215,7 +216,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun addTask(task: Task) {
         uiScope.launch {
-            remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
+            val request = remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
         }
     }
 
