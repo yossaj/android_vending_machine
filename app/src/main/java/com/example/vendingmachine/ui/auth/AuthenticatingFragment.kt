@@ -74,9 +74,6 @@ class AuthenticatingFragment : Fragment(){
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 viewModel.getUserStatus()
-            } else {
-
-
             }
         }
     }
@@ -92,6 +89,7 @@ class AuthenticatingFragment : Fragment(){
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setTheme(R.style.LoginTheme)
+                .setLogo(R.mipmap.ic_launcher_round)
                 .setAvailableProviders(providers)
                 .build(),
             SIGN_IN_CODE

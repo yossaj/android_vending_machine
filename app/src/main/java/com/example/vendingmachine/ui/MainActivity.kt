@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
                 .build()
         val workManager = WorkManager.getInstance(this)
-        workManager.pruneWork()
         workManager.enqueue(buildNotificationRequest)
     }
 
@@ -100,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             .setInitialDelay(setTimeDiff(4, 30), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
-        workManager.pruneWork()
         workManager.enqueue(builtRequest)
     }
 
@@ -111,7 +109,6 @@ class MainActivity : AppCompatActivity() {
             .setInitialDelay(setTimeDiff(4, 30), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
-        workManager.pruneWork()
         workManager.enqueue(builtRequest)
     }
 
