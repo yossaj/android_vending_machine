@@ -31,7 +31,6 @@ class HabitFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHabitBinding.inflate(layoutInflater)
-        // Inflate the layout for this fragment
         val adapter = HabitAdapter(HabitAdapter.OnClickListener { habit, viewType ->
             if (viewType.equals(1) && habit.count < habit.max) {
                 val increaseCount = habit.count + 1
@@ -51,9 +50,8 @@ class HabitFragment : Fragment() {
         binding.habitList.adapter = adapter
         viewModel.allHabits.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            viewModel.resetDailyHabits()
         })
-
-
         setUpShowHabitFormBtn(binding)
         setUpAddHabitForm(binding)
         binding.incrementArrowBtnHabit.setOnClickListener { viewModel.incrementFrequency() }

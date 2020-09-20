@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.*
+import java.util.*
 
 class UserRepository constructor(private val remoteDb: FirebaseFirestore, private val firebaseAuth: FirebaseAuth) {
 
@@ -145,7 +146,8 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         docRef.update(
             "title", habit.title,
             "max", habit.max,
-            "frequency", habit.frequency
+            "frequency", habit.frequency,
+            "updatedAt", Calendar.getInstance().timeInMillis
         )
     }
 

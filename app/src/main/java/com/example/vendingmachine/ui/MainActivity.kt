@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -43,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
         FirebaseFirestore.setLoggingEnabled(true);
         triggerNotificationWorker()
-        uncheckDailyHabits()
-        uncheckWeeklyHabits()
+//        uncheckDailyHabits()
+//        uncheckWeeklyHabits()
         setContentView(binding.root)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -93,13 +94,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun uncheckDailyHabits(){
-        val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(24, TimeUnit.HOURS)
-        val builtRequest = resetHabitRequest
+        val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(24, TimeUnit.HOURS, 5, TimeUnit.MINUTES)
+        val dailyWorkRequest = resetHabitRequest
             .addTag("Reset Habit Request")
-            .setInitialDelay(setTimeDiff(4, 30), TimeUnit.MILLISECONDS)
+            .setInitialDelay(setTimeDiff(11, 12), TimeUnit.MILLISECONDS)
             .build()
         val workManager = WorkManager.getInstance(this)
-        workManager.enqueue(builtRequest)
+        workManager.enqueueUniquePeriodicWork("Reset Habit Request", ExistingPeriodicWorkPolicy.KEEP, dailyWorkRequest)
     }
 
     fun uncheckWeeklyHabits(){
