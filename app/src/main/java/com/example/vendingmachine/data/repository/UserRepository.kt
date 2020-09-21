@@ -145,6 +145,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
         docRef.update(
             "title", habit.title,
+            "count", habit.count,
             "max", habit.max,
             "frequency", habit.frequency,
             "updatedAt", Calendar.getInstance().timeInMillis

@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.data.repository.UserRepository
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HabitsViewModel@ViewModelInject constructor(
@@ -48,8 +47,13 @@ class HabitsViewModel@ViewModelInject constructor(
     fun resetDailyHabits(){
         allHabits.value?.let {
             it.forEach {
-                val dateCheck = habitIsDue(it.updatedAt)
-                if(!dateCheck && it.count != 0 && it.frequency == 1){
+                if(it.count != 0 && it.frequency == 1 && dailyHabitIsDue(it.updatedAt)){
+                        it.count = 0
+//                        updateHabit(it)
+                }else if(it.count != 0 && it.frequency == 2 && weeklyHabitIsDue(it.updatedAt)){
+                        it.count = 0
+                        updateHabit(it)
+                }else if(it.count != 0 && it.frequency == 2 && monthlyHabitIsDue(it.updatedAt)){
                     it.count = 0
                     updateHabit(it)
                 }
@@ -57,16 +61,28 @@ class HabitsViewModel@ViewModelInject constructor(
         }
     }
 
-    fun habitIsDue(updated : Long) : Boolean{
+    fun dailyHabitIsDue(updated : Long) : Boolean{
         val habitLastUpdated: Calendar = Calendar.getInstance()
         val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
         habitLastUpdated.setTimeInMillis(updated)
         val lastUpdatedDay = habitLastUpdated.get(Calendar.DAY_OF_YEAR)
-        return lastUpdatedDay == currentDay
+        return lastUpdatedDay != currentDay
     }
 
-    init {
-        listenForHabits()
+    fun weeklyHabitIsDue(updated : Long) : Boolean{
+        val habitLastUpdated: Calendar = Calendar.getInstance()
+        val currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
+        habitLastUpdated.setTimeInMillis(updated)
+        val lastUpdatedWeek = habitLastUpdated.get(Calendar.WEEK_OF_YEAR)
+        return lastUpdatedWeek != currentWeek
+    }
+
+    fun monthlyHabitIsDue(updated: Long) : Boolean{
+        val habitLastUpdated: Calendar = Calendar.getInstance()
+        val currentWeek = Calendar.getInstance().get(Calendar.MONTH)
+        habitLastUpdated.setTimeInMillis(updated)
+        val lastUpdatedWeek = habitLastUpdated.get(Calendar.MONTH)
+        return lastUpdatedWeek != currentWeek
     }
 
     override fun onCleared() {
