@@ -53,7 +53,7 @@ class HabitsViewModel@ViewModelInject constructor(
                 }else if(it.count != 0 && it.frequency == 2 && weeklyHabitIsDue(it.updatedAt)){
                         it.count = 0
                         updateHabit(it)
-                }else if(it.count != 0 && it.frequency == 2 && monthlyHabitIsDue(it.updatedAt)){
+                }else if(it.count != 0 && it.frequency == 3 && monthlyHabitIsDue(it.updatedAt)){
                     it.count = 0
                     updateHabit(it)
                 }
@@ -79,10 +79,10 @@ class HabitsViewModel@ViewModelInject constructor(
 
     fun monthlyHabitIsDue(updated: Long) : Boolean{
         val habitLastUpdated: Calendar = Calendar.getInstance()
-        val currentWeek = Calendar.getInstance().get(Calendar.MONTH)
+        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
         habitLastUpdated.setTimeInMillis(updated)
-        val lastUpdatedWeek = habitLastUpdated.get(Calendar.MONTH)
-        return lastUpdatedWeek != currentWeek
+        val lastUpdatedMonth = habitLastUpdated.get(Calendar.MONTH)
+        return lastUpdatedMonth != currentMonth
     }
 
     override fun onCleared() {
