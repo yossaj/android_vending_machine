@@ -2,16 +2,10 @@ package com.example.vendingmachine.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.data.network.ApiService
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 
 class ApiRepository constructor(private val apiService: ApiService){
-
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     val _responseString = MutableLiveData<String?>()
 
@@ -30,18 +24,18 @@ class ApiRepository constructor(private val apiService: ApiService){
     }
 
     fun getVendedApi() {
-        val exceptionHandler = CoroutineExceptionHandler{_ , throwable->
-            throwable.printStackTrace()
-            Log.d("API Service", throwable.message)
-            _responseString.postValue("You are currently offline")
-        }
-
-        coroutineScope.launch(Dispatchers.IO + exceptionHandler ) {
-            val data = filterAndMakeRequest()
-            withContext(Dispatchers.Main){
-                _responseString.postValue(data)
+            val exceptionHandler = CoroutineExceptionHandler { a, throwable ->
+                Log.d("API Service", throwable.message)
+                _responseString.postValue("You are currently offline")
             }
-        }
+
+            CoroutineScope(Dispatchers.IO)
+                .launch(exceptionHandler + CoroutineName("API")) {
+                val data = filterAndMakeRequest()
+                withContext(Dispatchers.Main) {
+                    _responseString.postValue(data)
+                }
+            }
     }
 
     private suspend fun filterAndMakeRequest() : String {
