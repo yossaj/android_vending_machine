@@ -16,12 +16,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.IOException
 
-class NotificationWorker @WorkerInject constructor(@Assisted context: Context, @Assisted params: WorkerParameters, private val remoteDb: FirebaseFirestore,
-                                                   private val firebaseAuth: FirebaseAuth
+class NotificationWorker @WorkerInject
+constructor(@Assisted val context: Context,
+            @Assisted params: WorkerParameters,
+            private val remoteDb: FirebaseFirestore,
+            private val firebaseAuth: FirebaseAuth
 ) : Worker(context, params){
 
     override fun doWork(): Result {
-        val appContext = applicationContext
 
         try {
             val userId = if(firebaseAuth.currentUser != null) firebaseAuth.currentUser!!.uid else  return Result.retry()
@@ -37,12 +39,10 @@ class NotificationWorker @WorkerInject constructor(@Assisted context: Context, @
             if(remainingTasksCount == 0){
                 title = "Add a new task"
                 message = "Get some shit done today!"
-            }else{
-                title = querySnapshot!!.toString()
             }
 
             val notificationManager = ContextCompat.getSystemService(
-                appContext,
+                context,
                 NotificationManager::class.java
             ) as NotificationManager
 

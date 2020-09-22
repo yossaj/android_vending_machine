@@ -1,21 +1,23 @@
 package com.example.vendingmachine.ui.home
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.DragEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 class HomeFragment : Fragment(){
 
@@ -30,8 +32,6 @@ class HomeFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater)
-        requireActivity().setTitle(getString(R.string.app_name))
-        setHasOptionsMenu(true)
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
@@ -42,7 +42,7 @@ class HomeFragment : Fragment(){
             coinCount = it
             if (it > 0) {
                 showCoin(binding)
-                binding.coinCountDisplay?.setText("x${it.toString()}")
+                binding.coinCountDisplay?.setText("x${it}")
             } else {
                 hideCoinAndShowMessage(binding)
             }
@@ -136,22 +136,6 @@ class HomeFragment : Fragment(){
             .setTextColor(resources.getColor(R.color.colorPrimaryDark))
             .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.task_yellow))
             .show()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when(id){
-            R.id.new_task -> {
-                navController.navigate(HomeFragmentDirections.actionHomeFragmentToTasksFragment())
-                saveCoinCount()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     fun saveCoinCount(){

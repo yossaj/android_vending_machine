@@ -49,7 +49,7 @@ class HabitsViewModel@ViewModelInject constructor(
             it.forEach {
                 if(it.count != 0 && it.frequency == 1 && dailyHabitIsDue(it.updatedAt)){
                         it.count = 0
-//                        updateHabit(it)
+                        updateHabit(it)
                 }else if(it.count != 0 && it.frequency == 2 && weeklyHabitIsDue(it.updatedAt)){
                         it.count = 0
                         updateHabit(it)

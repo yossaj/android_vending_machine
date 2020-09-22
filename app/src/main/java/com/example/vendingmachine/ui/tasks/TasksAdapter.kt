@@ -19,7 +19,6 @@ class TasksAdapter(val clickListener : TasksAdapter.OnClickListener) : ListAdapt
         return TaskViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = getItem(position)
         holder.bind(task, clickListener)

@@ -14,7 +14,6 @@ class ApiRepository constructor(private val apiService: ApiService){
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     val _responseString = MutableLiveData<String?>()
-    val db = Firebase.firestore
 
     fun resetResponseString(){
         _responseString.postValue(null)
@@ -31,7 +30,13 @@ class ApiRepository constructor(private val apiService: ApiService){
     }
 
     fun getVendedApi() {
-        coroutineScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler{_ , throwable->
+            throwable.printStackTrace()
+            Log.d("API Service", throwable.message)
+            _responseString.postValue("You are currently offline")
+        }
+
+        coroutineScope.launch(Dispatchers.IO + exceptionHandler ) {
             val data = filterAndMakeRequest()
             withContext(Dispatchers.Main){
                 _responseString.postValue(data)

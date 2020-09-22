@@ -6,21 +6,15 @@ import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.vendingmachine.R
 import com.example.vendingmachine.databinding.ActivityMainBinding
-import com.example.vendingmachine.ui.home.HomeViewModel
-import com.example.vendingmachine.workers.DailyHabitReset
 import com.example.vendingmachine.workers.NotificationWorker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.microsoft.appcenter.AppCenter
@@ -44,20 +38,27 @@ class MainActivity : AppCompatActivity() {
         createChannel(getString(R.string.remaining_tasks_id), "Remaining Tasks", this)
         FirebaseFirestore.setLoggingEnabled(true);
         triggerNotificationWorker()
-//        uncheckDailyHabits()
-//        uncheckWeeklyHabits()
         setContentView(binding.root)
+        setUpBottomNavBar(binding)
+
+    }
+
+    private fun setUpBottomNavBar(binding: ActivityMainBinding) {
         val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.homeFragment,
-            R.id.tasksFragment,
-            R.id.habitFragment,
-            R.id.settingsFragment
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.tasksFragment,
+                R.id.habitFragment,
+                R.id.settingsFragment
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         supportActionBar?.hide()
         binding.navView.setupWithNavController(navController)
-
+        binding.navView.setOnNavigationItemReselectedListener {
+            //            do nothing - prevent fragments from loading twice
+        }
     }
 
     fun createChannel(channelId: String, channelName: String, activity: Activity) {
@@ -91,26 +92,6 @@ class MainActivity : AppCompatActivity() {
                 .build()
         val workManager = WorkManager.getInstance(this)
         workManager.enqueue(buildNotificationRequest)
-    }
-
-    fun uncheckDailyHabits(){
-        val resetHabitRequest = PeriodicWorkRequestBuilder<DailyHabitReset>(24, TimeUnit.HOURS, 5, TimeUnit.MINUTES)
-        val dailyWorkRequest = resetHabitRequest
-            .addTag("Reset Habit Request")
-            .setInitialDelay(setTimeDiff(11, 12), TimeUnit.MILLISECONDS)
-            .build()
-        val workManager = WorkManager.getInstance(this)
-        workManager.enqueueUniquePeriodicWork("Reset Habit Request", ExistingPeriodicWorkPolicy.KEEP, dailyWorkRequest)
-    }
-
-    fun uncheckWeeklyHabits(){
-        val resetWeeklyHabits = PeriodicWorkRequestBuilder<DailyHabitReset>(7, TimeUnit.DAYS)
-        val builtRequest = resetWeeklyHabits
-            .addTag("Reset Weekly Habit Request")
-            .setInitialDelay(setTimeDiff(4, 30), TimeUnit.MILLISECONDS)
-            .build()
-        val workManager = WorkManager.getInstance(this)
-        workManager.enqueue(builtRequest)
     }
 
     fun setTimeDiff(hour : Int, minute : Int) : Long{
