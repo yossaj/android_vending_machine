@@ -28,7 +28,6 @@ class HabitAdapter(val clickListener : OnClickListener) : ListAdapter<Habit, Hab
         override fun areContentsTheSame(oldItem: Habit, newItem: Habit): Boolean {
             return oldItem.equals(newItem)
         }
-
     }
 
     class OnClickListener(val clickListener: (habit: Habit, viewType : Int) -> Unit) {

@@ -19,7 +19,10 @@ class HabitViewHolder(val binding: HabitItemBinding) :
         binding.habit = habit
         binding.incrementCountBtn.setOnClickListener{clickListener.onClick(habit, 1)}
         binding.decrementCountBtn.setOnClickListener{clickListener.onClick(habit, 2)}
-        binding.deleteHabitBtn.setOnClickListener { clickListener.onClick(habit, 6) }
+        binding.deleteHabitBtn.setOnClickListener {
+            clickListener.onClick(habit, 6)
+            toggleEditHabit(habit)
+        }
 
         binding.editHabitTitle.setText(habit.title)
         binding.repeatHabitMax.setMinValue(1)
