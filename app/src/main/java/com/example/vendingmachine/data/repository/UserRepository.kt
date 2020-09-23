@@ -217,6 +217,18 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
+    fun deleteHabit(habit: Habit){
+        uiScope.launch {
+            remoteDb.collection(USERS).document(getUid()).collection(HABITS).document(habit.id).delete()
+                .addOnCompleteListener {
+
+                }
+                .addOnFailureListener {
+
+                }
+        }
+    }
+
     fun addTask(task: Task) {
         uiScope.launch {
             val request = remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)

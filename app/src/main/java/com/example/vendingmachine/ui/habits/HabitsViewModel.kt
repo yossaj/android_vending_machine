@@ -24,6 +24,10 @@ class HabitsViewModel@ViewModelInject constructor(
         userRepository.addHabit(habit)
     }
 
+    fun deleteHabit(habit : Habit){
+        userRepository.deleteHabit(habit)
+    }
+
     fun listenForHabits(){
         userRepository.listenForHabitChanges()
     }

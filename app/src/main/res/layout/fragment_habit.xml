@@ -104,6 +104,7 @@
                 android:layout_marginTop="@dimen/medium_space"
                 android:background="@drawable/curved_corners_opace" />
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_habit_btn"
                 app:icon="@drawable/add_button"
@@ -115,7 +116,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
-
 
         </LinearLayout>
 
