@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.vendingmachine.R
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             val notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun triggerNotificationWorker() {
-       val timeDiff = setTimeDiff(17, 54)
+       val timeDiff = setTimeDiff(9, 40)
 
         val notificationWorkBuilder = OneTimeWorkRequestBuilder<NotificationWorker>()
         val buildNotificationRequest =
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
                 .build()
         val workManager = WorkManager.getInstance(this)
-        workManager.enqueue(buildNotificationRequest)
+        workManager.enqueueUniqueWork("Remaining Tasks",  ExistingWorkPolicy.KEEP, buildNotificationRequest)
     }
 
     fun setTimeDiff(hour : Int, minute : Int) : Long{

@@ -92,6 +92,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                     }
 
                     snapshot?.let {
+                        it.documents.forEach(){ document -> document.id}
                         var remoteHabits: List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
                         _allHabits.postValue(remoteHabits)
                     }
