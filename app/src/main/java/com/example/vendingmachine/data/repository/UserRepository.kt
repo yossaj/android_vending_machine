@@ -17,7 +17,10 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.*
 import java.util.*
 
-class UserRepository constructor(private val remoteDb: FirebaseFirestore, private val firebaseAuth: FirebaseAuth) {
+class UserRepository constructor(
+    private val remoteDb: FirebaseFirestore,
+    private val firebaseAuth: FirebaseAuth
+) {
 
     private val currentUser = firebaseAuth.currentUser
 
@@ -32,7 +35,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         get() = _allTasks
 
     var _allHabits = MutableLiveData<List<Habit>>()
-    val allHabits : LiveData<List<Habit>>
+    val allHabits: LiveData<List<Habit>>
         get() = _allHabits
 
     val _period = MutableLiveData<Int>(1)
@@ -40,7 +43,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         get() = _period
 
     val _frequency = MutableLiveData<Int>(1)
-    val frequency : LiveData<Int>
+    val frequency: LiveData<Int>
         get() = _frequency
 
     fun listenForTaskChanges() {
@@ -52,24 +55,38 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                 .orderBy("update", Query.Direction.DESCENDING)
                 .whereEqualTo("period", period.value)
 
-              registeredTaskQuery.postValue(
-                  taskQuery.addSnapshotListener { snapshot, exception ->
-                      exception?.let {
-                          Log.d("Exception", it.message )
-                      }
+            registeredTaskQuery.postValue(
+                taskQuery.addSnapshotListener { snapshot, exception ->
+                    exception?.let {
+                        Log.d("Exception", it.message)
+                    }
 
-                      snapshot?.let {
-                          val remoteTasks: List<Task> = it.toObjects(Task::class.java)
+                    snapshot?.let {
+                        val remoteTasks: MutableList<Task> = mutableListOf<Task>()
+                        for (document in it.documents) {
+                            val task =  Task(
+                                document.getString("title") as String,
+                                document.getString("description") as String,
+                                document.get("period").toString().toInt(),
+                                document.get("colour").toString().toInt(),
+                                document.get("completed") as Boolean,
+                                document.get("update") as Long,
+                                document.id
+                            )
+                            remoteTasks.add(task)
+                            Log.d("Doc", "Document id added: ${document.id} - ${task.id}")
+                        }
+                        Log.d("Doc List", remoteTasks.size.toString())
                           _allTasks.postValue(remoteTasks)
-                      }
-                  }
-              )
+                    }
+                }
+            )
         }
     }
 
-    fun removeRegisteredTaskQuery(){
+    fun removeRegisteredTaskQuery() {
         uiScope.launch {
-            if(registeredTaskQuery.value != null){
+            if (registeredTaskQuery.value != null) {
                 registeredTaskQuery.value?.let {
                     it.remove()
                 }
@@ -77,7 +94,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun listenForHabitChanges(){
+    fun listenForHabitChanges() {
         uiScope.launch {
             val habitQuery = remoteDb.collection(USERS)
                 .document(getUid())
@@ -92,8 +109,9 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
                     }
 
                     snapshot?.let {
-                        it.documents.forEach(){ document -> document.id}
-                        var remoteHabits: List<Habit> = it.toObjects(Habit::class.java) as List<Habit>
+                        it.documents.forEach() { document -> document.id }
+                        var remoteHabits: List<Habit> =
+                            it.toObjects(Habit::class.java) as List<Habit>
                         _allHabits.postValue(remoteHabits)
                     }
                 }
@@ -101,9 +119,9 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun removeRegisteredHabitListener(){
+    fun removeRegisteredHabitListener() {
         uiScope.launch {
-            if(registeredHabitQuery.value != null){
+            if (registeredHabitQuery.value != null) {
                 registeredHabitQuery.value?.let {
                     it.remove()
                 }
@@ -111,7 +129,7 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun updateHabitCount(habit : Habit, count : Int){
+    fun updateHabitCount(habit: Habit, count: Int) {
         val docRef = remoteDb.collection("users")
             .document(getUid())
             .collection("habits")
@@ -123,22 +141,24 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
     }
 
-    fun updateTask(task: Task){
+    fun updateTask(task: Task) {
         val docRef = remoteDb.collection("users")
             .document(getUid())
             .collection("tasks")
             .document(task.id)
 
         docRef
-            .update("title", task.title,
+            .update(
+                "title", task.title,
                 "description", task.description,
                 "period", task.period,
-                "color", task.colour)
+                "color", task.colour
+            )
             .addOnSuccessListener { Log.d(UPDATE_TAG, "Task count successfully updated!") }
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
     }
 
-    fun updateHabit(habit: Habit){
+    fun updateHabit(habit: Habit) {
         val docRef = remoteDb.collection(USERS)
             .document(getUid())
             .collection(HABITS)
@@ -185,11 +205,11 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
         }
     }
 
-    fun getUid() : String{
+    fun getUid(): String {
         currentUser?.let {
             val uid = it.uid
             Log.d("UID", uid.toString())
-            return  uid
+            return uid
         }
         return "1234"
     }
@@ -197,7 +217,8 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun updateOnComplete(task: Task) {
         uiScope.launch {
-            val docRef = remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
+            val docRef =
+                remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
 
             docRef
                 .update(COMPLETED, task.isCompleted)
@@ -208,19 +229,21 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun deleteTask(task: Task) {
         uiScope.launch {
-                remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).delete()
-                    .addOnCompleteListener {
+            remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
+                .delete()
+                .addOnCompleteListener {
 
-                    }
-                    .addOnFailureListener {
+                }
+                .addOnFailureListener {
 
-                    }
+                }
         }
     }
 
-    fun deleteHabit(habit: Habit){
+    fun deleteHabit(habit: Habit) {
         uiScope.launch {
-            remoteDb.collection(USERS).document(getUid()).collection(HABITS).document(habit.id).delete()
+            remoteDb.collection(USERS).document(getUid()).collection(HABITS).document(habit.id)
+                .delete()
                 .addOnCompleteListener {
 
                 }
@@ -232,13 +255,17 @@ class UserRepository constructor(private val remoteDb: FirebaseFirestore, privat
 
     fun addTask(task: Task) {
         uiScope.launch {
-            val request = remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id).set(task)
+            val request =
+                remoteDb.collection("users").document(getUid()).collection(TASKS).document()
+            task.id = request.id
+            request.set(task)
         }
     }
 
-    fun addHabit(habit: Habit){
+    fun addHabit(habit: Habit) {
         uiScope.launch {
-            remoteDb.collection("users").document(getUid()).collection("habits").document(habit.id).set(habit)
+            remoteDb.collection("users").document(getUid()).collection("habits").document(habit.id)
+                .set(habit)
         }
     }
 
