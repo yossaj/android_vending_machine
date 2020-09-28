@@ -5,9 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.data.models.Task
+import com.example.vendingmachine.utils.Constants.COLOUR
 import com.example.vendingmachine.utils.Constants.COMPLETED
+import com.example.vendingmachine.utils.Constants.COUNT
+import com.example.vendingmachine.utils.Constants.DESCRIPTION
 import com.example.vendingmachine.utils.Constants.HABITS
+import com.example.vendingmachine.utils.Constants.MAX
+import com.example.vendingmachine.utils.Constants.PERIOD
 import com.example.vendingmachine.utils.Constants.TASKS
+import com.example.vendingmachine.utils.Constants.TITLE
+import com.example.vendingmachine.utils.Constants.UPDATED_AT
 import com.example.vendingmachine.utils.Constants.UPDATE_TAG
 import com.example.vendingmachine.utils.Constants.USERS
 import com.google.firebase.auth.FirebaseAuth
@@ -51,9 +58,9 @@ class UserRepository constructor(
         uiScope.launch {
             val taskQuery = remoteDb.collection(USERS)
                 .document(getUid())
-                .collection("tasks")
-                .orderBy("updatedAt", Query.Direction.DESCENDING)
-                .whereEqualTo("period", period.value)
+                .collection(TASKS)
+                .orderBy(UPDATED_AT, Query.Direction.DESCENDING)
+                .whereEqualTo(PERIOD, period.value)
 
             registeredTaskQuery.postValue(
                 taskQuery.addSnapshotListener { snapshot, exception ->
@@ -65,12 +72,12 @@ class UserRepository constructor(
                         val remoteTasks: MutableList<Task> = mutableListOf<Task>()
                         for (document in it.documents) {
                             val task = Task(
-                                document.getString("title") as String,
-                                document.getString("description") as String,
-                                document.get("period").toString().toInt(),
-                                document.get("colour").toString().toInt(),
-                                document.get("completed") as Boolean,
-                                document.get("updatedAt") as Long,
+                                document.getString(TITLE) as String,
+                                document.getString(DESCRIPTION) as String,
+                                document.get(PERIOD).toString().toInt(),
+                                document.get(COLOUR).toString().toInt(),
+                                document.get(COMPLETED) as Boolean,
+                                document.get(UPDATED_AT) as Long,
                                 document.id
                             )
                             remoteTasks.add(task)
@@ -100,8 +107,8 @@ class UserRepository constructor(
             val habitQuery = remoteDb.collection(USERS)
                 .document(getUid())
                 .collection(HABITS)
-                .whereEqualTo("period", habitPeriod.value)
-                .orderBy("updatedAt", Query.Direction.ASCENDING)
+                .whereEqualTo(PERIOD, habitPeriod.value)
+                .orderBy(UPDATED_AT, Query.Direction.ASCENDING)
 
             registeredHabitQuery.postValue(
                 habitQuery.addSnapshotListener { snapshot, exception ->
@@ -110,11 +117,19 @@ class UserRepository constructor(
                     }
 
                     snapshot?.let {
-                        it.documents.forEach() { document ->
-                            Log.d("Habit Doc", "Document id added: ${document.id}")
+                        var remoteHabits: MutableList<Habit> = mutableListOf<Habit>()
+                        for (document in it.documents) {
+                            val habit = Habit(
+                                document.getString(TITLE) as String,
+                                document.get(MAX).toString().toInt(),
+                                document.get(PERIOD).toString().toInt(),
+                                document.get(COUNT).toString().toInt(),
+                                document.get(UPDATED_AT) as Long,
+                                document.id
+                            )
+                            remoteHabits.add(habit)
+                            Log.d("Doc", "Document id added: ${document.id} - ${habit.id}")
                         }
-                        var remoteHabits: List<Habit> =
-                            it.toObjects(Habit::class.java) as List<Habit>
                         Log.d("Habit Doc", "Habit list size ${remoteHabits.size}")
                         _allHabits.postValue(remoteHabits)
                     }
@@ -134,29 +149,29 @@ class UserRepository constructor(
     }
 
     fun updateHabitCount(habit: Habit, count: Int) {
-        val docRef = remoteDb.collection("users")
+        val docRef = remoteDb.collection(USERS)
             .document(getUid())
-            .collection("habits")
+            .collection(HABITS)
             .document(habit.id)
 
         docRef
-            .update("count", count)
+            .update(COUNT, count)
             .addOnSuccessListener { Log.d(UPDATE_TAG, "Habit count successfully updated!") }
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
     }
 
     fun updateTask(task: Task) {
-        val docRef = remoteDb.collection("users")
+        val docRef = remoteDb.collection(USERS)
             .document(getUid())
-            .collection("tasks")
+            .collection(TASKS)
             .document(task.id)
 
         docRef
             .update(
-                "title", task.title,
-                "description", task.description,
-                "period", task.period,
-                "color", task.colour
+                TITLE, task.title,
+                DESCRIPTION, task.description,
+                PERIOD, task.period,
+                COLOUR, task.colour
             )
             .addOnSuccessListener { Log.d(UPDATE_TAG, "Task count successfully updated!") }
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
@@ -169,11 +184,11 @@ class UserRepository constructor(
             .document(habit.id)
 
         docRef.update(
-            "title", habit.title,
-            "count", habit.count,
-            "max", habit.max,
-            "frequency", habit.period,
-            "updatedAt", Calendar.getInstance().timeInMillis
+            TITLE, habit.title,
+            COUNT, habit.count,
+            MAX, habit.max,
+            PERIOD, habit.period,
+            UPDATED_AT, Calendar.getInstance().timeInMillis
         )
     }
 
@@ -222,7 +237,7 @@ class UserRepository constructor(
     fun updateOnComplete(task: Task) {
         uiScope.launch {
             val docRef =
-                remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
+                remoteDb.collection(USERS).document(getUid()).collection(TASKS).document(task.id)
 
             docRef
                 .update(COMPLETED, task.completed)
@@ -233,7 +248,7 @@ class UserRepository constructor(
 
     fun deleteTask(task: Task) {
         uiScope.launch {
-            remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
+            remoteDb.collection(USERS).document(getUid()).collection(TASKS).document(task.id)
                 .delete()
                 .addOnCompleteListener {
 
@@ -260,7 +275,7 @@ class UserRepository constructor(
     fun addTask(task: Task) {
         uiScope.launch {
             val request =
-                remoteDb.collection("users").document(getUid()).collection(TASKS).document()
+                remoteDb.collection(USERS).document(getUid()).collection(TASKS).document()
             task.id = request.id
             request.set(task)
         }
@@ -268,7 +283,7 @@ class UserRepository constructor(
 
     fun addHabit(habit: Habit) {
         uiScope.launch {
-            val request = remoteDb.collection("users").document(getUid()).collection("habits").document()
+            val request = remoteDb.collection(USERS).document(getUid()).collection(HABITS).document()
             habit.id = request.id
             request.set(habit)
         }
