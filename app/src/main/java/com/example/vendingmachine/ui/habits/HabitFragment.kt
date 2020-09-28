@@ -1,17 +1,11 @@
 package com.example.vendingmachine.ui.habits
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.BounceInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.ArrayAdapter
-import android.widget.TimePicker
 import android.widget.Toast
-import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,7 +13,8 @@ import androidx.lifecycle.Observer
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.databinding.FragmentHabitBinding
-import com.example.vendingmachine.utils.AnimationHelper
+import com.example.vendingmachine.utils.AnimationHelper.arrowGrow
+import com.example.vendingmachine.utils.AnimationHelper.arrowShrink
 import com.example.vendingmachine.utils.AnimationHelper.expandAnimation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,9 +55,22 @@ class HabitFragment : Fragment() {
         setUpAddHabitForm(binding)
         binding.incrementArrowBtnHabit.setOnClickListener { viewModel.incrementFrequency() }
         binding.decrementArrowBtnHabit.setOnClickListener { viewModel.decrementFrequency() }
-        viewModel.frequency.observe(viewLifecycleOwner, Observer {
+        viewModel.period.observe(viewLifecycleOwner, Observer {
             viewModel.listenForHabits()
-            binding.habitFrequency.text = frequencyValueToString(it)
+            binding.habitFrequency.text = periodValueToString(it)
+            when(it){
+                1 -> {
+                    arrowGrow(binding.incrementArrowBtnHabit)
+                    arrowShrink(binding.decrementArrowBtnHabit)}
+                2 -> {
+                    arrowGrow(binding.incrementArrowBtnHabit)
+                    arrowGrow(binding.decrementArrowBtnHabit)
+                }
+                3 -> {
+                    arrowShrink(binding.incrementArrowBtnHabit)
+                    arrowGrow(binding.decrementArrowBtnHabit)
+                }
+            }
         })
 
         return binding.root
@@ -100,7 +108,7 @@ class HabitFragment : Fragment() {
 
         binding.addHabitBtn.setOnClickListener {
             var habitname = binding.habitEditText.editableText.toString()
-            var frequency = frequencyStringToValue(binding.frequencyPicker.selectedItem.toString())
+            var frequency = periodStringToValue(binding.frequencyPicker.selectedItem.toString())
             var times = timesStringToValue(binding.timesPicker.selectedItem.toString())
             if (habitname.isNullOrEmpty()) {
                 Toast.makeText(
@@ -116,8 +124,8 @@ class HabitFragment : Fragment() {
         }
     }
 
-    fun frequencyStringToValue(frequency: String): Int {
-        when (frequency) {
+    fun periodStringToValue(period: String): Int {
+        when(period) {
             "Daily" -> return 1
             "Weekly" -> return 2
             "Monthly" -> return 3
@@ -125,7 +133,7 @@ class HabitFragment : Fragment() {
         }
     }
 
-    fun frequencyValueToString(frequency: Int) : String{
+    fun periodValueToString(frequency: Int) : String{
         when(frequency){
             1 -> return "Daily"
             2 -> return "Weekly"
@@ -145,9 +153,7 @@ class HabitFragment : Fragment() {
             "Seven Times" -> return 7
             else -> return 1
         }
-
     }
-
 
     fun incrementCoinCount() {
         val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)

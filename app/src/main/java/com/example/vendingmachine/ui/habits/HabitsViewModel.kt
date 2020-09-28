@@ -17,7 +17,7 @@ class HabitsViewModel@ViewModelInject constructor(
     val allHabits : LiveData<List<Habit>>
         get() = userRepository.allHabits
 
-    val frequency : LiveData<Int>
+    val period : LiveData<Int>
         get() = userRepository.habitPeriod
 
     fun addHabit(habit : Habit){

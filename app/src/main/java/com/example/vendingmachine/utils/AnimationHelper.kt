@@ -30,5 +30,25 @@ object AnimationHelper {
             interpolator = OvershootInterpolator()
         }.start()
     }
+
+    fun arrowGrow(view: View){
+        val scaleXIncrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.4f)
+        val scaleYIncrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.4f)
+
+        ObjectAnimator.ofPropertyValuesHolder(view, scaleYIncrease, scaleXIncrease)
+            .apply {
+                interpolator = OvershootInterpolator()
+            }.start()
+    }
+
+    fun arrowShrink(view: View){
+        val scaleXDecrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.4f, 1f)
+        val scaleYDecrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.4f, 1f)
+
+        ObjectAnimator.ofPropertyValuesHolder(view, scaleYDecrease, scaleXDecrease)
+            .apply {
+                interpolator = OvershootInterpolator()
+            }.start()
+    }
     
 }

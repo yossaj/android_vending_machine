@@ -18,6 +18,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.FragmentTasksBinding
+import com.example.vendingmachine.utils.AnimationHelper.arrowGrow
+import com.example.vendingmachine.utils.AnimationHelper.arrowShrink
 import com.example.vendingmachine.utils.AnimationHelper.compressAnimation
 import com.example.vendingmachine.utils.AnimationHelper.expandAnimation
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,45 +62,24 @@ class TasksFragment : Fragment() {
         viewModel.period.observe(viewLifecycleOwner, Observer {
             viewModel.listenForTaskChanges()
             when(it){
-                1 -> binding.periodText.text = "TODAY"
-                2 -> binding.periodText.text = "THIS WEEK"
-                3 -> binding.periodText.text = "THIS MONTH"
+                1 ->{
+                    binding.periodText.text = "TODAY"
+                    arrowGrow(binding.incrementArrowBtn)
+                    binding.taskList.scheduleLayoutAnimation()
+                    arrowShrink(binding.decrementArrowBtn)
+                }
+                2 -> {
+                    binding.periodText.text = "THIS WEEK"
+                    arrowGrow(binding.decrementArrowBtn)
+                    arrowGrow(binding.incrementArrowBtn)
+                    binding.taskList.scheduleLayoutAnimation()
+                }
+                3 -> {
+                    binding.periodText.text = "THIS MONTH"
+                    arrowShrink(binding.incrementArrowBtn)
+                    binding.taskList.scheduleLayoutAnimation()
+                }
             }
-
-            val scaleXIncrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.3f)
-            val scaleYIncrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.3f)
-            val scaleXDecrease = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.3f, 1f)
-            val scaleYDecrease = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.3f, 1f)
-
-
-            if(it == 1 ) {
-                ObjectAnimator.ofPropertyValuesHolder(binding.incrementArrowBtn, scaleYIncrease, scaleXIncrease)
-                    .apply {
-                        interpolator = OvershootInterpolator()
-                    }.start()
-
-                binding.taskList.scheduleLayoutAnimation()
-
-                ObjectAnimator.ofPropertyValuesHolder(binding.decrementArrowBtn, scaleYDecrease, scaleXDecrease)
-                    .apply {
-                        interpolator = OvershootInterpolator()
-                    }.start()
-            }else if(it == 3){
-                ObjectAnimator.ofPropertyValuesHolder(binding.incrementArrowBtn, scaleYDecrease, scaleXDecrease)
-                    .apply {
-                        interpolator = OvershootInterpolator()
-                    }.start()
-                binding.taskList.scheduleLayoutAnimation()
-            }else if(it == 2){
-                ObjectAnimator.ofPropertyValuesHolder(binding.decrementArrowBtn, scaleYIncrease, scaleXIncrease)
-                    .apply {
-                        interpolator = OvershootInterpolator()
-                    }.start()
-                binding.taskList.scheduleLayoutAnimation()
-
-            }
-
-
 
         })
 
