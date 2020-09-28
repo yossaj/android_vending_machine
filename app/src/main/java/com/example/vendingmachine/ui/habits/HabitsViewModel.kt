@@ -18,7 +18,7 @@ class HabitsViewModel@ViewModelInject constructor(
         get() = userRepository.allHabits
 
     val frequency : LiveData<Int>
-        get() = userRepository.frequency
+        get() = userRepository.habitPeriod
 
     fun addHabit(habit : Habit){
         userRepository.addHabit(habit)
@@ -51,13 +51,13 @@ class HabitsViewModel@ViewModelInject constructor(
     fun resetDailyHabits(){
         allHabits.value?.let {
             it.forEach {
-                if(it.count != 0 && it.frequency == 1 && dailyHabitIsDue(it.updatedAt)){
+                if(it.count != 0 && it.period == 1 && dailyHabitIsDue(it.updatedAt)){
                         it.count = 0
                         updateHabit(it)
-                }else if(it.count != 0 && it.frequency == 2 && weeklyHabitIsDue(it.updatedAt)){
+                }else if(it.count != 0 && it.period == 2 && weeklyHabitIsDue(it.updatedAt)){
                         it.count = 0
                         updateHabit(it)
-                }else if(it.count != 0 && it.frequency == 3 && monthlyHabitIsDue(it.updatedAt)){
+                }else if(it.count != 0 && it.period == 3 && monthlyHabitIsDue(it.updatedAt)){
                     it.count = 0
                     updateHabit(it)
                 }

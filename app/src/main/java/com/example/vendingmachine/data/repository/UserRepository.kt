@@ -42,9 +42,9 @@ class UserRepository constructor(
     val period: LiveData<Int>
         get() = _period
 
-    val _frequency = MutableLiveData<Int>(1)
-    val frequency: LiveData<Int>
-        get() = _frequency
+    val _habitPeriod = MutableLiveData<Int>(1)
+    val habitPeriod: LiveData<Int>
+        get() = _habitPeriod
 
     fun listenForTaskChanges() {
 
@@ -64,7 +64,7 @@ class UserRepository constructor(
                     snapshot?.let {
                         val remoteTasks: MutableList<Task> = mutableListOf<Task>()
                         for (document in it.documents) {
-                            val task =  Task(
+                            val task = Task(
                                 document.getString("title") as String,
                                 document.getString("description") as String,
                                 document.get("period").toString().toInt(),
@@ -78,7 +78,7 @@ class UserRepository constructor(
                         }
 
                         Log.d("Doc List", remoteTasks.size.toString())
-                          _allTasks.postValue(remoteTasks)
+                        _allTasks.postValue(remoteTasks)
                     }
                 }
             )
@@ -100,7 +100,7 @@ class UserRepository constructor(
             val habitQuery = remoteDb.collection(USERS)
                 .document(getUid())
                 .collection(HABITS)
-                .whereEqualTo("frequency", frequency.value)
+                .whereEqualTo("period", habitPeriod.value)
                 .orderBy("updatedAt", Query.Direction.ASCENDING)
 
             registeredHabitQuery.postValue(
@@ -110,9 +110,12 @@ class UserRepository constructor(
                     }
 
                     snapshot?.let {
-                        it.documents.forEach() { document -> document.id }
+                        it.documents.forEach() { document ->
+                            Log.d("Habit Doc", "Document id added: ${document.id}")
+                        }
                         var remoteHabits: List<Habit> =
                             it.toObjects(Habit::class.java) as List<Habit>
+                        Log.d("Habit Doc", "Habit list size ${remoteHabits.size}")
                         _allHabits.postValue(remoteHabits)
                     }
                 }
@@ -169,7 +172,7 @@ class UserRepository constructor(
             "title", habit.title,
             "count", habit.count,
             "max", habit.max,
-            "frequency", habit.frequency,
+            "frequency", habit.period,
             "updatedAt", Calendar.getInstance().timeInMillis
         )
     }
@@ -191,17 +194,17 @@ class UserRepository constructor(
     }
 
     fun incrementFrequency() {
-        _frequency.value?.let { freqTemp ->
+        _habitPeriod.value?.let { freqTemp ->
             if (freqTemp <= 2) {
-                _frequency.postValue(freqTemp + 1)
+                _habitPeriod.postValue(freqTemp + 1)
             }
         }
     }
 
     fun decrementFrequency() {
-        _frequency.value?.let { freqTemp ->
+        _habitPeriod.value?.let { freqTemp ->
             if (freqTemp >= 2) {
-                _frequency.postValue(freqTemp - 1)
+                _habitPeriod.postValue(freqTemp - 1)
             }
         }
     }
@@ -265,14 +268,9 @@ class UserRepository constructor(
 
     fun addHabit(habit: Habit) {
         uiScope.launch {
-            remoteDb.collection("users").document(getUid()).collection("habits").document(habit.id)
-                .set(habit)
-        }
-    }
-
-    fun deleteAllTasks() {
-        uiScope.launch {
-
+            val request = remoteDb.collection("users").document(getUid()).collection("habits").document()
+            habit.id = request.id
+            request.set(habit)
         }
     }
 
