@@ -8,9 +8,7 @@ import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.vendingmachine.data.persistence.TaskDatabase
 import com.example.vendingmachine.notifcation.sendNotificaiton
-import com.example.vendingmachine.utils.Constants
 import com.example.vendingmachine.utils.Constants.TASKS
 import com.example.vendingmachine.utils.Constants.USERS
 import com.google.firebase.auth.FirebaseAuth

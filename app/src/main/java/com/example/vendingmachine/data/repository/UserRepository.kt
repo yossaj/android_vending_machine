@@ -52,7 +52,7 @@ class UserRepository constructor(
             val taskQuery = remoteDb.collection(USERS)
                 .document(getUid())
                 .collection("tasks")
-                .orderBy("update", Query.Direction.DESCENDING)
+                .orderBy("updatedAt", Query.Direction.DESCENDING)
                 .whereEqualTo("period", period.value)
 
             registeredTaskQuery.postValue(
@@ -70,12 +70,13 @@ class UserRepository constructor(
                                 document.get("period").toString().toInt(),
                                 document.get("colour").toString().toInt(),
                                 document.get("completed") as Boolean,
-                                document.get("update") as Long,
+                                document.get("updatedAt") as Long,
                                 document.id
                             )
                             remoteTasks.add(task)
                             Log.d("Doc", "Document id added: ${document.id} - ${task.id}")
                         }
+
                         Log.d("Doc List", remoteTasks.size.toString())
                           _allTasks.postValue(remoteTasks)
                     }
@@ -221,7 +222,7 @@ class UserRepository constructor(
                 remoteDb.collection("users").document(getUid()).collection(TASKS).document(task.id)
 
             docRef
-                .update(COMPLETED, task.isCompleted)
+                .update(COMPLETED, task.completed)
                 .addOnSuccessListener { Log.d(UPDATE_TAG, "Task successfully updated!") }
                 .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
         }

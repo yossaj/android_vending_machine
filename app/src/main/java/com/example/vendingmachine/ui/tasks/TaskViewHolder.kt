@@ -54,10 +54,10 @@ class TaskViewHolder(val binding: TaskItemBinding) :
             }
         }
 
-        if (task.isCompleted) {
+        if (task.completed) {
             binding.taskItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             binding.taskItemCheckbox.isChecked = true
-        } else if (!task.isCompleted) {
+        } else if (!task.completed) {
             binding.taskItemCheckbox.isChecked = false
             binding.taskItemTitle.paintFlags = 0
         }

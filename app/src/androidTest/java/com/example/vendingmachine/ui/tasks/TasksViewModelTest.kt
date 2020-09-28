@@ -1,14 +1,11 @@
 package com.example.vendingmachine.ui.tasks
 
-import android.app.Application
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.vendingmachine.data.models.Task
-import com.example.vendingmachine.data.persistence.TaskDatabase
 import com.example.vendingmachine.getOrAwaitValueAndroid
-import io.mockk.mockk
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Test
 

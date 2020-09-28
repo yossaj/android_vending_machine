@@ -68,15 +68,15 @@ class TasksViewModel@ViewModelInject constructor(
 
     fun updateTaskWhenComplete(task: Task, boolean: Boolean){
         var updatedtask = task
-        updatedtask.isCompleted = boolean
+        updatedtask.completed = boolean
         if(boolean){incrementCoinSwitch()}
         userRepository.updateOnComplete(updatedtask)
     }
 
     fun handleCheckUnCheck(task: Task){
-        if(task.isCompleted){
+        if(task.completed){
             updateTaskWhenComplete(task, false)
-        }else if(!task.isCompleted){
+        }else if(!task.completed){
             updateTaskWhenComplete(task, true)
         }
     }
