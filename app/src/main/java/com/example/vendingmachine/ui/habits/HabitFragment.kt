@@ -19,6 +19,8 @@ import androidx.lifecycle.Observer
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.databinding.FragmentHabitBinding
+import com.example.vendingmachine.utils.AnimationHelper
+import com.example.vendingmachine.utils.AnimationHelper.expandAnimation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,17 +74,7 @@ class HabitFragment : Fragment() {
                 binding.addHabitOuterContainer.visibility = View.GONE
             } else {
                 binding.addHabitOuterContainer.visibility = View.VISIBLE
-                val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.5f, 1f)
-                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.5f, 1f)
-                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                ObjectAnimator.ofPropertyValuesHolder(
-                    binding.addHabitOuterContainer,
-                    scaleY,
-                    scaleX,
-                    alpha
-                ).apply {
-                    interpolator = OvershootInterpolator()
-                }.start()
+                expandAnimation(binding.addHabitOuterContainer)
             }
         }
     }

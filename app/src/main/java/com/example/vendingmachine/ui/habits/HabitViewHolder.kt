@@ -2,11 +2,12 @@ package com.example.vendingmachine.ui.habits
 
 import android.graphics.drawable.Animatable
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vendingmachine.data.models.Habit
 import com.example.vendingmachine.databinding.HabitItemBinding
+import com.example.vendingmachine.utils.AnimationHelper.compressAnimation
+import com.example.vendingmachine.utils.AnimationHelper.expandAnimation
 
 
 class HabitViewHolder(val binding: HabitItemBinding) :
@@ -66,16 +67,17 @@ class HabitViewHolder(val binding: HabitItemBinding) :
     }
 
     private fun toggleEditHabit(habit: Habit) {
-        if (!binding.editFormContainer.isVisible) {
+        if (!binding.editFormOuterContainer.isVisible) {
             binding.habitTitle.visibility = View.INVISIBLE
             binding.incrementCountBtn.visibility = View.INVISIBLE
             binding.decrementCountBtn.visibility = View.INVISIBLE
             binding.habitTally.visibility = View.INVISIBLE
             binding.habitTallyAnimation.visibility = View.INVISIBLE
-            binding.editFormContainer.visibility = View.VISIBLE
+            binding.editFormOuterContainer.visibility = View.VISIBLE
             binding.repeatHabitMax.value = habit.max
+            expandAnimation(binding.editFormOuterContainer)
         } else {
-            binding.editFormContainer.visibility = View.GONE
+            binding.editFormOuterContainer.visibility = View.GONE
             binding.habitTitle.visibility = View.VISIBLE
             binding.incrementCountBtn.visibility = View.VISIBLE
             binding.decrementCountBtn.visibility = View.VISIBLE

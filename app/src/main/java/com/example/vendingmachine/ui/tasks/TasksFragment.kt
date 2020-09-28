@@ -18,6 +18,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.vendingmachine.R
 import com.example.vendingmachine.data.models.Task
 import com.example.vendingmachine.databinding.FragmentTasksBinding
+import com.example.vendingmachine.utils.AnimationHelper.compressAnimation
+import com.example.vendingmachine.utils.AnimationHelper.expandAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_add_task.*
 
@@ -51,12 +53,7 @@ class TasksFragment : Fragment() {
                 binding.addTaskOuterContainer.visibility = View.GONE
             }else{
                 binding.addTaskOuterContainer.visibility = View.VISIBLE
-                val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.5f, 1f)
-                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.5f, 1f)
-                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                ObjectAnimator.ofPropertyValuesHolder(binding.addTaskOuterContainer, scaleY, scaleX, alpha).apply {
-                    interpolator = OvershootInterpolator()
-                }.start()
+                expandAnimation(binding.addTaskOuterContainer)
             }
         }
 
@@ -208,17 +205,9 @@ class TasksFragment : Fragment() {
                 val newTask = Task(taskname, taskNote, period, color)
                 viewModel.addTask(newTask)
 
-                val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 0.0f)
-                val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0.0f)
-                val animator = ObjectAnimator.ofPropertyValuesHolder(
-                    binding.addTaskOuterContainer,
-                    scaleY,
-                    alpha
-                ).apply {
-                    interpolator = OvershootInterpolator()
-                }
-                animator.start()
-                animator.doOnEnd {
+                val compressAnimation = compressAnimation(binding.addTaskOuterContainer)
+                compressAnimation.start()
+                compressAnimation.doOnEnd {
                     binding.addTaskOuterContainer.visibility = View.GONE
                     adapter.notifyDataSetChanged()
                 }

@@ -77,6 +77,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <FrameLayout
+                android:id="@+id/edit_form_outer_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                android:padding="@dimen/small_space"
+                app:layout_constraintStart_toStartOf="parent">
+
             <LinearLayout
                 android:id="@+id/edit_form_container"
                 android:layout_width="match_parent"
@@ -85,11 +96,7 @@
                 android:gravity="center"
                 android:padding="@dimen/small_space"
                 android:background="@drawable/curved_corners_background_yellow"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent">
+       >
 
                 <EditText
                     android:id="@+id/edit_habit_title"
@@ -140,6 +147,8 @@
 
 
             </LinearLayout>
+
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
