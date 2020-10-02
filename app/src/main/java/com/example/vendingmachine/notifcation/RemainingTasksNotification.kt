@@ -24,11 +24,11 @@ fun NotificationManager.sendNotificaiton(titleText : String, message : String,ap
         applicationContext.getString(R.string.remaining_tasks_id))
         .setContentText(message)
         .setContentTitle(titleText)
-        .setSmallIcon(R.drawable.kanye)
+        .setSmallIcon(R.drawable.vend)
         .setAutoCancel(true)
         .setContentIntent(contentPendingIntent)
         .addAction(
-            R.drawable.kanye,
+            R.drawable.vend,
             applicationContext.getString(R.string.remaining_tasks_id),
             contentPendingIntent)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)

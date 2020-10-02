@@ -15,7 +15,6 @@ import org.junit.Rule
 
 class TasksViewModelTest {
 
-    private lateinit var database: TaskDatabase
     private lateinit var tasksViewModel : TasksViewModel
     private lateinit var tasks: List<Task>
 
@@ -25,9 +24,6 @@ class TasksViewModelTest {
     @Before
     fun init(){
         val context = ApplicationProvider.getApplicationContext<Context>()
-        database = Room.inMemoryDatabaseBuilder(context, TaskDatabase::class.java).build()
-        tasks = fakeData()
-
     }
 
 //    @After

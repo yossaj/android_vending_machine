@@ -19,7 +19,6 @@ class AuthActivity : AppCompatActivity(){
         val binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
     }
 
 

@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import com.example.vendingmachine.ui.MainActivity
+import com.example.vendingmachine.ui.tasks.TaskViewHolder
 import com.example.vendingmachine.ui.tasks.TasksAdapter
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -52,7 +53,7 @@ class MainActivityTest{
     fun navigateToTaskFragment(){
         onView(withId(R.id.new_task)).perform(click())
         onView(withId(R.id.task_list))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<TasksAdapter.TaskViewHolder>
+            .perform(RecyclerViewActions.actionOnItemAtPosition<TaskViewHolder>
                 (0, clickOnViewChild(R.id.task_item_checkbox)))
         pressBack()
         onView(withId(R.id.coins)).check(matches(isDisplayed()))

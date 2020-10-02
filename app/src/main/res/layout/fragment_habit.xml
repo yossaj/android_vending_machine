@@ -7,24 +7,15 @@
     android:background="@color/colorPrimary"
     android:paddingBottom="?attr/actionBarSize">
 
-    <LinearLayout
-        android:id="@+id/buttons_container"
-        android:layout_width="match_parent"
+
+    <ImageButton
+        android:id="@+id/show_habit_from_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:orientation="horizontal"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/ic_add_circle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/show_habit_from_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_add_circle" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/decrement_arrow_btn_habit"
@@ -34,6 +25,7 @@
         android:backgroundTint="@color/transparent"
         android:src="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="@+id/habit_frequency"
+        app:layout_constraintEnd_toStartOf="@+id/habit_frequency"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/habit_frequency" />
 
@@ -45,7 +37,7 @@
         android:text="DAILY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttons_container" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/increment_arrow_btn_habit"
@@ -56,6 +48,7 @@
         android:src="@drawable/arrow_right"
         app:layout_constraintBottom_toBottomOf="@+id/habit_frequency"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/habit_frequency"
         app:layout_constraintTop_toTopOf="@+id/habit_frequency" />
 
     <FrameLayout

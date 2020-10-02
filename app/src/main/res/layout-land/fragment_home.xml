@@ -12,18 +12,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/large_spacing"
+            android:layout_marginTop="@dimen/medium_space"
             android:layout_marginBottom="@dimen/medium_space"
             android:fontFamily="@font/vt323"
             android:text="Everything for just $1!!!"
             android:textColor="@color/colorAccent"
-            android:textSize="32dp"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +92,7 @@
         </GridLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/coin_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/large_spacing"
@@ -160,7 +161,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/grid_background"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/coin_container">
 
 
             <TextView

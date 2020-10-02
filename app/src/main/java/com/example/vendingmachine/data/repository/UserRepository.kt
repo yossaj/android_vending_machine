@@ -224,7 +224,7 @@ class UserRepository constructor(
         }
     }
 
-    fun getUid(): String {
+    private fun getUid(): String {
         currentUser?.let {
             val uid = it.uid
             Log.d("UID", uid.toString())
@@ -251,9 +251,10 @@ class UserRepository constructor(
             remoteDb.collection(USERS).document(getUid()).collection(TASKS).document(task.id)
                 .delete()
                 .addOnCompleteListener {
-
+                    Log.d("Task", "Task has been deleted.")
                 }
                 .addOnFailureListener {
+                    Log.d("Task", "Task has been deleted.")
 
                 }
         }
@@ -264,10 +265,10 @@ class UserRepository constructor(
             remoteDb.collection(USERS).document(getUid()).collection(HABITS).document(habit.id)
                 .delete()
                 .addOnCompleteListener {
-
+                    Log.d("Habit", "Habit has been deleted.")
                 }
                 .addOnFailureListener {
-
+                    Log.d("Habit", "Failed to delete habit.")
                 }
         }
     }
@@ -288,6 +289,5 @@ class UserRepository constructor(
             request.set(habit)
         }
     }
-
 
 }

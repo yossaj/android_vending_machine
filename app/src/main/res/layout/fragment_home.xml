@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:background="@color/colorPrimary">
 
         <TextView
@@ -28,6 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_chainStyle="packed"
             />
 
         <GridLayout
@@ -41,6 +44,7 @@
             android:background="@drawable/grid_background"
             android:columnCount="3"
             android:padding="@dimen/medium_space"
+            app:layout_constraintBottom_toTopOf="@id/coin_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -93,7 +97,7 @@
         </GridLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/coin_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/large_spacing"
@@ -105,8 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/grid_background"
-            app:layout_constraintVertical_bias="0.2"
-            app:layout_constraintVertical_chainStyle="packed">
+            >
 
             <ImageView
                 android:id="@+id/coins"
@@ -169,7 +172,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@id/coin_container">
 
 
             <TextView

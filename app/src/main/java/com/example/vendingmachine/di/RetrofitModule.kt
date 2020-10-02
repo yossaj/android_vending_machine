@@ -28,7 +28,6 @@ object RetrofitModule {
         return Retrofit.Builder()
             .baseUrl("https://defualturl/")
             .addConverterFactory(GsonConverterFactory.create(gson))
-
     }
 
     @Singleton

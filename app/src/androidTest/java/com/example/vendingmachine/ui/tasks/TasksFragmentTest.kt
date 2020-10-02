@@ -66,7 +66,7 @@ class TasksFragmentTest {
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }
-        onView(withId(R.id.add_task_button))
+        onView(withId(R.id.add_task_btn))
             .check(matches(isDisplayed()))
             .check(matches(withText("+ New Task")))
             .check(matches(isClickable()))
