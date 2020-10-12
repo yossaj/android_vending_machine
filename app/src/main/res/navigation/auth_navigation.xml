@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/authenticatingFragment"
-        android:name="com.example.vendingmachine.ui.auth.AuthenticatingFragment"
+        android:name="com.venderino.vendingmachine.ui.auth.AuthenticatingFragment"
         android:label="AuthenticatingFragment" />
 </navigation>

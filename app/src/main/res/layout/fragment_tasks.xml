@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.vendingmachine.ui.tasks.TasksViewModel" />
+            type="com.venderino.vendingmachine.ui.tasks.TasksViewModel" />
     </data>
 
 

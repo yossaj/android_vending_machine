@@ -6,7 +6,7 @@
     <data>
         <variable
             name="homeViewModel"
-            type="com.example.vendingmachine.ui.home.HomeViewModel"/>
+            type="com.venderino.vendingmachine.ui.home.HomeViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

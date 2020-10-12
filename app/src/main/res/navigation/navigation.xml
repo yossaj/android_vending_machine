@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.vendingmachine.ui.home.HomeFragment"
+        android:name="com.venderino.vendingmachine.ui.home.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_homeDialogFragment"
@@ -20,12 +20,12 @@
     </fragment>
     <dialog
         android:id="@+id/homeDialogFragment"
-        android:name="com.example.vendingmachine.ui.home.dialog.HomeDialogFragment"
+        android:name="com.venderino.vendingmachine.ui.home.dialog.HomeDialogFragment"
         android:label="HomeDialogFragment">
     </dialog>
     <fragment
         android:id="@+id/tasksFragment"
-        android:name="com.example.vendingmachine.ui.tasks.TasksFragment"
+        android:name="com.venderino.vendingmachine.ui.tasks.TasksFragment"
         android:label="TasksFragment" >
         <action
             android:id="@+id/action_tasksFragment_to_addTaskFragment"
@@ -36,24 +36,24 @@
     </fragment>
     <dialog
         android:id="@+id/addTaskFragment"
-        android:name="com.example.vendingmachine.ui.tasks.taskdialog.AddTaskFragment"
+        android:name="com.venderino.vendingmachine.ui.tasks.taskdialog.AddTaskFragment"
         android:label="AddTaskFragment">
         <argument android:name="habit_check" android:defaultValue="@null" />
     </dialog>
     <dialog
         android:id="@+id/viewTaskFragment"
-        android:name="com.example.vendingmachine.ui.tasks.taskdialog.ViewTaskFragment"
+        android:name="com.venderino.vendingmachine.ui.tasks.taskdialog.ViewTaskFragment"
         android:label="ViewTaskFragment">
     </dialog>
 
     <fragment
         android:id="@+id/habitFragment"
-        android:name="com.example.vendingmachine.ui.habits.HabitFragment"
+        android:name="com.venderino.vendingmachine.ui.habits.HabitFragment"
         android:label="fragment_habit"
         tools:layout="@layout/fragment_habit" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.vendingmachine.ui.settings.SettingsFragment"
+        android:name="com.venderino.vendingmachine.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

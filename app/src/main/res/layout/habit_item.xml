@@ -6,7 +6,7 @@
     <data>
         <variable
             name="habit"
-            type="com.example.vendingmachine.data.models.Habit"/>
+            type="com.venderino.vendingmachine.data.models.Habit"/>
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:303986002783:android:b94b042ce0d92869d844ea",
         "android_client_info": {
-          "package_name": "com.example.vendingmachine"
+          "package_name": "com.venderino.vendingmachine"
         }
       },
       "oauth_client": [
