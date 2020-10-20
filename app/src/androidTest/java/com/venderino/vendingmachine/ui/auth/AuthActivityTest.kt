@@ -1,5 +1,6 @@
 package com.venderino.vendingmachine.ui.auth
 
+import android.util.Log
 import android.view.KeyEvent
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
@@ -12,6 +13,10 @@ import androidx.test.uiautomator.UiDevice
 import com.venderino.vendingmachine.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,13 +35,13 @@ class AuthActivityTest{
     }
 
     @Test
-    fun testWelcomeUi(){
+    fun loginPath() = runBlockingTest{
         val scenario = launchActivity<AuthActivity>()
-        onView(withId(R.id.email_button))
-            .check(matches(isDisplayed()))
-            .perform(click())
-
         val device = UiDevice.getInstance(getInstrumentation())
+        Thread.sleep(1500)
+
+        Log.d("CESHI", "Device pressBack Triggered");
+
 
         device.pressBack()
 
@@ -49,9 +54,29 @@ class AuthActivityTest{
         onView(withId(R.id.heading)).check(matches(isDisplayed()))
         onView(withId(R.id.password)).check(matches(isDisplayed()))
         onView(withId(R.id.button_done)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun registerPath() = runBlockingTest{
+        val scenario = launchActivity<AuthActivity>()
+        val device = UiDevice.getInstance(getInstrumentation())
+        Thread.sleep(1500)
+
+        Log.d("CESHI", "Device pressBack Triggered");
 
 
+        device.pressBack()
 
+        onView(withId(R.id.email)).check(matches(isDisplayed()))
+            .perform(click())
+            .perform(typeText("yossaj@icloud.com"))
+
+        device.pressEnter()
+
+        onView(withId(R.id.heading)).check(matches(isDisplayed()))
+        onView(withId(R.id.password)).check(matches(isDisplayed()))
+        onView(withId(R.id.button_done)).check(matches(isDisplayed()))
     }
 
 
