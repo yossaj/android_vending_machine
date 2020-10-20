@@ -1,18 +1,22 @@
 package com.venderino.vendingmachine.ui.auth
 
+import android.util.Log
+import android.view.KeyEvent
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import com.venderino.vendingmachine.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,12 +35,13 @@ class AuthActivityTest{
     }
 
     @Test
-    fun testWelcomeUi(){
+    fun loginPath() = runBlockingTest{
         val scenario = launchActivity<AuthActivity>()
         val device = UiDevice.getInstance(getInstrumentation())
-        onView(withId(R.id.email_button))
-            .check(matches(isDisplayed()))
-            .perform(click())
+        Thread.sleep(1500)
+
+        Log.d("CESHI", "Device pressBack Triggered");
+
 
         device.pressBack()
 
@@ -49,6 +54,29 @@ class AuthActivityTest{
         onView(withId(R.id.heading)).check(matches(isDisplayed()))
         onView(withId(R.id.password)).check(matches(isDisplayed()))
         onView(withId(R.id.button_done)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun registerPath() = runBlockingTest{
+        val scenario = launchActivity<AuthActivity>()
+        val device = UiDevice.getInstance(getInstrumentation())
+        Thread.sleep(1500)
+
+        device.pressBack()
+
+        onView(withId(R.id.email)).check(matches(isDisplayed()))
+            .perform(click())
+            .perform(typeText("newUser@venderino.com"))
+
+        device.pressEnter()
+
+        onView(withId(R.id.email)).check(matches(isDisplayed())).check(matches(withText("newUser@venderino.com")))
+        onView(withId(R.id.name)).check(matches(isDisplayed()))
+            .perform(click())
+            .perform(typeText("New User"))
+        onView(withId(R.id.password)).check(matches(isDisplayed()))
+            .perform(click())
     }
 
 

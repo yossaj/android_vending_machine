@@ -27,6 +27,7 @@ class HomeFragmentTest{
 
  @Test
  fun testButtons(){
+     val scenario = launchFragmentInHiltContainer<HomeFragment> {  }
      assert(1.equals(1))
  }
 
