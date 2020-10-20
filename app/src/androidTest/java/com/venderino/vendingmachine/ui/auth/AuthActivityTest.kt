@@ -63,20 +63,20 @@ class AuthActivityTest{
         val device = UiDevice.getInstance(getInstrumentation())
         Thread.sleep(1500)
 
-        Log.d("CESHI", "Device pressBack Triggered");
-
-
         device.pressBack()
 
         onView(withId(R.id.email)).check(matches(isDisplayed()))
             .perform(click())
-            .perform(typeText("yossaj@icloud.com"))
+            .perform(typeText("newUser@venderino.com"))
 
         device.pressEnter()
 
-        onView(withId(R.id.heading)).check(matches(isDisplayed()))
+        onView(withId(R.id.email)).check(matches(isDisplayed())).check(matches(withText("newUser@venderino.com")))
+        onView(withId(R.id.name)).check(matches(isDisplayed()))
+            .perform(click())
+            .perform(typeText("New User"))
         onView(withId(R.id.password)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_done)).check(matches(isDisplayed()))
+            .perform(click())
     }
 
 
