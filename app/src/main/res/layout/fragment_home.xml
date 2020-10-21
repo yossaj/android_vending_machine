@@ -19,7 +19,6 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/large_spacing"
             android:fontFamily="@font/vt323"
             android:text="Everything for just $1!!!"
             android:textColor="@color/colorAccent"
