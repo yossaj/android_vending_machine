@@ -1,6 +1,7 @@
 package com.venderino.vendingmachine.ui.home
 
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.DragEvent
@@ -63,6 +64,9 @@ class HomeFragment : Fragment(){
                 }
             }
         })
+        binding.foxButton.setOnClickListener{
+            Snackbar.make(it, "OUT OF STOCK", Snackbar.LENGTH_SHORT).show()
+        }
 
         binding.coinDragDestination.setOnDragListener(dragListener)
         binding.coins.setOnLongClickListener(){

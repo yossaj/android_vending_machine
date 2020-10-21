@@ -83,8 +83,7 @@
                 android:id="@+id/fox_button"
                 style="@style/ImageView.Vending"
                 android:contentDescription="@string/fox"
-                android:onClick="@{(view)-> homeViewModel.setApiKey(view)}"
-                android:src="@drawable/foxy" />
+                android:src="@drawable/foxy_out" />
 
             <ImageView
                 android:id="@+id/dog_button"
