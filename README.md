@@ -2,8 +2,13 @@
 
 Version 2
 
-https://play.google.com/store/apps/details?id=com.venderino.vendingmachine
+<p>
+    <img src="https://play-lh.googleusercontent.com/0ocAc4cTw5Xj2uMnZZtbM7gSEGf-NtzVibpsp3D8zVH9PNTYWVN_qcjPGaZ5oHXOf_4=w2560-h1474" width="200" title="Homepage">
+    <img src="https://play-lh.googleusercontent.com/4J4ZyfDQ9iTr-P4pthWB3-L_-wEPnaHqjWraDq9tvzDlbMQnqbVM2LGSsVaXMD1jzw=w1440-h620" width="200" title="Tasks">
+    <img src="https://play-lh.googleusercontent.com/KOWAjZSci_sAtB7SdNObhO2D8vWmTpT7MgQdCl_TJiIh1DNPRfVC0ARvBJlgTeonpHw=w1440-h620" width="200" title="Habits">
+</p>
 
+https://play.google.com/store/apps/details?id=com.venderino.vendingmachine
 
 Version 1
 
