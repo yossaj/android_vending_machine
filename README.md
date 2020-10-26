@@ -1,4 +1,4 @@
-# android_vending_machine
+# Venderino:  android_vending_machine
 
 Version 2
 
@@ -8,7 +8,7 @@ Version 2
     <img src="https://play-lh.googleusercontent.com/KOWAjZSci_sAtB7SdNObhO2D8vWmTpT7MgQdCl_TJiIh1DNPRfVC0ARvBJlgTeonpHw=w1440-h620" width="200" title="Habits">
 </p>
 
-https://play.google.com/store/apps/details?id=com.venderino.vendingmachine
+<a src="https://play.google.com/store/apps/details?id=com.venderino.vendingmachine">Download from the Play Store</a>
 
 Version 1
 
