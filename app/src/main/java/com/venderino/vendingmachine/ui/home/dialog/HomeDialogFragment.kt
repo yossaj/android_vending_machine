@@ -3,6 +3,7 @@ package com.venderino.vendingmachine.ui.home.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,8 @@ import kotlinx.android.synthetic.main.dialog_image.*
 import kotlinx.android.synthetic.main.dialog_text.*
 
 class HomeDialogFragment : DialogFragment() {
+
+    private val offline_message = "You are currently offline"
     private val viewmodel: HomeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -34,7 +37,7 @@ class HomeDialogFragment : DialogFragment() {
 
             it?.let {
                 if (apikey == "Cat" || apikey == "Dog") {
-                    if(it != "You are currently offline") {
+                    if(it != offline_message) {
                         Picasso.get()
                             .load(it)
                             .placeholder(R.drawable.progress_animation)
@@ -47,10 +50,11 @@ class HomeDialogFragment : DialogFragment() {
                             .error(R.drawable.error_dog)
                             .into(dialog.dialog_image)
                     }
-                } else if (apikey != "Fox") {
+                } else if (it == offline_message) {
                     dialog.dialog_text_view.text = it
+                    refundCoin()
                 } else {
-                    dialog.dialog_text_view.text = "Sorry, Currently Out Of Stock"
+                    dialog.dialog_text_view.text = it
                 }
             }
         })
@@ -112,5 +116,12 @@ class HomeDialogFragment : DialogFragment() {
         super.onDestroy()
     }
 
+
+    private fun refundCoin(){
+            val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
+            var coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
+            coinCount += 1
+            sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
+    }
 
 }

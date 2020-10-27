@@ -18,6 +18,14 @@ class AuthViewModel @ViewModelInject constructor(
     val signInStatus: LiveData<String?>
         get() = _signInStatus
 
+    val _email_address = MutableLiveData<String>()
+    val email_address : LiveData<String>
+        get() = _email_address
+
+    val _password = MutableLiveData<String>()
+    val password : LiveData<String>
+        get() = _password
+
 
     fun getUserStatus() {
         val user : FirebaseUser? = firebaseAuth.currentUser
@@ -31,6 +39,30 @@ class AuthViewModel @ViewModelInject constructor(
 
     fun setUserName(username : String){
         _signInStatus.postValue(username)
+    }
+
+    fun setEmailAddress(inputEmail : String){
+        _email_address.postValue(inputEmail)
+    }
+
+    fun setPassword(inputPassword : String){
+        _password.postValue(inputPassword)
+    }
+
+
+    fun validateCredentials(userEmail : String, userPassword : String){
+        if(userEmail != null && userPassword != null){
+            firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnSuccessListener {
+                it.user?.let { user ->
+                    if (!user.displayName.isNullOrEmpty()){
+                        setUserName(user.displayName.toString())
+                    }else if(!user.email.isNullOrEmpty()){
+                        setUserName(user.email.toString())
+                    }
+                }
+            }
+        }
+
     }
 
     init {

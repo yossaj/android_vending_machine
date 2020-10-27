@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:303986002783:android:b94b042ce0d92869d844ea",
+        "mobilesdk_app_id": "1:303986002783:android:37e5a48ca4e2cc27d844ea",
         "android_client_info": {
           "package_name": "com.venderino.vendingmachine"
         }
       },
       "oauth_client": [
         {
-          "client_id": "303986002783-08p0doks1746e71ccl2bhkf8vb6red7b.apps.googleusercontent.com",
+          "client_id": "303986002783-7vanb9k3dptlc0mnn7f5rru0vs1ipkgt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.vendingmachine",
+            "package_name": "com.venderino.vendingmachine",
             "certificate_hash": "8648e1c0d8f62b887df868ccd279bfa27dddf76a"
           }
         },

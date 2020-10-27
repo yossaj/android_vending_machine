@@ -1,9 +1,9 @@
 package com.venderino.vendingmachine.ui.home
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +14,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.venderino.vendingmachine.R
 import com.venderino.vendingmachine.databinding.FragmentHomeBinding
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -33,6 +33,7 @@ class HomeFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater)
+
         sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
@@ -151,6 +152,12 @@ class HomeFragment : Fragment(){
     override fun onPause() {
         saveCoinCount()
         super.onPause()
+    }
+
+    override fun onResume() {
+        Log.d("Refund", "Coming back to town - top")
+        super.onResume()
+        Log.d("Refund", "Coming back to town")
     }
 
 
