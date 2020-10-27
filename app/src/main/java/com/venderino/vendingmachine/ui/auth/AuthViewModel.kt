@@ -22,8 +22,14 @@ class AuthViewModel @ViewModelInject constructor(
     fun getUserStatus() {
         val user : FirebaseUser? = firebaseAuth.currentUser
         if (user != null) {
-            val username = user.displayName
-            _signInStatus.postValue(username)
+            if(!user.displayName.isNullOrEmpty()){
+                val username = user.displayName
+                _signInStatus.postValue(username)
+            }else{
+                val email = user.email
+                _signInStatus.postValue(email)
+            }
+
         }else{
             _signInStatus.postValue(null)
         }
