@@ -80,7 +80,20 @@ class AuthenticatingFragment : Fragment(){
     }
 
     fun launchSignIn(){
-        this.findNavController().navigate(AuthenticatingFragmentDirections.actionAuthenticatingFragmentToLoginFragment())
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build()
+        )
+
+        startActivityForResult(
+
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setTheme(R.style.LoginTheme)
+                .setLogo(R.mipmap.ic_launcher_round)
+                .setAvailableProviders(providers)
+                .build(),
+            SIGN_IN_CODE
+        )
     }
 
     fun setUpAnimations(binding: AuthenticatingFragmentBinding) {
