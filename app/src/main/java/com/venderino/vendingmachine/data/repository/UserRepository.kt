@@ -152,13 +152,17 @@ class UserRepository constructor(
     }
 
     fun updateHabitCount(habit: Habit, count: Int) {
+        habit.updatedAt = System.currentTimeMillis()
         val docRef = remoteDb.collection(USERS)
             .document(getUid())
             .collection(HABITS)
             .document(habit.id)
 
         docRef
-            .update(COUNT, count)
+            .update(
+                COUNT, count,
+                UPDATED_AT, habit.updatedAt
+            )
             .addOnSuccessListener { Log.d(UPDATE_TAG, "Habit count successfully updated!") }
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
     }
@@ -181,6 +185,8 @@ class UserRepository constructor(
     }
 
     fun updateHabit(habit: Habit) {
+        habit.updatedAt = System.currentTimeMillis()
+
         val docRef = remoteDb.collection(USERS)
             .document(getUid())
             .collection(HABITS)
@@ -191,7 +197,7 @@ class UserRepository constructor(
             COUNT, habit.count,
             MAX, habit.max,
             PERIOD, habit.period,
-            UPDATED_AT, Calendar.getInstance().timeInMillis
+            UPDATED_AT, habit.updatedAt
         )
     }
 
