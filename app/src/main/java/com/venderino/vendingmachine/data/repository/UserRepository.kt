@@ -127,6 +127,7 @@ class UserRepository constructor(
                                 document.get(PERIOD).toString().toInt(),
                                 document.get(COUNT).toString().toInt(),
                                 document.get(UPDATED_AT) as Long,
+                                document.get(CREATED_AT) as Long,
                                 document.id
                             )
                             remoteHabits.add(habit)
