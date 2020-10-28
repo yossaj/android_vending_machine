@@ -82,6 +82,7 @@ class TasksFragment : Fragment() {
 
         viewModel.allTasks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            binding.emptyTaskError.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
         })
 
         binding.taskList.adapter = adapter

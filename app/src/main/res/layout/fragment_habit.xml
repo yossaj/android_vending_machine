@@ -137,8 +137,9 @@
             android:id="@+id/empty_habits_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             style="@style/TextAppearance.ErrorText"
-            android:text="You haven't added any habits yet. Click the '+' button in the top right corner to add a new task."/>
+            android:text="@string/empty_habit_error"/>
 
 
     </LinearLayout>

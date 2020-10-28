@@ -30,4 +30,6 @@
     <string name="remaining_tasks_id">REMAINING_TASKS_CHANNEL</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_task_error">You haven\'t added any tasks yet. Click the \'+\' button in the top right corner to add a new task.</string>
+    <string name="empty_habit_error">You haven\'t added any habits yet. Click the \'+\' button in the top right corner to add a new task.</string>
 </resources>
