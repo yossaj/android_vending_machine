@@ -13,6 +13,7 @@ object Constants {
     val COLOUR = "colour"
     val MAX = "max"
     val DESCRIPTION = "description"
+    var CREATED_AT = "createdAt"
 
 
     val UPDATE_TAG = "FIRE UPDATE"

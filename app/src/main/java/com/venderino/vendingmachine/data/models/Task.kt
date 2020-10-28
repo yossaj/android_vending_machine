@@ -7,5 +7,6 @@ data class Task constructor(
     val colour : Int = 0,
     var completed: Boolean = false,
     var updatedAt: Long = System.currentTimeMillis(),
+    var createdAt: Long = System.currentTimeMillis(),
     var id: String = "-1"
 )

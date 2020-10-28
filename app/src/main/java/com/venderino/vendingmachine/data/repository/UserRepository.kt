@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import com.venderino.vendingmachine.utils.Constants.CREATED_AT
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -31,8 +32,8 @@ class UserRepository constructor(
 
     private val currentUser = firebaseAuth.currentUser
 
-    var registeredTaskQuery = MutableLiveData<ListenerRegistration?>()
-    var registeredHabitQuery = MutableLiveData<ListenerRegistration?>()
+    private var registeredTaskQuery = MutableLiveData<ListenerRegistration?>()
+    private var registeredHabitQuery = MutableLiveData<ListenerRegistration?>()
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -78,6 +79,7 @@ class UserRepository constructor(
                                 document.get(COLOUR).toString().toInt(),
                                 document.get(COMPLETED) as Boolean,
                                 document.get(UPDATED_AT) as Long,
+                                document.get(CREATED_AT) as Long,
                                 document.id
                             )
                             remoteTasks.add(task)
