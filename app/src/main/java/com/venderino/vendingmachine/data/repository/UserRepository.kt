@@ -168,6 +168,7 @@ class UserRepository constructor(
     }
 
     fun updateTask(task: Task) {
+        task.updatedAt = System.currentTimeMillis()
         val docRef = remoteDb.collection(USERS)
             .document(getUid())
             .collection(TASKS)
@@ -178,7 +179,8 @@ class UserRepository constructor(
                 TITLE, task.title,
                 DESCRIPTION, task.description,
                 PERIOD, task.period,
-                COLOUR, task.colour
+                COLOUR, task.colour,
+                UPDATED_AT, task.updatedAt
             )
             .addOnSuccessListener { Log.d(UPDATE_TAG, "Task count successfully updated!") }
             .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
