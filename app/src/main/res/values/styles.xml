@@ -31,6 +31,16 @@
         <item name="android:layout_margin">@dimen/medium_space</item>
     </style>
 
+    <style name="TextAppearance.ErrorText" parent="VendingTheme">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:padding">@dimen/medium_space</item>
+        <item name="android:layout_margin">@dimen/medium_space</item>
+        <item name="fontFamily">sans-serif-light</item>
+
+    </style>
+
     <style name="ImageView.Vending" parent="VendingTheme">
         <item name="android:layout_margin">16dp</item>
     </style>

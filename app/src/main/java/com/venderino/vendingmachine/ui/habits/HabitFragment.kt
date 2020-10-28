@@ -50,6 +50,12 @@ class HabitFragment : Fragment() {
         viewModel.allHabits.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
             viewModel.resetDailyHabits()
+            if(it.isNotEmpty()){
+                binding.emptyHabitsError.setVisibility(View.GONE)
+            }else{
+                binding.emptyHabitsError.setVisibility(View.VISIBLE)
+            }
+
         })
         setUpShowHabitFormBtn(binding)
         setUpAddHabitForm(binding)
