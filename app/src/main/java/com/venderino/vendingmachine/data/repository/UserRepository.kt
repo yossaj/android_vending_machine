@@ -251,7 +251,9 @@ class UserRepository constructor(
                 remoteDb.collection(USERS).document(getUid()).collection(TASKS).document(task.id)
 
             docRef
-                .update(COMPLETED, task.completed)
+                .update(
+                    COMPLETED, task.completed,
+                    UPDATED_AT, System.currentTimeMillis())
                 .addOnSuccessListener { Log.d(UPDATE_TAG, "Task successfully updated!") }
                 .addOnFailureListener { e -> Log.w(UPDATE_TAG, "Error updating document", e) }
         }
