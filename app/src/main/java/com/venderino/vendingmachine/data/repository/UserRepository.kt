@@ -54,6 +54,10 @@ class UserRepository constructor(
     val habitPeriod: LiveData<Int>
         get() = _habitPeriod
 
+    val _coins = MutableLiveData<Int>(0)
+    val coins : LiveData<Int>
+        get() = _coins
+
     fun listenForTaskChanges() {
 
         uiScope.launch {
@@ -301,6 +305,36 @@ class UserRepository constructor(
             habit.id = request.id
             request.set(habit)
         }
+    }
+
+    fun getTokenCount(){
+        val TAG  = "COINS"
+        val docRef = remoteDb.collection(USERS).document(getUid())
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val tokenCount = document.get("tokenTotal") as Long;
+                    _coins.postValue(tokenToCoins(tokenCount));
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun reduceTokenCount(){
+//    TODO -add reduce method
+    }
+
+    fun increaseTokenCount(){
+//  TODO - add increase method
+    }
+
+    fun  tokenToCoins(tokens : Long) : Int{
+         val coinCount : Int = (tokens/10).toInt()
+        return coinCount
     }
 
 }

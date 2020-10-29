@@ -94,6 +94,10 @@ class HabitsViewModel@ViewModelInject constructor(
         super.onCleared()
     }
 
+    init {
+        userRepository.getTokenCount()
+    }
+
 
 
 

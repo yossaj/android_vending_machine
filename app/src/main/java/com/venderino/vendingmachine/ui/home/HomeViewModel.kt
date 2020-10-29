@@ -8,9 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.venderino.vendingmachine.data.repository.ApiRepository
+import com.venderino.vendingmachine.data.repository.UserRepository
 
 class HomeViewModel@ViewModelInject constructor(
     private val apiRepository: ApiRepository,
+    private val userRepo : UserRepository,
     @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel(){
 
     var balance = 0
@@ -24,7 +26,7 @@ class HomeViewModel@ViewModelInject constructor(
     val _numberOfCoins = MutableLiveData<Int>()
 
     val numberOfCoins : LiveData<Int>
-        get() = _numberOfCoins
+        get() = userRepo.coins
 
     val _balanceString = MutableLiveData<String>()
 
@@ -93,6 +95,7 @@ class HomeViewModel@ViewModelInject constructor(
 
     init {
         _balanceString.value = zeroFunds
+        userRepo.getTokenCount()
     }
 
 }
