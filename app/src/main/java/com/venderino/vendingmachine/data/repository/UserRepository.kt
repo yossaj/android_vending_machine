@@ -314,10 +314,11 @@ class UserRepository constructor(
         val docRef = remoteDb.collection(USERS).document(getUid())
         docRef.get()
             .addOnSuccessListener { document ->
-                if (document != null) {
-                    val tokenCount = document.get("tokenTotal") as Long;
-                    _coins.postValue(tokenToCoins(tokenCount));
+                val tokenCount = document.get("tokenTotal")
+                if (tokenCount != null) {
+                    _coins.postValue(tokenToCoins(tokenCount as Long));
                 } else {
+                    docRef.set(hashMapOf("tokenTotal" to 0))
                     Log.d(TAG, "No such document")
                 }
             }
@@ -350,7 +351,7 @@ class UserRepository constructor(
         }
     }
 
-    fun  tokenToCoins(tokens : Long) : Int{
+    fun tokenToCoins(tokens : Long) : Int{
         return (tokens/10).toInt()
     }
 
