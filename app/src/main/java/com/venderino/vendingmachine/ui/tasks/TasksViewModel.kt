@@ -17,25 +17,6 @@ class TasksViewModel@ViewModelInject constructor(
     val allTasks : LiveData<List<Task>>
         get() = userRepository.allTasks
 
-    val _coinIncrementSwitch = MutableLiveData<Boolean>()
-
-    val coinIncrementSwitch : LiveData<Boolean>
-        get() = _coinIncrementSwitch
-
-    val _navigateToAddTaskTrigger = MutableLiveData<Boolean>()
-
-    val navigateToAddTaskTrigger : LiveData<Boolean>
-        get() = _navigateToAddTaskTrigger
-
-    val _navigateToAddHabitTrigger = MutableLiveData<Boolean>()
-
-    val navigateToAddHabitTrigger : LiveData<Boolean>
-        get() = _navigateToAddHabitTrigger
-
-    val _navigateToViewTaskTrigger = MutableLiveData<Boolean>()
-
-    val navigateToViewTaskTrigger : LiveData<Boolean>
-        get() = _navigateToViewTaskTrigger
 
     val period : LiveData<Int>
         get() = userRepository.period
@@ -61,15 +42,10 @@ class TasksViewModel@ViewModelInject constructor(
         userRepository.decrementPeriod()
     }
 
-
-    fun incrementCoinSwitch(){
-        _coinIncrementSwitch.value = true
-    }
-
     fun updateTaskWhenComplete(task: Task, boolean: Boolean){
         var updatedtask = task
         updatedtask.completed = boolean
-        if(boolean){incrementCoinSwitch()}
+        if(boolean) increaseCoinCount() else decreaseCoinCount()
         userRepository.updateOnComplete(updatedtask)
     }
 
@@ -81,13 +57,6 @@ class TasksViewModel@ViewModelInject constructor(
         }
     }
 
-    fun resetViewTaskTrigger(){
-        _navigateToViewTaskTrigger.value = false
-    }
-
-    fun resetUponNavigationToViewTask(){
-        resetViewTaskTrigger()
-    }
 
     fun listenForTaskChanges(){
         removeSnapshotListener()
@@ -98,11 +67,14 @@ class TasksViewModel@ViewModelInject constructor(
         userRepository.removeRegisteredTaskQuery()
     }
 
-    init {
-        _coinIncrementSwitch.postValue(false)
-        _navigateToAddTaskTrigger.postValue(false)
-        _navigateToViewTaskTrigger.postValue(false)
+    fun increaseCoinCount(){
+        userRepository.increaseTokenCount()
     }
+
+    fun decreaseCoinCount(){
+        userRepository.reduceTokenCount()
+    }
+
 
     override fun onCleared() {
         removeSnapshotListener()

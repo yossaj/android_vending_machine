@@ -87,48 +87,6 @@ class TasksFragment : Fragment() {
 
         binding.taskList.adapter = adapter
 
-        viewModel.coinIncrementSwitch.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it) {
-                    incrementCoinCount()
-                    viewModel._coinIncrementSwitch.value = false
-                    adapter.notifyDataSetChanged()
-                }
-            }
-        })
-
-        viewModel.navigateToAddTaskTrigger.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it) {
-                    this.findNavController()
-                        .navigate(TasksFragmentDirections.actionTasksFragmentToAddTaskFragment())
-                    viewModel._navigateToAddTaskTrigger.value = false
-                }
-            }
-        })
-
-        viewModel.navigateToAddHabitTrigger.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it) {
-                    this.findNavController()
-                        .navigate(
-                            TasksFragmentDirections
-                                .actionTasksFragmentToAddTaskFragment(getString(R.string.habit))
-                        )
-                    viewModel._navigateToAddHabitTrigger.value = false
-                }
-            }
-        })
-
-        viewModel.navigateToViewTaskTrigger.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                this.findNavController().navigate(
-                    TasksFragmentDirections.actionTasksFragmentToViewTaskFragment()
-                )
-                viewModel.resetUponNavigationToViewTask()
-            }
-        }
-        )
         return binding.root
     }
 
@@ -201,12 +159,5 @@ class TasksFragment : Fragment() {
             "This Month" -> return 3
             else -> return 1
         }
-    }
-
-    fun incrementCoinCount() {
-        val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
-        var coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
-        coinCount += 1
-        sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
     }
 }
