@@ -23,8 +23,6 @@ class HomeViewModel@ViewModelInject constructor(
 
     val zeroFunds = "000"
 
-    val _numberOfCoins = MutableLiveData<Int>()
-
     val numberOfCoins : LiveData<Int>
         get() = userRepo.coins
 
@@ -75,11 +73,11 @@ class HomeViewModel@ViewModelInject constructor(
     }
 
     fun reduceCoinCountByOne(){
-        _numberOfCoins.value?.let {
-            if(it > 0) {
-                _numberOfCoins.value = _numberOfCoins.value?.minus(1)
-            }
-        }
+        userRepo.reduceTokenCount()
+    }
+
+    fun refundCoin(){
+        userRepo.increaseTokenCount()
     }
 
     val responseString : LiveData<String?>

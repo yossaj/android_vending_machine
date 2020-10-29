@@ -24,7 +24,6 @@ class HomeFragment : Fragment(){
 
     private val viewModel : HomeViewModel by activityViewModels<HomeViewModel>()
     lateinit var navController : NavController
-    lateinit var sharedPreferences: SharedPreferences
     var coinCount = 0
 
     override fun onCreateView(
@@ -34,11 +33,9 @@ class HomeFragment : Fragment(){
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater)
 
-        sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
         binding.homeViewModel = viewModel
         binding.setLifecycleOwner(this)
         navController = findNavController()
-        getCoinCount()
 
         viewModel.numberOfCoins.observe(viewLifecycleOwner, Observer {
             coinCount = it
@@ -100,10 +97,6 @@ class HomeFragment : Fragment(){
         binding.coinCountDisplay?.visibility = View.VISIBLE
     }
 
-    private fun getCoinCount() {
-        val coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
-        viewModel._numberOfCoins.value = coinCount
-    }
 
     val dragListener = View.OnDragListener{view, event ->
         when(event.action){
@@ -141,23 +134,6 @@ class HomeFragment : Fragment(){
             .setTextColor(resources.getColor(R.color.colorPrimaryDark))
             .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.task_yellow))
             .show()
-    }
-
-    fun saveCoinCount(){
-        viewModel.numberOfCoins.value?.let {
-            sharedPreferences.edit().putInt(getString(R.string.coin_count_key), it).apply()
-        }
-    }
-
-    override fun onPause() {
-        saveCoinCount()
-        super.onPause()
-    }
-
-    override fun onResume() {
-        Log.d("Refund", "Coming back to town - top")
-        super.onResume()
-        Log.d("Refund", "Coming back to town")
     }
 
 

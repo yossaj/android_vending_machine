@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.dialog_text.*
 
 class HomeDialogFragment : DialogFragment() {
 
+    private val viewModel : HomeViewModel by activityViewModels<HomeViewModel>()
+
     private val offline_message = "You are currently offline"
     private val viewmodel: HomeViewModel by activityViewModels<HomeViewModel>()
 
@@ -49,10 +51,11 @@ class HomeDialogFragment : DialogFragment() {
                             .placeholder(R.drawable.progress_animation)
                             .error(R.drawable.error_dog)
                             .into(dialog.dialog_image)
+                        viewModel.refundCoin()
                     }
                 } else if (it == offline_message) {
                     dialog.dialog_text_view.text = it
-                    refundCoin()
+                    viewModel.refundCoin()
                 } else {
                     dialog.dialog_text_view.text = it
                 }
@@ -117,11 +120,5 @@ class HomeDialogFragment : DialogFragment() {
     }
 
 
-    private fun refundCoin(){
-            val sharedPreferences = requireActivity().getSharedPreferences("pref", 0)
-            var coinCount = sharedPreferences.getInt(getString(R.string.coin_count_key), 0)
-            coinCount += 1
-            sharedPreferences.edit().putInt(getString(R.string.coin_count_key), coinCount).apply()
-    }
 
 }
