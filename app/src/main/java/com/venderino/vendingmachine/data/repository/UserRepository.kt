@@ -58,6 +58,8 @@ class UserRepository constructor(
     val coins : LiveData<Int>
         get() = _coins
 
+
+
     fun listenForTaskChanges() {
 
         uiScope.launch {
@@ -325,16 +327,35 @@ class UserRepository constructor(
     }
 
     fun reduceTokenCount(){
-//    TODO -add reduce method
+        coins.value?.let {
+            var tokenCount = coinsToTokens(it)
+            Log.d("COINS", "Current token Count $tokenCount")
+            tokenCount -= 10
+            Log.d("COINS", "Incremented Count $tokenCount")
+            val docRef = remoteDb.collection(USERS).document(getUid())
+            docRef.update("tokenTotal" , tokenCount)
+            getTokenCount()
+        }
     }
 
     fun increaseTokenCount(){
-//  TODO - add increase method
+        coins.value?.let {
+            var tokenCount = coinsToTokens(it)
+            Log.d("COINS", "Current token Count $tokenCount")
+            tokenCount +=10
+            Log.d("COINS", "Incremented Count $tokenCount")
+            val docRef = remoteDb.collection(USERS).document(getUid())
+            docRef.update("tokenTotal" , tokenCount)
+            getTokenCount()
+        }
     }
 
     fun  tokenToCoins(tokens : Long) : Int{
-         val coinCount : Int = (tokens/10).toInt()
-        return coinCount
+        return (tokens/10).toInt()
+    }
+
+    fun coinsToTokens(coinCount: Int) : Long{
+        return (coinCount.times(10)).toLong()
     }
 
 }
