@@ -42,13 +42,22 @@ class HabitsViewModel@ViewModelInject constructor(
 
     fun updateHabitCount(habit: Habit, count : Int){
         userRepository.updateHabitCount(habit, count)
+        if(habit.count < count) increaseCoinCount() else decreaseCoinCount()
     }
 
     fun updateHabit(habit: Habit){
         userRepository.updateHabit(habit)
     }
 
-    fun resetDailyHabits(){
+    fun increaseCoinCount(){
+        userRepository.increaseTokenCount()
+    }
+
+    fun decreaseCoinCount(){
+        userRepository.reduceTokenCount()
+    }
+
+    fun resetHabits(){
         allHabits.value?.let {
             it.forEach {
                 if(it.count != 0 && it.period == 1 && dailyHabitIsDue(it.updatedAt)){
@@ -95,7 +104,7 @@ class HabitsViewModel@ViewModelInject constructor(
     }
 
     init {
-        userRepository.getTokenCount()
+
     }
 
 
